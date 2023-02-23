@@ -15,32 +15,88 @@ from sklearn.linear_model import RidgeClassifierCV
 from sklearn.linear_model._base import LinearClassifierMixin
 from sklearn.pipeline import Pipeline
 
-from sktime.utils.data_processing import from_2d_array_to_nested
+#from sktime.utils.data_processing import from_2d_array_to_nested
 from sktime.transformations.panel.rocket import Rocket
 
 from numba import njit, prange
 
-from .mass2 import *
+from mass_ts import *
+
+import pandas as pd
+
+from scipy.stats import f_oneway
+from statsmodels.tsa.stattools import acf,pacf
+import warnings
+
+def from_2d_array_to_nested(
+    X, index=None, columns=None, time_index=None, cells_as_numpy=False
+):
+    """Convert 2D dataframe to nested dataframe.
+    Convert tabular pandas DataFrame with only primitives in cells into
+    nested pandas DataFrame with a single column.
+    Parameters
+    ----------
+    X : pd.DataFrame
+    cells_as_numpy : bool, default = False
+        If True, then nested cells contain NumPy array
+        If False, then nested cells contain pandas Series
+    index : array-like, shape=[n_samples], optional (default = None)
+        Sample (row) index of transformed DataFrame
+    time_index : array-like, shape=[n_obs], optional (default = None)
+        Time series index of transformed DataFrame
+    Returns
+    -------
+    Xt : pd.DataFrame
+        Transformed DataFrame in nested format
+    """
+    if (time_index is not None) and cells_as_numpy:
+        raise ValueError(
+            "`Time_index` cannot be specified when `return_arrays` is True, "
+            "time index can only be set to "
+            "pandas Series"
+        )
+    if isinstance(X, pd.DataFrame):
+        X = X.to_numpy()
+
+    container = np.array if cells_as_numpy else pd.Series
+
+    # for 2d numpy array, rows represent instances, columns represent time points
+    n_instances, n_timepoints = X.shape
+
+    if time_index is None:
+        time_index = np.arange(n_timepoints)
+    kwargs = {"index": time_index}
+
+    Xt = pd.DataFrame(
+        pd.Series([container(X[i, :], **kwargs) for i in range(n_instances)])
+    )
+    if index is not None:
+        Xt.index = index
+    if columns is not None:
+        Xt.columns = columns
+    return Xt
+
 
 @njit(fastmath=True)
 def znormalize_array(arr):
     m = np.mean(arr)
     s = np.std(arr)
-    
+
     # s[s == 0] = 1 # avoid division by zero if any
-    
+
     return (arr - m) / (s + 1e-8)
     # return arr
 
+
 @njit(fastmath=False)
 def apply_kernel(ts, arr):
-    d_best = np.inf # sdist
+    d_best = np.inf  # sdist
     m = ts.shape[0]
-    kernel = arr[~np.isnan(arr)] # ignore nan
+    kernel = arr[~np.isnan(arr)]  # ignore nan
 
     # profile = mass2(ts, kernel)
     # d_best = np.min(profile)
-    
+
     l = kernel.shape[0]
     for i in range(m - l + 1):
         d = np.sum((znormalize_array(ts[i:i+l]) - kernel)**2)
@@ -49,7 +105,8 @@ def apply_kernel(ts, arr):
 
     return d_best
 
-@njit(parallel = True, fastmath=True)  
+
+@njit(parallel=True, fastmath=True)
 def apply_kernels(X, kernels):
     nbk = len(kernels)
     out = np.zeros((X.shape[0], nbk), dtype=np.float32)
@@ -60,20 +117,22 @@ def apply_kernels(X, kernels):
             out[t][i] = apply_kernel(ts, k)
     return out
 
+
 class SAST(BaseEstimator, ClassifierMixin):
-    
-    def __init__(self, cand_length_list, shp_step = 1, nb_inst_per_class = 1, random_state = None, classifier = None):
+
+    def __init__(self, cand_length_list, shp_step=1, nb_inst_per_class=1, random_state=None, classifier=None):
         super(SAST, self).__init__()
         self.cand_length_list = cand_length_list
         self.shp_step = shp_step
         self.nb_inst_per_class = nb_inst_per_class
         self.kernels_ = None
-        self.kernel_orig_ = None # not z-normalized kernels
+        self.kernel_orig_ = None  # not z-normalized kernels
         self.kernels_generators_ = {}
-        self.random_state = np.random.RandomState(random_state) if not isinstance(random_state, np.random.RandomState) else random_state
-        
+        self.random_state = np.random.RandomState(random_state) if not isinstance(
+            random_state, np.random.RandomState) else random_state
+
         self.classifier = classifier
-    
+
     def get_params(self, deep=True):
         return {
             'cand_length_list': self.cand_length_list,
@@ -89,80 +148,91 @@ class SAST(BaseEstimator, ClassifierMixin):
         assert self.cand_length_list.ndim == 1, 'Invalid shapelet length list: required list or tuple, or a 1d numpy array'
 
         if self.classifier is None:
-            self.classifier = RandomForestClassifier(min_impurity_decrease=0.05, max_features=None) 
+            self.classifier = RandomForestClassifier(
+                min_impurity_decrease=0.05, max_features=None)
 
         classes = np.unique(y)
         self.num_classes = classes.shape[0]
-        
+
         candidates_ts = []
         for c in classes:
-            X_c = X[y==c]
-            
+            X_c = X[y == c]
+
             # convert to int because if self.nb_inst_per_class is float, the result of np.min() will be float
             cnt = np.min([self.nb_inst_per_class, X_c.shape[0]]).astype(int)
             choosen = self.random_state.permutation(X_c.shape[0])[:cnt]
             candidates_ts.append(X_c[choosen])
             self.kernels_generators_[c] = X_c[choosen]
-            
+
         candidates_ts = np.concatenate(candidates_ts, axis=0)
-        
+
         self.cand_length_list = self.cand_length_list[self.cand_length_list <= X.shape[1]]
 
         max_shp_length = max(self.cand_length_list)
 
         n, m = candidates_ts.shape
-        
+
         n_kernels = n * np.sum([m - l + 1 for l in self.cand_length_list])
 
-        self.kernels_ = np.full((n_kernels, max_shp_length), dtype=np.float32, fill_value=np.nan)
+        self.kernels_ = np.full(
+            (n_kernels, max_shp_length), dtype=np.float32, fill_value=np.nan)
         self.kernel_orig_ = []
-        
+
         k = 0
+
         for shp_length in self.cand_length_list:
             for i in range(candidates_ts.shape[0]):
                 for j in range(0, candidates_ts.shape[1] - shp_length + 1, self.shp_step):
                     end = j + shp_length
-                    can = np.squeeze(candidates_ts[i][j : end])
+                    can = np.squeeze(candidates_ts[i][j: end])
                     self.kernel_orig_.append(can)
                     self.kernels_[k, :shp_length] = znormalize_array(can)
+
                     k += 1
-    
-    def fit(self, X, y):
         
-        X, y = check_X_y(X, y) # check the shape of the data
 
-        self.init_sast(X, y) # randomly choose reference time series and generate kernels
 
-        X_transformed = apply_kernels(X, self.kernels_) # subsequence transform of X
+    def fit(self, X, y):
 
-        self.classifier.fit(X_transformed, y) # fit the classifier
+        X, y = check_X_y(X, y)  # check the shape of the data
+
+        # randomly choose reference time series and generate kernels
+        self.init_sast(X, y)
+
+        # subsequence transform of X
+        X_transformed = apply_kernels(X, self.kernels_)
+
+        self.classifier.fit(X_transformed, y)  # fit the classifier
 
         return self
 
     def predict(self, X):
 
-        check_is_fitted(self) # make sure the classifier is fitted
+        check_is_fitted(self)  # make sure the classifier is fitted
 
-        X = check_array(X) # validate the shape of X
+        X = check_array(X)  # validate the shape of X
 
-        X_transformed = apply_kernels(X, self.kernels_) # subsequence transform of X
+        # subsequence transform of X
+        X_transformed = apply_kernels(X, self.kernels_)
 
         return self.classifier.predict(X_transformed)
 
     def predict_proba(self, X):
-        check_is_fitted(self) # make sure the classifier is fitted
+        check_is_fitted(self)  # make sure the classifier is fitted
 
-        X = check_array(X) # validate the shape of X
+        X = check_array(X)  # validate the shape of X
 
-        X_transformed = apply_kernels(X, self.kernels_) # subsequence transform of X
+        # subsequence transform of X
+        X_transformed = apply_kernels(X, self.kernels_)
 
         if isinstance(self.classifier, LinearClassifierMixin):
             return self.classifier._predict_proba_lr(X_transformed)
         return self.classifier.predict_proba(X_transformed)
-    
+
+
 class SASTEnsemble(BaseEstimator, ClassifierMixin):
-    
-    def __init__(self, cand_length_list, shp_step = 1, nb_inst_per_class = 1, random_state = None, classifier = None, weights = None, n_jobs = None):
+
+    def __init__(self, cand_length_list, shp_step=1, nb_inst_per_class=1, random_state=None, classifier=None, weights=None, n_jobs=None):
         super(SASTEnsemble, self).__init__()
         self.cand_length_list = cand_length_list
         self.shp_step = shp_step
@@ -184,14 +254,14 @@ class SASTEnsemble(BaseEstimator, ClassifierMixin):
         for i, candidate_lengths in enumerate(self.cand_length_list):
             clf = clone(self.classifier)
             sast = SAST(cand_length_list=candidate_lengths,
-                          nb_inst_per_class=self.nb_inst_per_class, 
-                          random_state=self.random_state, 
-                          shp_step = self.shp_step,
-                          classifier=clf)
+                        nb_inst_per_class=self.nb_inst_per_class,
+                        random_state=self.random_state,
+                        shp_step=self.shp_step,
+                        classifier=clf)
             estimators.append((f'sast{i}', sast))
-            
 
-        self.saste = VotingClassifier(estimators=estimators, voting='soft', n_jobs=self.n_jobs, weights = self.weights)
+        self.saste = VotingClassifier(
+            estimators=estimators, voting='soft', n_jobs=self.n_jobs, weights=self.weights)
 
     def fit(self, X, y):
         self.saste.fit(X, y)
@@ -203,19 +273,23 @@ class SASTEnsemble(BaseEstimator, ClassifierMixin):
     def predict_proba(self, X):
         return self.saste.predict_proba(X)
 
+
 class RocketClassifier:
     def __init__(self, num_kernels=10000, normalise=True, random_state=None, clf=None, lr_clf=True):
-        rocket = Rocket(num_kernels=num_kernels, normalise=normalise, random_state=random_state)
-        clf = RidgeClassifierCV(alphas = np.logspace(-3, 3, 10)) if clf is None else clf
+        rocket = Rocket(num_kernels=num_kernels,
+                        normalise=normalise, random_state=random_state)
+        clf = RidgeClassifierCV(
+            alphas=np.logspace(-3, 3, 10)) if clf is None else clf
         self.model = Pipeline(steps=[('rocket', rocket), ('clf', clf)])
-        self.lr_clf = lr_clf # False if the classifier has the method predict_proba, otherwise False
-        
+        # False if the classifier has the method predict_proba, otherwise False
+        self.lr_clf = lr_clf
+
     def fit(self, X, y):
         self.model.fit(from_2d_array_to_nested(X), y)
-        
+
     def predict(self, X):
         return self.model.predict(from_2d_array_to_nested(X))
-    
+
     def predict_proba(self, X):
         X_df = from_2d_array_to_nested(X)
         if not self.lr_clf:
@@ -223,30 +297,250 @@ class RocketClassifier:
         X_transformed = self.model['rocket'].transform(X_df)
         return self.model['clf']._predict_proba_lr(X_transformed)
 
+
+class iSAST(BaseEstimator, ClassifierMixin):
+
+    def __init__(self,n_random_points=10, shp_step=1, nb_inst_per_class=1, random_state=None, classifier=None):
+        super(iSAST, self).__init__()
+        self.n_random_points = n_random_points
+        self.shp_step = shp_step
+        self.nb_inst_per_class = nb_inst_per_class
+        self.random_state = np.random.RandomState(random_state) if not isinstance(
+            random_state, np.random.RandomState) else random_state
+        self.classifier = classifier
+        self.cand_length_list = None
+        self.kernels_ = None
+        self.kernel_orig_ = None  # not z-normalized kernels
+        self.kernels_generators_ = {}
+
+    def get_params(self, deep=True):
+        return {
+            'cand_length_list': self.cand_length_list,
+            'shp_step': self.shp_step,
+            'nb_inst_per_class': self.nb_inst_per_class,
+            'classifier': self.classifier
+        }
+
+    def init_sast(self, X, y):
+        #0- initialize variables and convert values in "y" to string
+        y=np.asarray([str(x_s) for x_s in y])
+        
+        self.cand_length_list = {}
+        self.kernel_orig_ = []
+        
+        list_kernels =[]
+        candidates_ts = []
+        
+        statistic_per_class= {}
+        n = []
+        classes = np.unique(y)
+        self.num_classes = classes.shape[0]
+        m_kernel = 0
+
+        #1--calculate ANOVA per each time t throught the lenght of the TS
+        for i in range (X.shape[1]):
+            for c in classes:
+                assert len(X[np.where(y==c)[0]][:,i])> 0, 'Time t without values in TS'
+                statistic_per_class[c]=X[np.where(y==c)[0]][:,i]
+            
+            statistic_per_class=pd.Series(statistic_per_class)
+            # Calculate t-statistic and p-value
+            t_statistic, p_value = f_oneway(*statistic_per_class)
+            
+            # Interpretation of the results
+            # if p_value < 0.05: " The means of the populations are significantly different."
+            if np.isnan(p_value):
+                n.append(0)
+            else:
+                n.append(1-p_value)
+        
+        #2--calculate PACF and ACF for each TS chossen in each class
+        for i, c in enumerate(classes):
+            X_c = X[y == c]
+            cnt = np.min([self.nb_inst_per_class, X_c.shape[0]]).astype(int)
+            choosen = self.random_state.permutation(X_c.shape[0])[:cnt]
+            candidates_ts.append(X_c[choosen])
+            self.kernels_generators_[c] = X_c[choosen]
+            
+            for idx in choosen:
+                self.cand_length_list[c+","+str(idx)] = []
+                # Compute Partial Autorrelation per object
+                pacf_val, pacf_confint = pacf(X_c[idx], method="ols", nlags=(len(X_c[idx])//2) - 1,  alpha=.05)
+                
+                #2.1-- Compute Autorrelation per object
+                acf_val, acf_confint = acf(X_c[idx], nlags=len(X_c[idx])-1,  alpha=.05)
+                
+                #2.2--  Compute the significant autocorrelated times t lagged (excluding values below 3)
+                non_zero_acf=[]
+                prev_acf=0
+                for j, conf in enumerate(acf_confint):
+                    if(3<=j and (0 < acf_confint[j][0] <= acf_confint[j][1] or acf_confint[j][0] <= acf_confint[j][1] < 0) ):
+                        #CONSIDER JUST THE MAXIMUM VALUE 
+                        '''
+                        if prev_acf!=0:
+                            non_zero_acf.remove(prev_acf)  
+                            self.cand_length_list[c+","+str(idx)].remove(prev_acf)
+                        '''
+                        non_zero_acf.append(j)
+                        self.cand_length_list[c+","+str(idx)].append(j)
+                        prev_acf=j
+                
+                
+                non_zero_pacf=[]
+                prev_pacf=0
+                for j, conf in enumerate(pacf_confint):
+                    if(3<=j and (0 < pacf_confint[j][0] <= pacf_confint[j][1] or pacf_confint[j][0] <= pacf_confint[j][1] < 0) ):
+                        #CONSIDER JUST THE MAXIMUM VALUE 
+                        '''
+                        if prev_pacf!=0:
+                            non_zero_pacf.remove(prev_pacf)  
+                            self.cand_length_list[c+","+str(idx)].remove(prev_pacf)                       
+                        '''
+                        non_zero_pacf.append(j)
+                        self.cand_length_list[c+","+str(idx)].append(j)
+                        prev_pacf=j
+                   
+                #2.3-- Save the maximum autocorralated lag value as shapelet lenght 
+                if len(non_zero_pacf)==0 and len(non_zero_acf)==0:
+                    print("There is no AC neither PAC in TS", idx, " of class ",c)
+                    self.cand_length_list[c+","+str(idx)].extend(min(3,len(X_c[idx])))
+                elif len(non_zero_acf)==0:
+                    print("There is no AC in TS", idx, " of class ",c)
+                    
+                elif len(non_zero_pacf)==0:
+                    print("There is no PAC in TS", idx, " of class ",c)                 
+                else:
+                    print("There is AC and PAC in TS", idx, " of class ",c)
+                
+                print("Kernel lenght list:",self.cand_length_list[c+","+str(idx)],"")
+                #print("min:",0," max:",len(X_c[idx])) 
+                for max_shp_length in self.cand_length_list[c+","+str(idx)]:
+                    
+                    #2.5-- Choose randomly n_random_points point for a TS                
+                    
+                    #2.4-- calculate the weights of probabilities for a random point in a TS
+                    if sum(n) == 0 :
+                        # Determine equal weights of a random point point in TS is there are no significant points
+                        print('All p values in One way ANOVA are equal to 0') 
+                        weights = [1/len(n) for i in range(len(n))]
+                        weights = weights[:len(X_c[idx])-max_shp_length +1]/np.sum(weights[:len(X_c[idx])-max_shp_length+1])
+                    else: 
+                        # Determine the weights of a random point point in TS (excluding points after n-l+1)
+                        weights = n / np.sum(n)
+                        weights = weights[:len(X_c[idx])-max_shp_length +1]/np.sum(weights[:len(X_c[idx])-max_shp_length+1])
+                    for i in range(self.n_random_points):
+                        rand_point_ts = np.random.choice(len(X_c[idx])-max_shp_length+1, 1, p=weights)[0]
+                        #2.6-- Extract the subsequence with that point
+                        kernel = X_c[idx][rand_point_ts:rand_point_ts+max_shp_length].reshape(1,-1)
+                        
+                        #print("got rand_point_ts:",rand_point_ts,"rand_point_ts+l:",rand_point_ts+max_shp_length)
+                        if m_kernel<max_shp_length:
+                            m_kernel = max_shp_length            
+                        list_kernels.append(kernel)
+                        self.kernel_orig_.append(np.squeeze(kernel))
+
+
+
+        candidates_ts = np.concatenate(candidates_ts, axis=0)
+        #kernels_ts = np.concatenate(list_kernels, axis=0)
+  
+        n, m = candidates_ts.shape
+        n_kernels = len (self.kernel_orig_)
+        
+
+        self.kernels_ = np.full(
+            (n_kernels, m_kernel), dtype=np.float32, fill_value=np.nan)
+        
+        for k, kernel in enumerate(self.kernel_orig_):
+            self.kernels_[k, :len(kernel)] = znormalize_array(kernel)
+        
+
+        if self.classifier is None:
+            self.classifier = RandomForestClassifier(
+                min_impurity_decrease=0.05, max_features=None)
+
+        
+
+
+    def fit(self, X, y):
+
+        X, y = check_X_y(X, y)  # check the shape of the data
+
+        # randomly choose reference time series and generate kernels
+        self.init_sast(X, y)
+
+        # subsequence transform of X
+        X_transformed = apply_kernels(X, self.kernels_)
+
+        self.classifier.fit(X_transformed, y)  # fit the classifier
+
+        return self
+
+    def predict(self, X):
+
+        check_is_fitted(self)  # make sure the classifier is fitted
+
+        X = check_array(X)  # validate the shape of X
+
+        # subsequence transform of X
+        X_transformed = apply_kernels(X, self.kernels_)
+
+        return self.classifier.predict(X_transformed)
+
+    def predict_proba(self, X):
+        check_is_fitted(self)  # make sure the classifier is fitted
+
+        X = check_array(X)  # validate the shape of X
+
+        # subsequence transform of X
+        X_transformed = apply_kernels(X, self.kernels_)
+
+        if isinstance(self.classifier, LinearClassifierMixin):
+            return self.classifier._predict_proba_lr(X_transformed)
+        return self.classifier.predict_proba(X_transformed)
+
+
 if __name__ == "__main__":
-    a = np.arange(10, dtype=np.float32).reshape((2, 5))
-    y = np.array([0, 1])
-    print('input=\n', a)
-    print('y=\n', y)
+    X_train = np.arange(10, dtype=np.float32).reshape((2, 5))
+    y_train = np.array([0, 1])
+
+
+    # SAST
+    sast = SAST(cand_length_list=np.arange(2, 5),
+                nb_inst_per_class=1, classifier=RidgeClassifierCV())
+
+    #sast.fit(X_train, y_train)
+
+    #print('kernel:\n', sast.kernels_)
+
+    #print('Proba:', sast.predict_proba(a))
+
+    #print('score:', sast.score(a, y))
+
+    # SASTEnsemble
+    saste = SASTEnsemble(cand_length_list=[np.arange(2, 4), np.arange(
+        4, 6)], nb_inst_per_class=2, classifier=RidgeClassifierCV(alphas=np.logspace(-3, 3, 10)))
+
+    saste.fit(X_train, y_train)
+
+    #print('SASTEnsemble Proba:', sast.predict_proba(a))
+
+    #print('SASTEnsemble score:', sast.score(X_train, y_train))
+    from sktime.datasets import load_UCR_UEA_dataset
+    import time
+    ds='Coffee' # Chosing a dataset from # Number of classes to consider
+
+    X_train, y_train = load_UCR_UEA_dataset(name=ds, extract_path='data', split="train", return_type="numpy2d")
+    X_test, y_test = load_UCR_UEA_dataset(name=ds, extract_path='data', split="test", return_type="numpy2d")
     
-    ## SAST
-    sast = SAST(cand_length_list=np.arange(2, 5), nb_inst_per_class=2, classifier=RidgeClassifierCV())
+    print("X_train.shape",X_train.shape)
+    start = time.time()
+    isast = iSAST(n_random_points=10,nb_inst_per_class=1000, classifier=RidgeClassifierCV())
+
+    isast.fit(X_train, y_train)
+    print('isast score:', isast.score(X_test, y_test))
+    end = time.time()
+    print('duration:', end-start)
     
-    sast.fit(a, y)
-    
-    print('kernel:\n', sast.kernels_)
-
-    print('Proba:', sast.predict_proba(a))
-
-    print('score:', sast.score(a, y))
-
-    ## SASTEnsemble
-    saste = SASTEnsemble(cand_length_list=[np.arange(2, 4), np.arange(4, 6)], nb_inst_per_class=2, classifier=RidgeClassifierCV(alphas=np.logspace(-3, 3, 10)))
-    
-    saste.fit(a, y)
-
-    print('SASTEnsemble Proba:', sast.predict_proba(a))
-
-    print('SASTEnsemble score:', sast.score(a, y))
 
 

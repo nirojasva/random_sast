@@ -14,7 +14,8 @@ import numpy as np
 from itertools import zip_longest
 from operator import itemgetter
 from sktime.utils.validation.panel import check_X
-from sktime.transformations.panel.shapelets import *
+#from sktime.transformations.panel.shapelets import *
+from sktime.transformations.panel.shapelet_transform import *
 
 class ShapeletTransformK(ContractedShapeletTransform):
     def __init__(self,

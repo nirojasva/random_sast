@@ -4,7 +4,7 @@ import pandas as pd
 from operator import itemgetter
 import matplotlib.pyplot as plt
 from scipy.io.arff import loadarff
-from .sast import znormalize_array 
+from sast.sast import znormalize_array 
 
 def load_arff_2_dataframe(fname):
     data = loadarff(fname)
@@ -81,6 +81,7 @@ def plot_most_important_feature_on_ts(ts, label, features, scores, offset=0, lim
 def plot_kernel_generators(sastClf):
     ''' This herper function is used to plot the reference time series used by a SAST'''
     for c, ts in sastClf.kernels_generators_.items():
+        print("c:", c ," ts:", ts)
         plt.figure(figsize=(5, 3))
         plt.title(f'Class {c}')
         for t in ts:

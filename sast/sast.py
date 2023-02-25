@@ -528,14 +528,14 @@ if __name__ == "__main__":
     #print('SASTEnsemble score:', sast.score(X_train, y_train))
     from sktime.datasets import load_UCR_UEA_dataset
     import time
-    ds='Coffee' # Chosing a dataset from # Number of classes to consider
+    ds='BirdChicken' # Chosing a dataset from # Number of classes to consider
 
     X_train, y_train = load_UCR_UEA_dataset(name=ds, extract_path='data', split="train", return_type="numpy2d")
     X_test, y_test = load_UCR_UEA_dataset(name=ds, extract_path='data', split="test", return_type="numpy2d")
     
     print("X_train.shape",X_train.shape)
     start = time.time()
-    isast = iSAST(n_random_points=10,nb_inst_per_class=1000, classifier=RidgeClassifierCV())
+    isast = iSAST(n_random_points=10,nb_inst_per_class=100, classifier=RidgeClassifierCV())
 
     isast.fit(X_train, y_train)
     print('isast score:', isast.score(X_test, y_test))

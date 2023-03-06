@@ -298,10 +298,10 @@ class RocketClassifier:
         return self.model['clf']._predict_proba_lr(X_transformed)
 
 
-class iSAST(BaseEstimator, ClassifierMixin):
+class RSAST(BaseEstimator, ClassifierMixin):
 
     def __init__(self,n_random_points=10, shp_step=1, nb_inst_per_class=1, random_state=None, classifier=None):
-        super(iSAST, self).__init__()
+        super(RSAST, self).__init__()
         self.n_random_points = n_random_points
         self.shp_step = shp_step
         self.nb_inst_per_class = nb_inst_per_class
@@ -416,9 +416,9 @@ class iSAST(BaseEstimator, ClassifierMixin):
                 #print("min:",0," max:",len(X_c[idx])) 
                 for max_shp_length in self.cand_length_list[c+","+str(idx)]:
                     
-                    #2.5-- Choose randomly n_random_points point for a TS                
+                    #2.4-- Choose randomly n_random_points point for a TS                
                     
-                    #2.4-- calculate the weights of probabilities for a random point in a TS
+                    #2.5-- calculate the weights of probabilities for a random point in a TS
                     if sum(n) == 0 :
                         # Determine equal weights of a random point point in TS is there are no significant points
                         print('All p values in One way ANOVA are equal to 0') 
@@ -528,14 +528,14 @@ if __name__ == "__main__":
     #print('SASTEnsemble score:', sast.score(X_train, y_train))
     from sktime.datasets import load_UCR_UEA_dataset
     import time
-    ds='BirdChicken' # Chosing a dataset from # Number of classes to consider
+    ds='Chinatown' # Chosing a dataset from # Number of classes to consider
 
     X_train, y_train = load_UCR_UEA_dataset(name=ds, extract_path='data', split="train", return_type="numpy2d")
     X_test, y_test = load_UCR_UEA_dataset(name=ds, extract_path='data', split="test", return_type="numpy2d")
     
     print("X_train.shape",X_train.shape)
     start = time.time()
-    isast = iSAST(n_random_points=10,nb_inst_per_class=100, classifier=RidgeClassifierCV())
+    isast = RSAST(n_random_points=100,nb_inst_per_class=10, classifier=RidgeClassifierCV())
 
     isast.fit(X_train, y_train)
     print('isast score:', isast.score(X_test, y_test))

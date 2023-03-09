@@ -300,11 +300,12 @@ class RocketClassifier:
 
 class RSAST(BaseEstimator, ClassifierMixin):
 
-    def __init__(self,n_random_points=10, shp_step=1, nb_inst_per_class=1, random_state=None, classifier=None):
+    def __init__(self,n_random_points=10, shp_step=1, nb_inst_per_class=1, len_method="both", random_state=None, classifier=None):
         super(RSAST, self).__init__()
         self.n_random_points = n_random_points
         self.shp_step = shp_step
         self.nb_inst_per_class = nb_inst_per_class
+        self.len_method = len_method
         self.random_state = np.random.RandomState(random_state) if not isinstance(
             random_state, np.random.RandomState) else random_state
         self.classifier = classifier
@@ -364,60 +365,49 @@ class RSAST(BaseEstimator, ClassifierMixin):
             
             for idx in choosen:
                 self.cand_length_list[c+","+str(idx)] = []
-                # Compute Partial Autorrelation per object
-                pacf_val, pacf_confint = pacf(X_c[idx], method="ols", nlags=(len(X_c[idx])//2) - 1,  alpha=.05)
                 
-                #2.1-- Compute Autorrelation per object
-                acf_val, acf_confint = acf(X_c[idx], nlags=len(X_c[idx])-1,  alpha=.05)
-                
-                #2.2--  Compute the significant autocorrelated times t lagged (excluding values below 3)
                 non_zero_acf=[]
-                prev_acf=0
-                for j, conf in enumerate(acf_confint):
-                    if(3<=j and (0 < acf_confint[j][0] <= acf_confint[j][1] or acf_confint[j][0] <= acf_confint[j][1] < 0) ):
-                        #CONSIDER JUST THE MAXIMUM VALUE 
-                        '''
-                        if prev_acf!=0:
-                            non_zero_acf.remove(prev_acf)  
-                            self.cand_length_list[c+","+str(idx)].remove(prev_acf)
-                        '''
-                        non_zero_acf.append(j)
-                        self.cand_length_list[c+","+str(idx)].append(j)
-                        prev_acf=j
-                
-                
+                if (self.len_method == "both" or self.len_method == "ACF"):
+                #2.1-- Compute Autorrelation per object
+                    acf_val, acf_confint = acf(X_c[idx], nlags=len(X_c[idx])-1,  alpha=.05)    
+                    prev_acf=0
+                    for j, conf in enumerate(acf_confint):
+                        if(3<=j and (0 < acf_confint[j][0] <= acf_confint[j][1] or acf_confint[j][0] <= acf_confint[j][1] < 0) ):
+                            #CONSIDER JUST THE MAXIMUM VALUE 
+                            '''
+                            if prev_acf!=0:
+                                non_zero_acf.remove(prev_acf)  
+                                self.cand_length_list[c+","+str(idx)].remove(prev_acf)
+                            '''
+                            non_zero_acf.append(j)
+                            self.cand_length_list[c+","+str(idx)].append(j)
+                            prev_acf=j
                 non_zero_pacf=[]
-                prev_pacf=0
-                for j, conf in enumerate(pacf_confint):
-                    if(3<=j and (0 < pacf_confint[j][0] <= pacf_confint[j][1] or pacf_confint[j][0] <= pacf_confint[j][1] < 0) ):
-                        #CONSIDER JUST THE MAXIMUM VALUE 
-                        '''
-                        if prev_pacf!=0:
-                            non_zero_pacf.remove(prev_pacf)  
-                            self.cand_length_list[c+","+str(idx)].remove(prev_pacf)                       
-                        '''
-                        non_zero_pacf.append(j)
-                        self.cand_length_list[c+","+str(idx)].append(j)
-                        prev_pacf=j
+                if (self.len_method == "both" or self.len_method == "PACF"):
+                    #2.2 Compute Partial Autorrelation per object
+                    pacf_val, pacf_confint = pacf(X_c[idx], method="ols", nlags=(len(X_c[idx])//2) - 1,  alpha=.05)                
+                    prev_pacf=0
+                    for j, conf in enumerate(pacf_confint):
+                        if(3<=j and (0 < pacf_confint[j][0] <= pacf_confint[j][1] or pacf_confint[j][0] <= pacf_confint[j][1] < 0) ):
+                            non_zero_pacf.append(j)
+                            self.cand_length_list[c+","+str(idx)].append(j)
+                            prev_pacf=j
                    
                 #2.3-- Save the maximum autocorralated lag value as shapelet lenght 
                 if len(non_zero_pacf)==0 and len(non_zero_acf)==0:
                     print("There is no AC neither PAC in TS", idx, " of class ",c)
-                    self.cand_length_list[c+","+str(idx)].extend(min(3,len(X_c[idx])))
+                    self.cand_length_list[c+","+str(idx)].extend([min(3,len(X_c[idx]))])
                 elif len(non_zero_acf)==0:
                     print("There is no AC in TS", idx, " of class ",c)
-                    
                 elif len(non_zero_pacf)==0:
                     print("There is no PAC in TS", idx, " of class ",c)                 
                 else:
                     print("There is AC and PAC in TS", idx, " of class ",c)
-                
+
                 print("Kernel lenght list:",self.cand_length_list[c+","+str(idx)],"")
-                #print("min:",0," max:",len(X_c[idx])) 
+                
                 for max_shp_length in self.cand_length_list[c+","+str(idx)]:
-                    
                     #2.4-- Choose randomly n_random_points point for a TS                
-                    
                     #2.5-- calculate the weights of probabilities for a random point in a TS
                     if sum(n) == 0 :
                         # Determine equal weights of a random point point in TS is there are no significant points
@@ -432,18 +422,12 @@ class RSAST(BaseEstimator, ClassifierMixin):
                         rand_point_ts = np.random.choice(len(X_c[idx])-max_shp_length+1, 1, p=weights)[0]
                         #2.6-- Extract the subsequence with that point
                         kernel = X_c[idx][rand_point_ts:rand_point_ts+max_shp_length].reshape(1,-1)
-                        
-                        #print("got rand_point_ts:",rand_point_ts,"rand_point_ts+l:",rand_point_ts+max_shp_length)
                         if m_kernel<max_shp_length:
                             m_kernel = max_shp_length            
                         list_kernels.append(kernel)
                         self.kernel_orig_.append(np.squeeze(kernel))
 
-
-
         candidates_ts = np.concatenate(candidates_ts, axis=0)
-        #kernels_ts = np.concatenate(list_kernels, axis=0)
-  
         n, m = candidates_ts.shape
         n_kernels = len (self.kernel_orig_)
         
@@ -535,7 +519,7 @@ if __name__ == "__main__":
     
     print("X_train.shape",X_train.shape)
     start = time.time()
-    isast = RSAST(n_random_points=100,nb_inst_per_class=10, classifier=RidgeClassifierCV())
+    isast = RSAST(n_random_points=10,nb_inst_per_class=1, classifier=RidgeClassifierCV())
 
     isast.fit(X_train, y_train)
     print('isast score:', isast.score(X_test, y_test))

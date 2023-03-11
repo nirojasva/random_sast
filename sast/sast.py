@@ -395,23 +395,23 @@ class RSAST(BaseEstimator, ClassifierMixin):
                    
                 #2.3-- Save the maximum autocorralated lag value as shapelet lenght 
                 if len(non_zero_pacf)==0 and len(non_zero_acf)==0:
-                    print("There is no AC neither PAC in TS", idx, " of class ",c)
+                    #print("There is no AC neither PAC in TS", idx, " of class ",c)
                     self.cand_length_list[c+","+str(idx)].extend([min(3,len(X_c[idx]))])
-                elif len(non_zero_acf)==0:
-                    print("There is no AC in TS", idx, " of class ",c)
-                elif len(non_zero_pacf)==0:
-                    print("There is no PAC in TS", idx, " of class ",c)                 
-                else:
-                    print("There is AC and PAC in TS", idx, " of class ",c)
+                #elif len(non_zero_acf)==0:
+                    #print("There is no AC in TS", idx, " of class ",c)
+                #elif len(non_zero_pacf)==0:
+                    #print("There is no PAC in TS", idx, " of class ",c)                 
+                #else:
+                    #print("There is AC and PAC in TS", idx, " of class ",c)
 
-                print("Kernel lenght list:",self.cand_length_list[c+","+str(idx)],"")
+                #print("Kernel lenght list:",self.cand_length_list[c+","+str(idx)],"")
                 
                 for max_shp_length in self.cand_length_list[c+","+str(idx)]:
                     #2.4-- Choose randomly n_random_points point for a TS                
                     #2.5-- calculate the weights of probabilities for a random point in a TS
                     if sum(n) == 0 :
                         # Determine equal weights of a random point point in TS is there are no significant points
-                        print('All p values in One way ANOVA are equal to 0') 
+                        # print('All p values in One way ANOVA are equal to 0') 
                         weights = [1/len(n) for i in range(len(n))]
                         weights = weights[:len(X_c[idx])-max_shp_length +1]/np.sum(weights[:len(X_c[idx])-max_shp_length+1])
                     else: 
@@ -512,19 +512,26 @@ if __name__ == "__main__":
     #print('SASTEnsemble score:', sast.score(X_train, y_train))
     from sktime.datasets import load_UCR_UEA_dataset
     import time
-    ds='Chinatown' # Chosing a dataset from # Number of classes to consider
+    ds='Coffee' # Chosing a dataset from # Number of classes to consider
 
     X_train, y_train = load_UCR_UEA_dataset(name=ds, extract_path='data', split="train", return_type="numpy2d")
     X_test, y_test = load_UCR_UEA_dataset(name=ds, extract_path='data', split="test", return_type="numpy2d")
     
     print("X_train.shape",X_train.shape)
-    start = time.time()
-    isast = RSAST(n_random_points=10,nb_inst_per_class=1, classifier=RidgeClassifierCV())
-
-    isast.fit(X_train, y_train)
-    print('isast score:', isast.score(X_test, y_test))
-    end = time.time()
-    print('duration:', end-start)
+    range_exp=[range(1,10,1)]
+    range_exp.extend(range(10,100,10))
+    for p in range(1,10,1):
+        for k_intances in range(10,100,10):
+            start = time.time()
+            print ("p",p)
+            print ("k_intances",k_intances)
+            print ("k_intances*p",k_intances*p)
+            random_state = None
+            #rsast_ridge = RSAST(n_random_points=p,nb_inst_per_class=k_intances, classifier=RidgeClassifierCV())
+            #rsast_ridge.fit(X_train, y_train)
+            end = time.time()
+            #print('rsast score:', rsast_ridge.score(X_test, y_test))
+            print('duration:', end-start)
     
 
 

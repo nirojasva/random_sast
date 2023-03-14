@@ -1,0 +1,13 @@
+classifier_name,dataset_name,accuracy
+n_random_points=1 nb_inst_per_class=1,BirdChicken,0.8
+n_random_points=1 nb_inst_per_class=1,Chinatown,0.7755102040816326
+n_random_points=1 nb_inst_per_class=1,Coffee,0.9642857142857143
+n_random_points=1 nb_inst_per_class=10,BirdChicken,0.8
+n_random_points=1 nb_inst_per_class=10,Chinatown,0.8979591836734694
+n_random_points=1 nb_inst_per_class=10,Coffee,1.0
+n_random_points=10 nb_inst_per_class=1,BirdChicken,0.65
+n_random_points=10 nb_inst_per_class=1,Chinatown,0.9358600583090378
+n_random_points=10 nb_inst_per_class=1,Coffee,1.0
+n_random_points=10 nb_inst_per_class=10,BirdChicken,0.85
+n_random_points=10 nb_inst_per_class=10,Chinatown,0.9854227405247813
+n_random_points=10 nb_inst_per_class=10,Coffee,1.0

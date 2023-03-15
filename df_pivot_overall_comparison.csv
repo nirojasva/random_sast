@@ -1,0 +1,10 @@
+classifier_name,dataset_name,accuracy
+n_random_points=10 nb_inst_per_class=100,ArrowHead,0.7942857142857143
+n_random_points=10 nb_inst_per_class=100,Chinatown,0.9825072886297376
+n_random_points=10 nb_inst_per_class=100,Coffee,1.0
+n_random_points=100 nb_inst_per_class=10,ArrowHead,0.7771428571428571
+n_random_points=100 nb_inst_per_class=10,Chinatown,0.9854227405247813
+n_random_points=100 nb_inst_per_class=10,Coffee,1.0
+num_kernels=10_000,ArrowHead,0.8
+num_kernels=10_000,Chinatown,0.9825072886297376
+num_kernels=10_000,Coffee,1.0

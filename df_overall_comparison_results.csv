@@ -1,0 +1,10 @@
+,accuracy,time,dataset_name,classifier_name,rpoint,nb_per_class,method
+0,0.9825072886297376,0.5784101486206055,Chinatown,num_kernels=10_000,0,0,Rocket
+1,0.9854227405247813,4.234646797180176,Chinatown,n_random_points=100 nb_inst_per_class=10,100,10,Rsast
+2,0.9825072886297376,0.1487140655517578,Chinatown,n_random_points=10 nb_inst_per_class=100,10,100,Rsast
+3,0.8,3.0170180797576904,ArrowHead,num_kernels=10_000,0,0,Rocket
+4,0.7771428571428571,345.9725980758667,ArrowHead,n_random_points=100 nb_inst_per_class=10,100,10,Rsast
+5,0.7942857142857143,48.11590385437012,ArrowHead,n_random_points=10 nb_inst_per_class=100,10,100,Rsast
+6,1.0,2.628577709197998,Coffee,num_kernels=10_000,0,0,Rocket
+7,1.0,249.48089718818665,Coffee,n_random_points=100 nb_inst_per_class=10,100,10,Rsast
+8,1.0,40.48617625236511,Coffee,n_random_points=10 nb_inst_per_class=100,10,100,Rsast

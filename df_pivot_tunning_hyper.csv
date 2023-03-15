@@ -1,0 +1,5 @@
+classifier_name,dataset_name,accuracy
+n_random_points=1 nb_inst_per_class=1,Chinatown,0.8279883381924199
+n_random_points=1 nb_inst_per_class=10,Chinatown,0.9524781341107872
+n_random_points=10 nb_inst_per_class=1,Chinatown,0.9285714285714286
+n_random_points=10 nb_inst_per_class=10,Chinatown,0.9790087463556851

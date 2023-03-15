@@ -1,10 +1,31 @@
 ,accuracy,time,dataset_name,classifier_name,rpoint,nb_per_class,method
-0,0.9825072886297376,0.5784101486206055,Chinatown,num_kernels=10_000,0,0,Rocket
-1,0.9854227405247813,4.234646797180176,Chinatown,n_random_points=100 nb_inst_per_class=10,100,10,Rsast
-2,0.9825072886297376,0.1487140655517578,Chinatown,n_random_points=10 nb_inst_per_class=100,10,100,Rsast
-3,0.8,3.0170180797576904,ArrowHead,num_kernels=10_000,0,0,Rocket
-4,0.7771428571428571,345.9725980758667,ArrowHead,n_random_points=100 nb_inst_per_class=10,100,10,Rsast
-5,0.7942857142857143,48.11590385437012,ArrowHead,n_random_points=10 nb_inst_per_class=100,10,100,Rsast
-6,1.0,2.628577709197998,Coffee,num_kernels=10_000,0,0,Rocket
-7,1.0,249.48089718818665,Coffee,n_random_points=100 nb_inst_per_class=10,100,10,Rsast
-8,1.0,40.48617625236511,Coffee,n_random_points=10 nb_inst_per_class=100,10,100,Rsast
+0,0.9825072886297376,7.793834686279297,Chinatown,num_kernels=10_000,0,0,Rocket
+1,0.9825072886297376,0.8396463394165039,Chinatown,n_random_points=100 nb_inst_per_class=10,100,10,Rsast
+2,0.9650145772594753,0.11868739128112793,Chinatown,n_random_points=10 nb_inst_per_class=100,10,100,Rsast
+3,0.9825072886297376,7.38205361366272,Chinatown,num_kernels=10_000,0,0,Rocket
+4,0.9854227405247813,0.8602700233459473,Chinatown,n_random_points=100 nb_inst_per_class=10,100,10,Rsast
+5,0.9737609329446064,0.11718630790710449,Chinatown,n_random_points=10 nb_inst_per_class=100,10,100,Rsast
+6,0.9825072886297376,7.373245477676392,Chinatown,num_kernels=10_000,0,0,Rocket
+7,0.9825072886297376,0.8396344184875488,Chinatown,n_random_points=100 nb_inst_per_class=10,100,10,Rsast
+8,0.9708454810495627,0.11969709396362305,Chinatown,n_random_points=10 nb_inst_per_class=100,10,100,Rsast
+9,0.9825072886297376,7.385829448699951,Chinatown,num_kernels=10_000,0,0,Rocket
+10,0.9825072886297376,0.836766242980957,Chinatown,n_random_points=100 nb_inst_per_class=10,100,10,Rsast
+11,0.9795918367346939,0.1298985481262207,Chinatown,n_random_points=10 nb_inst_per_class=100,10,100,Rsast
+12,0.9825072886297376,7.537049055099487,Chinatown,num_kernels=10_000,0,0,Rocket
+13,0.9854227405247813,0.8351123332977295,Chinatown,n_random_points=100 nb_inst_per_class=10,100,10,Rsast
+14,0.9708454810495627,0.12067818641662598,Chinatown,n_random_points=10 nb_inst_per_class=100,10,100,Rsast
+15,0.9795918367346939,7.4206061363220215,Chinatown,num_kernels=10_000,0,0,Rocket
+16,0.9825072886297376,0.8337142467498779,Chinatown,n_random_points=100 nb_inst_per_class=10,100,10,Rsast
+17,0.9766763848396501,0.12309908866882324,Chinatown,n_random_points=10 nb_inst_per_class=100,10,100,Rsast
+18,0.9825072886297376,7.43034291267395,Chinatown,num_kernels=10_000,0,0,Rocket
+19,0.9825072886297376,0.8342361450195312,Chinatown,n_random_points=100 nb_inst_per_class=10,100,10,Rsast
+20,0.9766763848396501,0.12068486213684082,Chinatown,n_random_points=10 nb_inst_per_class=100,10,100,Rsast
+21,0.9825072886297376,7.453172445297241,Chinatown,num_kernels=10_000,0,0,Rocket
+22,0.9795918367346939,0.915236234664917,Chinatown,n_random_points=100 nb_inst_per_class=10,100,10,Rsast
+23,0.967930029154519,0.1271953582763672,Chinatown,n_random_points=10 nb_inst_per_class=100,10,100,Rsast
+24,0.9825072886297376,7.393132448196411,Chinatown,num_kernels=10_000,0,0,Rocket
+25,0.9825072886297376,0.8382959365844727,Chinatown,n_random_points=100 nb_inst_per_class=10,100,10,Rsast
+26,0.9825072886297376,0.12000608444213867,Chinatown,n_random_points=10 nb_inst_per_class=100,10,100,Rsast
+27,0.9825072886297376,7.600046634674072,Chinatown,num_kernels=10_000,0,0,Rocket
+28,0.9854227405247813,0.8437769412994385,Chinatown,n_random_points=100 nb_inst_per_class=10,100,10,Rsast
+29,0.9766763848396501,0.11668777465820312,Chinatown,n_random_points=10 nb_inst_per_class=100,10,100,Rsast

@@ -1,5 +1,17 @@
 classifier_name,dataset_name,accuracy
-n_random_points=1 nb_inst_per_class=1,Chinatown,0.8279883381924199
-n_random_points=1 nb_inst_per_class=10,Chinatown,0.9524781341107872
-n_random_points=10 nb_inst_per_class=1,Chinatown,0.9285714285714286
-n_random_points=10 nb_inst_per_class=10,Chinatown,0.9790087463556851
+ACF&PACF: n_random_points=1 nb_inst_per_class=1,Chinatown,0.8603498542274053
+ACF&PACF: n_random_points=1 nb_inst_per_class=10,Chinatown,0.9224489795918368
+ACF&PACF: n_random_points=10 nb_inst_per_class=1,Chinatown,0.9352769679300291
+ACF&PACF: n_random_points=10 nb_inst_per_class=10,Chinatown,0.9769679300291545
+ACF: n_random_points=1 nb_inst_per_class=1,Chinatown,0.532069970845481
+ACF: n_random_points=1 nb_inst_per_class=10,Chinatown,0.4810495626822157
+ACF: n_random_points=10 nb_inst_per_class=1,Chinatown,0.42886297376093296
+ACF: n_random_points=10 nb_inst_per_class=10,Chinatown,0.44839650145772597
+None: n_random_points=1 nb_inst_per_class=1,Chinatown,0.5180758017492711
+None: n_random_points=1 nb_inst_per_class=10,Chinatown,0.47900874635568513
+None: n_random_points=10 nb_inst_per_class=1,Chinatown,0.49883381924198245
+None: n_random_points=10 nb_inst_per_class=10,Chinatown,0.43440233236151604
+PACF: n_random_points=1 nb_inst_per_class=1,Chinatown,0.8743440233236152
+PACF: n_random_points=1 nb_inst_per_class=10,Chinatown,0.938192419825073
+PACF: n_random_points=10 nb_inst_per_class=1,Chinatown,0.9201166180758017
+PACF: n_random_points=10 nb_inst_per_class=10,Chinatown,0.9743440233236151

@@ -370,33 +370,26 @@ class RSAST(BaseEstimator, ClassifierMixin):
                 if (self.len_method == "both" or self.len_method == "ACF"):
                 #2.1-- Compute Autorrelation per object
                     acf_val, acf_confint = acf(X_c[idx], nlags=len(X_c[idx])-1,  alpha=.05)    
-                    prev_acf=0
                     for j, conf in enumerate(acf_confint):
                         if(3<=j and (0 < acf_confint[j][0] <= acf_confint[j][1] or acf_confint[j][0] <= acf_confint[j][1] < 0) ):
-                            #CONSIDER JUST THE MAXIMUM VALUE 
-                            '''
-                            if prev_acf!=0:
-                                non_zero_acf.remove(prev_acf)  
-                                self.cand_length_list[c+","+str(idx)].remove(prev_acf)
-                            '''
                             non_zero_acf.append(j)
                             self.cand_length_list[c+","+str(idx)].append(j)
-                            prev_acf=j
+                            
                 non_zero_pacf=[]
                 if (self.len_method == "both" or self.len_method == "PACF"):
                     #2.2 Compute Partial Autorrelation per object
                     pacf_val, pacf_confint = pacf(X_c[idx], method="ols", nlags=(len(X_c[idx])//2) - 1,  alpha=.05)                
-                    prev_pacf=0
                     for j, conf in enumerate(pacf_confint):
                         if(3<=j and (0 < pacf_confint[j][0] <= pacf_confint[j][1] or pacf_confint[j][0] <= pacf_confint[j][1] < 0) ):
                             non_zero_pacf.append(j)
                             self.cand_length_list[c+","+str(idx)].append(j)
-                            prev_pacf=j
+                            
                    
                 #2.3-- Save the maximum autocorralated lag value as shapelet lenght 
                 if len(non_zero_pacf)==0 and len(non_zero_acf)==0:
-                    #print("There is no AC neither PAC in TS", idx, " of class ",c)
-                    self.cand_length_list[c+","+str(idx)].extend([min(3,len(X_c[idx]))])
+                    #chose a random lenght using the lenght of the time series (added 1 since the range start in 0)
+                    rand_value= np.random.choice(len(X_c[idx]), 1)[0]+1
+                    self.cand_length_list[c+","+str(idx)].extend([max(3,rand_value)])
                 #elif len(non_zero_acf)==0:
                     #print("There is no AC in TS", idx, " of class ",c)
                 #elif len(non_zero_pacf)==0:
@@ -488,7 +481,8 @@ if __name__ == "__main__":
     X_train = np.arange(10, dtype=np.float32).reshape((2, 5))
     y_train = np.array([0, 1])
 
-
+    X_test = np.arange(10, dtype=np.float32).reshape((2, 5))
+    y_test = np.array([0, 1])
     # SAST
     sast = SAST(cand_length_list=np.arange(2, 5),
                 nb_inst_per_class=1, classifier=RidgeClassifierCV())
@@ -514,24 +508,19 @@ if __name__ == "__main__":
     import time
     ds='Coffee' # Chosing a dataset from # Number of classes to consider
 
-    X_train, y_train = load_UCR_UEA_dataset(name=ds, extract_path='data', split="train", return_type="numpy2d")
-    X_test, y_test = load_UCR_UEA_dataset(name=ds, extract_path='data', split="test", return_type="numpy2d")
+    #X_train, y_train = load_UCR_UEA_dataset(name=ds, extract_path='data', split="train", return_type="numpy2d")
+    #X_test, y_test = load_UCR_UEA_dataset(name=ds, extract_path='data', split="test", return_type="numpy2d")
     
-    print("X_train.shape",X_train.shape)
-    range_exp=[range(1,10,1)]
-    range_exp.extend(range(10,100,10))
-    for p in range(1,10,1):
-        for k_intances in range(10,100,10):
-            start = time.time()
-            print ("p",p)
-            print ("k_intances",k_intances)
-            print ("k_intances*p",k_intances*p)
-            random_state = None
-            #rsast_ridge = RSAST(n_random_points=p,nb_inst_per_class=k_intances, classifier=RidgeClassifierCV())
-            #rsast_ridge.fit(X_train, y_train)
-            end = time.time()
-            #print('rsast score:', rsast_ridge.score(X_test, y_test))
-            print('duration:', end-start)
+    print("X_train",X_train)
+    print("X_test",X_test)
+
+    start = time.time()
+    random_state = None
+    rsast_ridge = RSAST(n_random_points=10,nb_inst_per_class=10, classifier=RidgeClassifierCV())
+    rsast_ridge.fit(X_train, y_train)
+    end = time.time()
+    print('rsast score:', rsast_ridge.score(X_test, y_test))
+    print('duration:', end-start)
     
 
 

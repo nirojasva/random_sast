@@ -27,6 +27,7 @@ import pandas as pd
 from scipy.stats import f_oneway
 from statsmodels.tsa.stattools import acf,pacf
 import warnings
+import time
 
 def from_2d_array_to_nested(
     X, index=None, columns=None, time_index=None, cells_as_numpy=False
@@ -313,6 +314,10 @@ class RSAST(BaseEstimator, ClassifierMixin):
         self.kernels_ = None
         self.kernel_orig_ = None  # not z-normalized kernels
         self.kernels_generators_ = {}
+        self.time_calculating_weights = None
+        self.time_creating_subsequences = None
+        self.time_transform_dataset = None
+        self.time_classifier = None
 
     def get_params(self, deep=True):
         return {
@@ -324,6 +329,7 @@ class RSAST(BaseEstimator, ClassifierMixin):
 
     def init_sast(self, X, y):
         #0- initialize variables and convert values in "y" to string
+        start = time.time()
         y=np.asarray([str(x_s) for x_s in y])
         
         self.cand_length_list = {}
@@ -354,8 +360,12 @@ class RSAST(BaseEstimator, ClassifierMixin):
                 n.append(0)
             else:
                 n.append(1-p_value)
-        
+        end = time.time()
+        self.time_calculating_weights = end-start
+
+
         #2--calculate PACF and ACF for each TS chossen in each class
+        start = time.time()
         for i, c in enumerate(classes):
             X_c = X[y == c]
             cnt = np.min([self.nb_inst_per_class, X_c.shape[0]]).astype(int)
@@ -419,18 +429,21 @@ class RSAST(BaseEstimator, ClassifierMixin):
                             m_kernel = max_shp_length            
                         list_kernels.append(kernel)
                         self.kernel_orig_.append(np.squeeze(kernel))
-
+        
+        #3--save the calculated subsequences
         candidates_ts = np.concatenate(candidates_ts, axis=0)
         n, m = candidates_ts.shape
         n_kernels = len (self.kernel_orig_)
         
-
+        
         self.kernels_ = np.full(
             (n_kernels, m_kernel), dtype=np.float32, fill_value=np.nan)
         
         for k, kernel in enumerate(self.kernel_orig_):
             self.kernels_[k, :len(kernel)] = znormalize_array(kernel)
         
+        end = time.time()
+        self.time_creating_subsequences = end-start
 
         if self.classifier is None:
             self.classifier = RandomForestClassifier(
@@ -446,11 +459,17 @@ class RSAST(BaseEstimator, ClassifierMixin):
         # randomly choose reference time series and generate kernels
         self.init_sast(X, y)
 
+        start = time.time()
         # subsequence transform of X
         X_transformed = apply_kernels(X, self.kernels_)
+        end = time.time()
+        self.transform_dataset = end-start
 
+        start = time.time()
         self.classifier.fit(X_transformed, y)  # fit the classifier
-
+        end = time.time()
+        self.time_classifier = end-start
+        
         return self
 
     def predict(self, X):
@@ -521,6 +540,7 @@ if __name__ == "__main__":
     end = time.time()
     print('rsast score:', rsast_ridge.score(X_test, y_test))
     print('duration:', end-start)
+    print('duration TRAINING:', rsast_ridge.time_calculating_weights)
     
 
 

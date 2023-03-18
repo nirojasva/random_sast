@@ -375,24 +375,38 @@ class RSAST(BaseEstimator, ClassifierMixin):
             
             for idx in choosen:
                 self.cand_length_list[c+","+str(idx)] = []
-                
                 non_zero_acf=[]
-                if (self.len_method == "both" or self.len_method == "ACF"):
+                if (self.len_method == "both" or self.len_method == "ACF" or self.len_method == "Max ACF") :
                 #2.1-- Compute Autorrelation per object
-                    acf_val, acf_confint = acf(X_c[idx], nlags=len(X_c[idx])-1,  alpha=.05)    
+                    acf_val, acf_confint = acf(X_c[idx], nlags=len(X_c[idx])-1,  alpha=.05)
+                    prev_acf=0    
                     for j, conf in enumerate(acf_confint):
+
                         if(3<=j and (0 < acf_confint[j][0] <= acf_confint[j][1] or acf_confint[j][0] <= acf_confint[j][1] < 0) ):
+                            #Consider just the maximum ACF value
+                            if prev_acf!=0 and self.len_method == "Max ACF":
+                                non_zero_acf.remove(prev_acf)
+                                self.cand_length_list[c+","+str(idx)].remove(prev_acf)
                             non_zero_acf.append(j)
                             self.cand_length_list[c+","+str(idx)].append(j)
-                            
+                            prev_acf=j        
+                
                 non_zero_pacf=[]
-                if (self.len_method == "both" or self.len_method == "PACF"):
+                if (self.len_method == "both" or self.len_method == "PACF" or self.len_method == "Max PACF"):
                     #2.2 Compute Partial Autorrelation per object
                     pacf_val, pacf_confint = pacf(X_c[idx], method="ols", nlags=(len(X_c[idx])//2) - 1,  alpha=.05)                
+                    prev_pacf=0
                     for j, conf in enumerate(pacf_confint):
+
                         if(3<=j and (0 < pacf_confint[j][0] <= pacf_confint[j][1] or pacf_confint[j][0] <= pacf_confint[j][1] < 0) ):
+                            #Consider just the maximum PACF value
+                            if prev_pacf!=0 and self.len_method == "Max PACF":
+                                non_zero_pacf.remove(prev_pacf)
+                                self.cand_length_list[c+","+str(idx)].remove(prev_pacf)
+                            
                             non_zero_pacf.append(j)
                             self.cand_length_list[c+","+str(idx)].append(j)
+                            prev_pacf=j 
                             
                    
                 #2.3-- Save the maximum autocorralated lag value as shapelet lenght 

@@ -1,5 +1,0 @@
-classifier_name,dataset_name,accuracy
-min_shapelet_length=3 max_shapelet_length=24,Chinatown,0.9737609329446064
-n_random_points=10 nb_inst_per_class=100,Chinatown,0.978620019436346
-n_random_points=100 nb_inst_per_class=10,Chinatown,0.9844509232264333
-num_kernels=10_000,Chinatown,0.9815354713313896

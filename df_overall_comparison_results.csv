@@ -1,25 +1,13 @@
 ,accuracy,time,dataset_name,classifier_name,rpoint,nb_per_class,method
-0,0.92,5.789865016937256,SmoothSubspace,ACF&PACF: n_random_points=50 nb_inst_per_class=100,50,100,ACF&PACF: Rsast
-1,0.88,4.128903150558472,SmoothSubspace,Max PACF: n_random_points=50 nb_inst_per_class=100,50,100,Max PACF: Rsast
-2,0.98,1.0283255577087402,SmoothSubspace,num_kernels=10_000,0,0,Rocket
-3,0.9133333333333333,5.8560850620269775,SmoothSubspace,ACF&PACF: n_random_points=50 nb_inst_per_class=100,50,100,ACF&PACF: Rsast
-4,0.9066666666666666,4.209630012512207,SmoothSubspace,Max PACF: n_random_points=50 nb_inst_per_class=100,50,100,Max PACF: Rsast
-5,0.98,1.0720016956329346,SmoothSubspace,num_kernels=10_000,0,0,Rocket
-6,0.9854227405247813,0.4623868465423584,Chinatown,ACF&PACF: n_random_points=50 nb_inst_per_class=100,50,100,ACF&PACF: Rsast
-7,0.9854227405247813,0.19058990478515625,Chinatown,Max PACF: n_random_points=50 nb_inst_per_class=100,50,100,Max PACF: Rsast
-8,0.9825072886297376,0.2788667678833008,Chinatown,num_kernels=10_000,0,0,Rocket
-9,0.9854227405247813,0.4538581371307373,Chinatown,ACF&PACF: n_random_points=50 nb_inst_per_class=100,50,100,ACF&PACF: Rsast
-10,0.9854227405247813,0.17446112632751465,Chinatown,Max PACF: n_random_points=50 nb_inst_per_class=100,50,100,Max PACF: Rsast
-11,0.9825072886297376,0.2885427474975586,Chinatown,num_kernels=10_000,0,0,Rocket
-12,0.9475218658892128,2.934879779815674,ItalyPowerDemand,ACF&PACF: n_random_points=50 nb_inst_per_class=100,50,100,ACF&PACF: Rsast
-13,0.9455782312925171,1.3503587245941162,ItalyPowerDemand,Max PACF: n_random_points=50 nb_inst_per_class=100,50,100,Max PACF: Rsast
-14,0.9689018464528668,0.695873498916626,ItalyPowerDemand,num_kernels=10_000,0,0,Rocket
-15,0.9533527696793003,3.0049567222595215,ItalyPowerDemand,ACF&PACF: n_random_points=50 nb_inst_per_class=100,50,100,ACF&PACF: Rsast
-16,0.9455782312925171,1.314932107925415,ItalyPowerDemand,Max PACF: n_random_points=50 nb_inst_per_class=100,50,100,Max PACF: Rsast
-17,0.9698736637512148,0.7641899585723877,ItalyPowerDemand,num_kernels=10_000,0,0,Rocket
-18,1.0,24.519639492034912,Fungi,ACF&PACF: n_random_points=50 nb_inst_per_class=100,50,100,ACF&PACF: Rsast
-19,0.9193548387096774,2.368614435195923,Fungi,Max PACF: n_random_points=50 nb_inst_per_class=100,50,100,Max PACF: Rsast
-20,1.0,1.2586534023284912,Fungi,num_kernels=10_000,0,0,Rocket
-21,1.0,24.363646507263184,Fungi,ACF&PACF: n_random_points=50 nb_inst_per_class=100,50,100,ACF&PACF: Rsast
-22,0.9247311827956989,2.710907459259033,Fungi,Max PACF: n_random_points=50 nb_inst_per_class=100,50,100,Max PACF: Rsast
-23,1.0,1.457592248916626,Fungi,num_kernels=10_000,0,0,Rocket
+0,0.8466666666666667,3.594900131225586,SmoothSubspace,ACF&PACF: n_random_points=5 nb_inst_per_class=10,5,10,ACF&PACF: Rsast
+1,0.8466666666666667,0.1279761791229248,SmoothSubspace,Max PACF: n_random_points=5 nb_inst_per_class=10,5,10,Max PACF: Rsast
+2,0.9733333333333334,1.1186456680297852,SmoothSubspace,num_kernels=10_000,0,0,Rocket
+3,0.9475218658892128,0.07387757301330566,Chinatown,ACF&PACF: n_random_points=5 nb_inst_per_class=10,5,10,ACF&PACF: Rsast
+4,0.956268221574344,0.10759687423706055,Chinatown,Max PACF: n_random_points=5 nb_inst_per_class=10,5,10,Max PACF: Rsast
+5,0.9825072886297376,0.31047987937927246,Chinatown,num_kernels=10_000,0,0,Rocket
+6,0.9552964042759962,0.1317293643951416,ItalyPowerDemand,ACF&PACF: n_random_points=5 nb_inst_per_class=10,5,10,ACF&PACF: Rsast
+7,0.9543245869776482,0.08208775520324707,ItalyPowerDemand,Max PACF: n_random_points=5 nb_inst_per_class=10,5,10,Max PACF: Rsast
+8,0.9689018464528668,0.731175422668457,ItalyPowerDemand,num_kernels=10_000,0,0,Rocket
+9,1.0,4.001383304595947,Fungi,ACF&PACF: n_random_points=5 nb_inst_per_class=10,5,10,ACF&PACF: Rsast
+10,0.8978494623655914,1.9896132946014404,Fungi,Max PACF: n_random_points=5 nb_inst_per_class=10,5,10,Max PACF: Rsast
+11,1.0,1.2445526123046875,Fungi,num_kernels=10_000,0,0,Rocket

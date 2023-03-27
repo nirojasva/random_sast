@@ -1,0 +1,4 @@
+,accuracy,time,dataset_name,hyperparameter,rpoint,nb_per_class,classifier_name
+0,0.9737609329446064,3.2085320949554443,Chinatown,ACF&PACF: n_random_points=1 nb_inst_per_class=10,1,10,ACF&PACF: Rsast
+1,0.9620991253644315,0.066650390625,Chinatown,Max PACF: n_random_points=1 nb_inst_per_class=10,1,10,Max PACF: Rsast
+2,0.9795918367346939,0.3512749671936035,Chinatown,num_kernels=10_000,0,0,Rocket

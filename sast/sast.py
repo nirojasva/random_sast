@@ -301,7 +301,7 @@ class RocketClassifier:
 
 class RSAST(BaseEstimator, ClassifierMixin):
 
-    def __init__(self,n_random_points=10, nb_inst_per_class=1, len_method="both", random_state=None, classifier=None):
+    def __init__(self,n_random_points=10, nb_inst_per_class=1, len_method="both", random_state=None, classifier=None, sel_inst_wrepl=False,sel_randp_wrepl=True ):
         super(RSAST, self).__init__()
         self.n_random_points = n_random_points
         self.nb_inst_per_class = nb_inst_per_class
@@ -313,6 +313,8 @@ class RSAST(BaseEstimator, ClassifierMixin):
         self.kernels_ = None
         self.kernel_orig_ = None  # not z-normalized kernels
         self.kernels_generators_ = {}
+        self.sel_inst_wrepl=sel_inst_wrepl
+        self.sel_randp_wrepl=sel_randp_wrepl
         self.time_calculating_weights = None
         self.time_creating_subsequences = None
         self.time_transform_dataset = None
@@ -369,7 +371,10 @@ class RSAST(BaseEstimator, ClassifierMixin):
         for i, c in enumerate(classes):
             X_c = X[y == c]
             cnt = np.min([self.nb_inst_per_class, X_c.shape[0]]).astype(int)
-            choosen = self.random_state.permutation(X_c.shape[0])[:cnt]
+            if self.sel_inst_wrepl ==False:
+                choosen = self.random_state.permutation(X_c.shape[0])[:cnt]
+            else:
+                choosen = self.random_state.choice(X_c.shape[0], cnt)
             candidates_ts.append(X_c[choosen])
             self.kernels_generators_[c] = X_c[choosen]
             
@@ -412,7 +417,7 @@ class RSAST(BaseEstimator, ClassifierMixin):
                 #2.3-- Save the maximum autocorralated lag value as shapelet lenght 
                 if len(non_zero_pacf)==0 and len(non_zero_acf)==0:
                     #chose a random lenght using the lenght of the time series (added 1 since the range start in 0)
-                    rand_value= np.random.choice(len(X_c[idx]), 1)[0]+1
+                    rand_value= self.random_state.choice(len(X_c[idx]), 1)[0]+1
                     self.cand_length_list[c+","+str(idx)].extend([max(3,rand_value)])
                 #elif len(non_zero_acf)==0:
                     #print("There is no AC in TS", idx, " of class ",c)
@@ -436,7 +441,11 @@ class RSAST(BaseEstimator, ClassifierMixin):
                         weights = n / np.sum(n)
                         weights = weights[:len(X_c[idx])-max_shp_length +1]/np.sum(weights[:len(X_c[idx])-max_shp_length+1])
                     for i in range(self.n_random_points):
-                        rand_point_ts = np.random.choice(len(X_c[idx])-max_shp_length+1, 1, p=weights)[0]
+                        if self.sel_randp_wrepl==True:
+                            rand_point_ts = self.random_state.choice(len(X_c[idx])-max_shp_length+1, 1, p=weights)[0]
+                        else:
+                            rand_point_ts = self.random_state.choice(len(X_c[idx])-max_shp_length+1, 1, p=weights)[0]
+                            
                         #2.6-- Extract the subsequence with that point
                         kernel = X_c[idx][rand_point_ts:rand_point_ts+max_shp_length].reshape(1,-1)
                         if m_kernel<max_shp_length:
@@ -536,17 +545,44 @@ if __name__ == "__main__":
     #print('SASTEnsemble score:', sast.score(X_train, y_train))
     from sktime.datasets import load_UCR_UEA_dataset
     import time
-    ds='Coffee' # Chosing a dataset from # Number of classes to consider
+    ds='Chinatown' # Chosing a dataset from # Number of classes to consider
 
-    #X_train, y_train = load_UCR_UEA_dataset(name=ds, extract_path='data', split="train", return_type="numpy2d")
-    #X_test, y_test = load_UCR_UEA_dataset(name=ds, extract_path='data', split="test", return_type="numpy2d")
+    X_train, y_train = load_UCR_UEA_dataset(name=ds, extract_path='data', split="train", return_type="numpy2d")
+    X_test, y_test = load_UCR_UEA_dataset(name=ds, extract_path='data', split="test", return_type="numpy2d")
     
-    print("X_train",X_train)
-    print("X_test",X_test)
+    #print("X_train",X_train)
+    #print("X_test",X_test)
 
     start = time.time()
     random_state = None
-    rsast_ridge = RSAST(n_random_points=10,nb_inst_per_class=10, classifier=RidgeClassifierCV())
+    rsast_ridge = RSAST(n_random_points=100,nb_inst_per_class=50, classifier=RidgeClassifierCV(), sel_inst_wrepl=True)
+    rsast_ridge.fit(X_train, y_train)
+    end = time.time()
+    print('rsast score:', rsast_ridge.score(X_test, y_test))
+    print('duration:', end-start)
+    print('duration TRAINING:', rsast_ridge.time_calculating_weights)
+
+    start = time.time()
+    random_state = None
+    rsast_ridge = RSAST(n_random_points=100,nb_inst_per_class=50, classifier=RidgeClassifierCV(), sel_inst_wrepl=False)
+    rsast_ridge.fit(X_train, y_train)
+    end = time.time()
+    print('rsast score:', rsast_ridge.score(X_test, y_test))
+    print('duration:', end-start)
+    print('duration TRAINING:', rsast_ridge.time_calculating_weights)
+
+    start = time.time()
+    random_state = None
+    rsast_ridge = RSAST(n_random_points=100,nb_inst_per_class=50, classifier=RidgeClassifierCV(), sel_randp_wrepl=True)
+    rsast_ridge.fit(X_train, y_train)
+    end = time.time()
+    print('rsast score:', rsast_ridge.score(X_test, y_test))
+    print('duration:', end-start)
+    print('duration TRAINING:', rsast_ridge.time_calculating_weights)
+
+    start = time.time()
+    random_state = None
+    rsast_ridge = RSAST(n_random_points=100,nb_inst_per_class=50, classifier=RidgeClassifierCV(), sel_randp_wrepl=False)
     rsast_ridge.fit(X_train, y_train)
     end = time.time()
     print('rsast score:', rsast_ridge.score(X_test, y_test))

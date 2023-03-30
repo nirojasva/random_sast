@@ -228,7 +228,7 @@ def graph_ranks(avranks, names, p_values, cd=None, cdmethod=None, lowv=None, hig
                   (rankpos(ssums[r]) + side, start)],
                  linewidth=linewidth_sign)
             start += height
-            print('drawing: ', l, r)
+            #print('drawing: ', l, r)
 
     # draw_lines(lines)
     start = cline + 0.2
@@ -240,11 +240,11 @@ def graph_ranks(avranks, names, p_values, cd=None, cdmethod=None, lowv=None, hig
     cliques = form_cliques(p_values, nnames)
     i = 1
     achieved_half = False
-    print(nnames)
+    #print(nnames)
     for clq in cliques:
         if len(clq) == 1:
             continue
-        print(clq)
+        #print(clq)
         min_idx = np.array(clq).min()
         max_idx = np.array(clq).max()
         if min_idx >= len(nnames) / 2 and achieved_half == False:
@@ -254,7 +254,6 @@ def graph_ranks(avranks, names, p_values, cd=None, cdmethod=None, lowv=None, hig
               (rankpos(ssums[max_idx]) + side, start)],
              linewidth=linewidth_sign)
         start += height
-
 
 def form_cliques(p_values, nnames):
     """
@@ -274,7 +273,6 @@ def form_cliques(p_values, nnames):
     g = networkx.Graph(g_data)
     return networkx.find_cliques(g)
 
-
 def draw_cd_diagram(df_perf=None, alpha=0.05, title=None, labels=False, name_file='cd-diagram.png'):
     """
     Draws the critical difference diagram given the list of pairwise classifiers that are
@@ -282,7 +280,7 @@ def draw_cd_diagram(df_perf=None, alpha=0.05, title=None, labels=False, name_fil
     """
     p_values, average_ranks, _ = wilcoxon_holm(df_perf=df_perf, alpha=alpha)
 
-    print(average_ranks)
+    #print(average_ranks)
 
     #for p in p_values:
         #print(p)
@@ -305,7 +303,7 @@ def wilcoxon_holm(alpha=0.05, df_perf=None):
     Applies the wilcoxon signed rank test between each pair of algorithm and then use Holm
     to reject the null's hypothesis
     """
-    print(pd.unique(df_perf['classifier_name']))
+    #print(pd.unique(df_perf['classifier_name']))
     # count the number of tested datasets per classifier
     df_counts = pd.DataFrame({'count': df_perf.groupby(
         ['classifier_name']).size()}).reset_index()
@@ -321,7 +319,7 @@ def wilcoxon_holm(alpha=0.05, df_perf=None):
     if friedman_p_value >= alpha:
         # then the null hypothesis over the entire classifiers cannot be rejected
         print('the null hypothesis over the entire classifiers cannot be rejected')
-        #exit()
+        exit()
     # get the number of classifiers
     m = len(classifiers)
     # init array that contains the p-values calculated by the Wilcoxon signed rank test
@@ -371,7 +369,7 @@ def wilcoxon_holm(alpha=0.05, df_perf=None):
 
     # number of wins
     dfff = df_ranks.rank(ascending=False)
-    print(dfff[dfff == 1.0].sum(axis=1))
+    #print(dfff[dfff == 1.0].sum(axis=1))
 
     # average the ranks
     average_ranks = df_ranks.rank(ascending=False).mean(axis=1).sort_values(ascending=False)

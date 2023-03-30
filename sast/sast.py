@@ -301,10 +301,9 @@ class RocketClassifier:
 
 class RSAST(BaseEstimator, ClassifierMixin):
 
-    def __init__(self,n_random_points=10, shp_step=1, nb_inst_per_class=1, len_method="both", random_state=None, classifier=None):
+    def __init__(self,n_random_points=10, nb_inst_per_class=1, len_method="both", random_state=None, classifier=None):
         super(RSAST, self).__init__()
         self.n_random_points = n_random_points
-        self.shp_step = shp_step
         self.nb_inst_per_class = nb_inst_per_class
         self.len_method = len_method
         self.random_state = np.random.RandomState(random_state) if not isinstance(
@@ -321,10 +320,11 @@ class RSAST(BaseEstimator, ClassifierMixin):
 
     def get_params(self, deep=True):
         return {
-            'cand_length_list': self.cand_length_list,
-            'shp_step': self.shp_step,
+            'len_method': self.len_method,
+            'n_random_points': self.n_random_points,
             'nb_inst_per_class': self.nb_inst_per_class,
-            'classifier': self.classifier
+            'classifier': self.classifier,
+            'cand_length_list': self.cand_length_list
         }
 
     def init_sast(self, X, y):
@@ -462,9 +462,6 @@ class RSAST(BaseEstimator, ClassifierMixin):
         if self.classifier is None:
             self.classifier = RandomForestClassifier(
                 min_impurity_decrease=0.05, max_features=None)
-
-        
-
 
     def fit(self, X, y):
 

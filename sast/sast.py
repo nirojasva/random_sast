@@ -301,7 +301,7 @@ class RocketClassifier:
 
 class RSAST(BaseEstimator, ClassifierMixin):
 
-    def __init__(self,n_random_points=10, nb_inst_per_class=1, len_method="both", random_state=None, classifier=None, sel_inst_wrepl=False,sel_randp_wrepl=True ):
+    def __init__(self,n_random_points=10, nb_inst_per_class=1, len_method="both", random_state=None, classifier=None, sel_inst_wrepl=False,sel_randp_wrepl=True, half_instance=False, half_len=False ):
         super(RSAST, self).__init__()
         self.n_random_points = n_random_points
         self.nb_inst_per_class = nb_inst_per_class
@@ -315,6 +315,8 @@ class RSAST(BaseEstimator, ClassifierMixin):
         self.kernels_generators_ = {}
         self.sel_inst_wrepl=sel_inst_wrepl
         self.sel_randp_wrepl=sel_randp_wrepl
+        self.half_instance=half_instance
+        self.half_len=half_len
         self.time_calculating_weights = None
         self.time_creating_subsequences = None
         self.time_transform_dataset = None
@@ -370,7 +372,11 @@ class RSAST(BaseEstimator, ClassifierMixin):
         start = time.time()
         for i, c in enumerate(classes):
             X_c = X[y == c]
-            cnt = np.min([self.nb_inst_per_class, X_c.shape[0]]).astype(int)
+            if self.half_instance==True:
+                cnt = np.min([X_c.shape[0]//2, X_c.shape[0]]).astype(int)
+            else:
+                cnt = np.min([self.nb_inst_per_class, X_c.shape[0]]).astype(int)
+            #set if the selection of instances is with replacement (if false it is not posible to select the same intance more than one)
             if self.sel_inst_wrepl ==False:
                 choosen = self.random_state.permutation(X_c.shape[0])[:cnt]
             else:
@@ -441,7 +447,8 @@ class RSAST(BaseEstimator, ClassifierMixin):
                         weights = n / np.sum(n)
                         weights = weights[:len(X_c[idx])-max_shp_length +1]/np.sum(weights[:len(X_c[idx])-max_shp_length+1])
                         
-                    
+                    if self.half_len==True:
+                        self.n_random_points=len(X_c[idx])//2
                     if self.n_random_points > len(X_c[idx])-max_shp_length and self.sel_randp_wrepl==False:
                         #set a upper limit for the posible of number of random points when selecting without replacement
                         self.n_random_points=len(X_c[idx])-max_shp_length
@@ -547,7 +554,7 @@ if __name__ == "__main__":
     #print('SASTEnsemble score:', sast.score(X_train, y_train))
     from sktime.datasets import load_UCR_UEA_dataset
     import time
-    ds='Chinatown' # Chosing a dataset from # Number of classes to consider
+    ds='SyntheticControl' # Chosing a dataset from # Number of classes to consider
 
     X_train, y_train = load_UCR_UEA_dataset(name=ds, extract_path='data', split="train", return_type="numpy2d")
     X_test, y_test = load_UCR_UEA_dataset(name=ds, extract_path='data', split="test", return_type="numpy2d")

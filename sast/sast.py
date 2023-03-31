@@ -440,14 +440,16 @@ class RSAST(BaseEstimator, ClassifierMixin):
                         # Determine the weights of a random point point in TS (excluding points after n-l+1)
                         weights = n / np.sum(n)
                         weights = weights[:len(X_c[idx])-max_shp_length +1]/np.sum(weights[:len(X_c[idx])-max_shp_length+1])
-                    for i in range(self.n_random_points):
-                        if self.sel_randp_wrepl==True:
-                            rand_point_ts = self.random_state.choice(len(X_c[idx])-max_shp_length+1, 1, p=weights)[0]
-                        else:
-                            rand_point_ts = self.random_state.choice(len(X_c[idx])-max_shp_length+1, 1, p=weights)[0]
-                            
+                        
+                    
+                    if self.n_random_points > len(X_c[idx])-max_shp_length and self.sel_randp_wrepl==False:
+                        #set a upper limit for the posible of number of random points when selecting without replacement
+                        self.n_random_points=len(X_c[idx])-max_shp_length
+                    rand_point_ts = self.random_state.choice(len(X_c[idx])-max_shp_length+1, self.n_random_points, p=weights, replace=self.sel_randp_wrepl)
+
+                    for i in rand_point_ts:        
                         #2.6-- Extract the subsequence with that point
-                        kernel = X_c[idx][rand_point_ts:rand_point_ts+max_shp_length].reshape(1,-1)
+                        kernel = X_c[idx][i:i+max_shp_length].reshape(1,-1)
                         if m_kernel<max_shp_length:
                             m_kernel = max_shp_length            
                         list_kernels.append(kernel)
@@ -555,37 +557,37 @@ if __name__ == "__main__":
 
     start = time.time()
     random_state = None
-    rsast_ridge = RSAST(n_random_points=100,nb_inst_per_class=50, classifier=RidgeClassifierCV(), sel_inst_wrepl=True)
+    rsast_ridge = RSAST(n_random_points=100,nb_inst_per_class=50, classifier=RidgeClassifierCV(), sel_inst_wrepl=False,sel_randp_wrepl=True)
     rsast_ridge.fit(X_train, y_train)
     end = time.time()
-    print('rsast score:', rsast_ridge.score(X_test, y_test))
+    print('rsast score (sel_inst_wrepl=False,sel_randp_wrepl=True):', rsast_ridge.score(X_test, y_test))
     print('duration:', end-start)
     print('duration TRAINING:', rsast_ridge.time_calculating_weights)
 
     start = time.time()
     random_state = None
-    rsast_ridge = RSAST(n_random_points=100,nb_inst_per_class=50, classifier=RidgeClassifierCV(), sel_inst_wrepl=False)
+    rsast_ridge = RSAST(n_random_points=100,nb_inst_per_class=50, classifier=RidgeClassifierCV(), sel_inst_wrepl=True,sel_randp_wrepl=True)
     rsast_ridge.fit(X_train, y_train)
     end = time.time()
-    print('rsast score:', rsast_ridge.score(X_test, y_test))
+    print('rsast score (sel_inst_wrepl=True,sel_randp_wrepl=True):', rsast_ridge.score(X_test, y_test))
     print('duration:', end-start)
     print('duration TRAINING:', rsast_ridge.time_calculating_weights)
 
     start = time.time()
     random_state = None
-    rsast_ridge = RSAST(n_random_points=100,nb_inst_per_class=50, classifier=RidgeClassifierCV(), sel_randp_wrepl=True)
+    rsast_ridge = RSAST(n_random_points=100,nb_inst_per_class=50, classifier=RidgeClassifierCV(), sel_inst_wrepl=True, sel_randp_wrepl=False)
     rsast_ridge.fit(X_train, y_train)
     end = time.time()
-    print('rsast score:', rsast_ridge.score(X_test, y_test))
+    print('rsast score (sel_inst_wrepl=True,sel_randp_wrepl=False):', rsast_ridge.score(X_test, y_test))
     print('duration:', end-start)
     print('duration TRAINING:', rsast_ridge.time_calculating_weights)
 
     start = time.time()
     random_state = None
-    rsast_ridge = RSAST(n_random_points=100,nb_inst_per_class=50, classifier=RidgeClassifierCV(), sel_randp_wrepl=False)
+    rsast_ridge = RSAST(n_random_points=100,nb_inst_per_class=50, classifier=RidgeClassifierCV(), sel_inst_wrepl=False, sel_randp_wrepl=False)
     rsast_ridge.fit(X_train, y_train)
     end = time.time()
-    print('rsast score:', rsast_ridge.score(X_test, y_test))
+    print('rsast score (sel_inst_wrepl=False,sel_randp_wrepl=False):', rsast_ridge.score(X_test, y_test))
     print('duration:', end-start)
     print('duration TRAINING:', rsast_ridge.time_calculating_weights)
     

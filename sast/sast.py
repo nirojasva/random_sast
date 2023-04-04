@@ -11,7 +11,7 @@ from sklearn.base import BaseEstimator, ClassifierMixin, clone
 from sklearn.utils.validation import check_array, check_X_y, check_is_fitted
 from sklearn.utils.multiclass import unique_labels
 from sklearn.ensemble import RandomForestClassifier, VotingClassifier
-from sklearn.linear_model import RidgeClassifierCV
+from sklearn.linear_model import RidgeClassifierCV, LogisticRegressionCV
 from sklearn.linear_model._base import LinearClassifierMixin
 from sklearn.pipeline import Pipeline
 

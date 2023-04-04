@@ -477,10 +477,6 @@ class RSAST(BaseEstimator, ClassifierMixin):
         end = time.time()
         self.time_creating_subsequences = end-start
 
-        if self.classifier is None:
-            self.classifier = RandomForestClassifier(
-                min_impurity_decrease=0.05, max_features=None)
-
     def fit(self, X, y):
 
         X, y = check_X_y(X, y)  # check the shape of the data
@@ -493,6 +489,16 @@ class RSAST(BaseEstimator, ClassifierMixin):
         X_transformed = apply_kernels(X, self.kernels_)
         end = time.time()
         self.transform_dataset = end-start
+        
+        if self.classifier is None:
+            
+            if X_transformed.shape[0]<=X_transformed.shape[1]:
+                self.classifier=RidgeClassifierCV()
+                print("RidgeClassifierCV:"+str("X[0]")+str(X_transformed.shape[0])+"<="+"X[1]"+str(X_transformed.shape[1]))
+            else: 
+                print("LogisticRegressionCV:"+str("X[0]")+str(X_transformed.shape[0])+">"+"X[1]"+str(X_transformed.shape[1]))
+                self.classifier=LogisticRegressionCV()
+            #self.classifier = RandomForestClassifier(min_impurity_decrease=0.05, max_features=None)
 
         start = time.time()
         self.classifier.fit(X_transformed, y)  # fit the classifier
@@ -564,7 +570,7 @@ if __name__ == "__main__":
 
     start = time.time()
     random_state = None
-    rsast_ridge = RSAST(n_random_points=100,nb_inst_per_class=50, classifier=RidgeClassifierCV(), sel_inst_wrepl=False,sel_randp_wrepl=True)
+    rsast_ridge = RSAST(n_random_points=100,nb_inst_per_class=50, sel_inst_wrepl=False,sel_randp_wrepl=True)
     rsast_ridge.fit(X_train, y_train)
     end = time.time()
     print('rsast score (sel_inst_wrepl=False,sel_randp_wrepl=True):', rsast_ridge.score(X_test, y_test))
@@ -573,7 +579,7 @@ if __name__ == "__main__":
 
     start = time.time()
     random_state = None
-    rsast_ridge = RSAST(n_random_points=100,nb_inst_per_class=50, classifier=RidgeClassifierCV(), sel_inst_wrepl=True,sel_randp_wrepl=True)
+    rsast_ridge = RSAST(n_random_points=100,nb_inst_per_class=50, sel_inst_wrepl=True,sel_randp_wrepl=True)
     rsast_ridge.fit(X_train, y_train)
     end = time.time()
     print('rsast score (sel_inst_wrepl=True,sel_randp_wrepl=True):', rsast_ridge.score(X_test, y_test))
@@ -582,7 +588,7 @@ if __name__ == "__main__":
 
     start = time.time()
     random_state = None
-    rsast_ridge = RSAST(n_random_points=100,nb_inst_per_class=50, classifier=RidgeClassifierCV(), sel_inst_wrepl=True, sel_randp_wrepl=False)
+    rsast_ridge = RSAST(n_random_points=100,nb_inst_per_class=50, sel_inst_wrepl=True, sel_randp_wrepl=False)
     rsast_ridge.fit(X_train, y_train)
     end = time.time()
     print('rsast score (sel_inst_wrepl=True,sel_randp_wrepl=False):', rsast_ridge.score(X_test, y_test))
@@ -591,7 +597,7 @@ if __name__ == "__main__":
 
     start = time.time()
     random_state = None
-    rsast_ridge = RSAST(n_random_points=100,nb_inst_per_class=50, classifier=RidgeClassifierCV(), sel_inst_wrepl=False, sel_randp_wrepl=False)
+    rsast_ridge = RSAST(n_random_points=100,nb_inst_per_class=50, sel_inst_wrepl=False, sel_randp_wrepl=False)
     rsast_ridge.fit(X_train, y_train)
     end = time.time()
     print('rsast score (sel_inst_wrepl=False,sel_randp_wrepl=False):', rsast_ridge.score(X_test, y_test))

@@ -498,7 +498,7 @@ class RSAST(BaseEstimator, ClassifierMixin):
             else: 
                 print("LogisticRegressionCV:"+str("X[0]")+str(X_transformed.shape[0])+">"+"X[1]"+str(X_transformed.shape[1]))
                 self.classifier=LogisticRegressionCV()
-            #self.classifier = RandomForestClassifier(min_impurity_decrease=0.05, max_features=None)
+                #self.classifier = RandomForestClassifier(min_impurity_decrease=0.05, max_features=None)
 
         start = time.time()
         self.classifier.fit(X_transformed, y)  # fit the classifier

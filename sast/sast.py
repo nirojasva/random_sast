@@ -494,9 +494,9 @@ class RSAST(BaseEstimator, ClassifierMixin):
             
             if X_transformed.shape[0]<=X_transformed.shape[1]:
                 self.classifier=RidgeClassifierCV()
-                print("RidgeClassifierCV:"+str("X[0]")+str(X_transformed.shape[0])+"<="+"X[1]"+str(X_transformed.shape[1])+" kernels:"+str(len(self.kernels_)))
+                print("RidgeClassifierCV:"+str("size training")+str(X_transformed.shape[0])+"<="+" kernels"+str(X_transformed.shape[1]))
             else: 
-                print("LogisticRegressionCV:"+str("X[0]")+str(X_transformed.shape[0])+">"+"X[1]"+str(X_transformed.shape[1]+" kernels:"+str(len(self.kernels_))))
+                print("LogisticRegressionCV:"+str("size training")+str(X_transformed.shape[0])+">"+" kernels"+str(X_transformed.shape[1]))
                 self.classifier=LogisticRegressionCV()
                 #self.classifier = RandomForestClassifier(min_impurity_decrease=0.05, max_features=None)
 

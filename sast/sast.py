@@ -560,7 +560,7 @@ if __name__ == "__main__":
     #print('SASTEnsemble score:', sast.score(X_train, y_train))
     from sktime.datasets import load_UCR_UEA_dataset
     import time
-    ds='Crop' # Chosing a dataset from # Number of classes to consider
+    ds='Chinatown' # Chosing a dataset from # Number of classes to consider
 
     X_train, y_train = load_UCR_UEA_dataset(name=ds, extract_path='data', split="train", return_type="numpy2d")
     X_test, y_test = load_UCR_UEA_dataset(name=ds, extract_path='data', split="test", return_type="numpy2d")
@@ -570,39 +570,39 @@ if __name__ == "__main__":
 
     start = time.time()
     random_state = None
-    rsast_ridge = RSAST(n_random_points=10,nb_inst_per_class=5, sel_inst_wrepl=False,sel_randp_wrepl=True)
+    rsast_ridge = RSAST(n_random_points=2,nb_inst_per_class=5, sel_inst_wrepl=False,sel_randp_wrepl=True)
     rsast_ridge.fit(X_train, y_train)
     end = time.time()
     print('rsast score (sel_inst_wrepl=False,sel_randp_wrepl=True):', rsast_ridge.score(X_test, y_test))
     print('duration:', end-start)
-    print('duration TRAINING:', rsast_ridge.time_calculating_weights)
+    print('params:', rsast_ridge.get_params())
 
     start = time.time()
     random_state = None
-    rsast_ridge = RSAST(n_random_points=10,nb_inst_per_class=5, sel_inst_wrepl=True,sel_randp_wrepl=True)
+    rsast_ridge = RSAST(n_random_points=2,nb_inst_per_class=5, sel_inst_wrepl=True,sel_randp_wrepl=True)
     rsast_ridge.fit(X_train, y_train)
     end = time.time()
     print('rsast score (sel_inst_wrepl=True,sel_randp_wrepl=True):', rsast_ridge.score(X_test, y_test))
     print('duration:', end-start)
-    print('duration TRAINING:', rsast_ridge.time_calculating_weights)
+    print('params:', rsast_ridge.get_params())
 
     start = time.time()
     random_state = None
-    rsast_ridge = RSAST(n_random_points=10,nb_inst_per_class=5, sel_inst_wrepl=True, sel_randp_wrepl=False)
+    rsast_ridge = RSAST(n_random_points=2,nb_inst_per_class=5, sel_inst_wrepl=True, sel_randp_wrepl=False)
     rsast_ridge.fit(X_train, y_train)
     end = time.time()
     print('rsast score (sel_inst_wrepl=True,sel_randp_wrepl=False):', rsast_ridge.score(X_test, y_test))
     print('duration:', end-start)
-    print('duration TRAINING:', rsast_ridge.time_calculating_weights)
+    print('params:', rsast_ridge.get_params())
 
     start = time.time()
     random_state = None
-    rsast_ridge = RSAST(n_random_points=10,nb_inst_per_class=5, sel_inst_wrepl=False, sel_randp_wrepl=False)
+    rsast_ridge = RSAST(n_random_points=2,nb_inst_per_class=5, sel_inst_wrepl=False, sel_randp_wrepl=False)
     rsast_ridge.fit(X_train, y_train)
     end = time.time()
     print('rsast score (sel_inst_wrepl=False,sel_randp_wrepl=False):', rsast_ridge.score(X_test, y_test))
     print('duration:', end-start)
-    print('duration TRAINING:', rsast_ridge.time_calculating_weights)
+    print('params:', rsast_ridge.get_params())
     
 
 

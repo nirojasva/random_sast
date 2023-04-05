@@ -11,7 +11,10 @@ from sklearn.base import BaseEstimator, ClassifierMixin, clone
 from sklearn.utils.validation import check_array, check_X_y, check_is_fitted
 from sklearn.utils.multiclass import unique_labels
 from sklearn.ensemble import RandomForestClassifier, VotingClassifier
-from sklearn.linear_model import RidgeClassifierCV, LogisticRegressionCV
+
+from sklearn.linear_model import RidgeClassifierCV, LogisticRegressionCV, LogisticRegression
+from sklearn.svm import SVC
+
 from sklearn.linear_model._base import LinearClassifierMixin
 from sklearn.pipeline import Pipeline
 
@@ -301,7 +304,7 @@ class RocketClassifier:
 
 class RSAST(BaseEstimator, ClassifierMixin):
 
-    def __init__(self,n_random_points=10, nb_inst_per_class=1, len_method="both", random_state=None, classifier=None, sel_inst_wrepl=False,sel_randp_wrepl=True, half_instance=False, half_len=False ):
+    def __init__(self,n_random_points=10, nb_inst_per_class=1, len_method="both", random_state=None, classifier=None, sel_inst_wrepl=False,sel_randp_wrepl=False, half_instance=False, half_len=False ):
         super(RSAST, self).__init__()
         self.n_random_points = n_random_points
         self.nb_inst_per_class = nb_inst_per_class
@@ -560,7 +563,7 @@ if __name__ == "__main__":
     #print('SASTEnsemble score:', sast.score(X_train, y_train))
     from sktime.datasets import load_UCR_UEA_dataset
     import time
-    ds='ItalyPowerDemand' # Chosing a dataset from # Number of classes to consider
+    ds='SmoothSubspace' # Chosing a dataset from # Number of classes to consider
 
     X_train, y_train = load_UCR_UEA_dataset(name=ds, extract_path='data', split="train", return_type="numpy2d")
     X_test, y_test = load_UCR_UEA_dataset(name=ds, extract_path='data', split="test", return_type="numpy2d")

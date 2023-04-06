@@ -330,6 +330,10 @@ class RSAST(BaseEstimator, ClassifierMixin):
             'len_method': self.len_method,
             'n_random_points': self.n_random_points,
             'nb_inst_per_class': self.nb_inst_per_class,
+            'sel_inst_wrepl':self.sel_inst_wrepl,
+            'sel_randp_wrepl':self.sel_randp_wrepl,
+            'half_instance':self.half_instance,
+            'half_len':self.half_len,        
             'classifier': self.classifier,
             'cand_length_list': self.cand_length_list
         }
@@ -376,7 +380,7 @@ class RSAST(BaseEstimator, ClassifierMixin):
         for i, c in enumerate(classes):
             X_c = X[y == c]
             if self.half_instance==True:
-                cnt = np.min([X_c.shape[0]//2, X_c.shape[0]]).astype(int)
+                cnt = np.max([X_c.shape[0]//2, 1]).astype(int)
             else:
                 cnt = np.min([self.nb_inst_per_class, X_c.shape[0]]).astype(int)
             #set if the selection of instances is with replacement (if false it is not posible to select the same intance more than one)
@@ -387,8 +391,9 @@ class RSAST(BaseEstimator, ClassifierMixin):
             candidates_ts.append(X_c[choosen])
             self.kernels_generators_[c] = X_c[choosen]
             
-            for idx in choosen:
-                self.cand_length_list[c+","+str(idx)] = []
+            
+            for rep, idx in enumerate(choosen):
+                self.cand_length_list[c+","+str(idx)+","+str(rep)] = []
                 non_zero_acf=[]
                 if (self.len_method == "both" or self.len_method == "ACF" or self.len_method == "Max ACF") :
                 #2.1-- Compute Autorrelation per object
@@ -400,9 +405,9 @@ class RSAST(BaseEstimator, ClassifierMixin):
                             #Consider just the maximum ACF value
                             if prev_acf!=0 and self.len_method == "Max ACF":
                                 non_zero_acf.remove(prev_acf)
-                                self.cand_length_list[c+","+str(idx)].remove(prev_acf)
+                                self.cand_length_list[c+","+str(idx)+","+str(rep)].remove(prev_acf)
                             non_zero_acf.append(j)
-                            self.cand_length_list[c+","+str(idx)].append(j)
+                            self.cand_length_list[c+","+str(idx)+","+str(rep)].append(j)
                             prev_acf=j        
                 
                 non_zero_pacf=[]
@@ -416,10 +421,10 @@ class RSAST(BaseEstimator, ClassifierMixin):
                             #Consider just the maximum PACF value
                             if prev_pacf!=0 and self.len_method == "Max PACF":
                                 non_zero_pacf.remove(prev_pacf)
-                                self.cand_length_list[c+","+str(idx)].remove(prev_pacf)
+                                self.cand_length_list[c+","+str(idx)+","+str(rep)].remove(prev_pacf)
                             
                             non_zero_pacf.append(j)
-                            self.cand_length_list[c+","+str(idx)].append(j)
+                            self.cand_length_list[c+","+str(idx)+","+str(rep)].append(j)
                             prev_pacf=j 
                             
                    
@@ -427,7 +432,7 @@ class RSAST(BaseEstimator, ClassifierMixin):
                 if len(non_zero_pacf)==0 and len(non_zero_acf)==0:
                     #chose a random lenght using the lenght of the time series (added 1 since the range start in 0)
                     rand_value= self.random_state.choice(len(X_c[idx]), 1)[0]+1
-                    self.cand_length_list[c+","+str(idx)].extend([max(3,rand_value)])
+                    self.cand_length_list[c+","+str(idx)+","+str(rep)].extend([max(3,rand_value)])
                 #elif len(non_zero_acf)==0:
                     #print("There is no AC in TS", idx, " of class ",c)
                 #elif len(non_zero_pacf)==0:
@@ -436,8 +441,10 @@ class RSAST(BaseEstimator, ClassifierMixin):
                     #print("There is AC and PAC in TS", idx, " of class ",c)
 
                 #print("Kernel lenght list:",self.cand_length_list[c+","+str(idx)],"")
-                
-                for max_shp_length in self.cand_length_list[c+","+str(idx)]:
+                 
+                #remove duplicates for the list of lenghts
+                self.cand_length_list[c+","+str(idx)+","+str(rep)]=list(set(self.cand_length_list[c+","+str(idx)+","+str(rep)]))
+                for max_shp_length in self.cand_length_list[c+","+str(idx)+","+str(rep)]:
                     #2.4-- Choose randomly n_random_points point for a TS                
                     #2.5-- calculate the weights of probabilities for a random point in a TS
                     if sum(n) == 0 :
@@ -451,11 +458,14 @@ class RSAST(BaseEstimator, ClassifierMixin):
                         weights = weights[:len(X_c[idx])-max_shp_length +1]/np.sum(weights[:len(X_c[idx])-max_shp_length+1])
                         
                     if self.half_len==True:
-                        self.n_random_points=len(X_c[idx])//2
-                    if self.n_random_points > len(X_c[idx])-max_shp_length and self.sel_randp_wrepl==False:
+                        self.n_random_points=np.max(len(X_c[idx])//2, 1)
+                    
+                    if self.n_random_points > len(X_c[idx])-max_shp_length+1 and self.sel_randp_wrepl==False:
                         #set a upper limit for the posible of number of random points when selecting without replacement
-                        self.n_random_points=len(X_c[idx])-max_shp_length
-                    rand_point_ts = self.random_state.choice(len(X_c[idx])-max_shp_length+1, self.n_random_points, p=weights, replace=self.sel_randp_wrepl)
+                        limit_rpoint=len(X_c[idx])-max_shp_length+1
+                        rand_point_ts = self.random_state.choice(len(X_c[idx])-max_shp_length+1, limit_rpoint, p=weights, replace=self.sel_randp_wrepl)
+                    else:
+                        rand_point_ts = self.random_state.choice(len(X_c[idx])-max_shp_length+1, self.n_random_points, p=weights, replace=self.sel_randp_wrepl)
 
                     for i in rand_point_ts:        
                         #2.6-- Extract the subsequence with that point
@@ -563,7 +573,7 @@ if __name__ == "__main__":
     #print('SASTEnsemble score:', sast.score(X_train, y_train))
     from sktime.datasets import load_UCR_UEA_dataset
     import time
-    ds='SmoothSubspace' # Chosing a dataset from # Number of classes to consider
+    ds='ItalyPowerDemand' # Chosing a dataset from # Number of classes to consider
 
     X_train, y_train = load_UCR_UEA_dataset(name=ds, extract_path='data', split="train", return_type="numpy2d")
     X_test, y_test = load_UCR_UEA_dataset(name=ds, extract_path='data', split="test", return_type="numpy2d")
@@ -573,7 +583,7 @@ if __name__ == "__main__":
 
     start = time.time()
     random_state = None
-    rsast_ridge = RSAST(n_random_points=2,nb_inst_per_class=5, sel_inst_wrepl=False,sel_randp_wrepl=True)
+    rsast_ridge = RSAST(n_random_points=5,nb_inst_per_class=5, sel_inst_wrepl=False,sel_randp_wrepl=True)
     rsast_ridge.fit(X_train, y_train)
     end = time.time()
     print('rsast score (sel_inst_wrepl=False,sel_randp_wrepl=True):', rsast_ridge.score(X_test, y_test))
@@ -582,7 +592,7 @@ if __name__ == "__main__":
 
     start = time.time()
     random_state = None
-    rsast_ridge = RSAST(n_random_points=2,nb_inst_per_class=5, sel_inst_wrepl=True,sel_randp_wrepl=True)
+    rsast_ridge = RSAST(n_random_points=5,nb_inst_per_class=5, sel_inst_wrepl=True,sel_randp_wrepl=True)
     rsast_ridge.fit(X_train, y_train)
     end = time.time()
     print('rsast score (sel_inst_wrepl=True,sel_randp_wrepl=True):', rsast_ridge.score(X_test, y_test))
@@ -591,7 +601,7 @@ if __name__ == "__main__":
 
     start = time.time()
     random_state = None
-    rsast_ridge = RSAST(n_random_points=2,nb_inst_per_class=5, sel_inst_wrepl=True, sel_randp_wrepl=False)
+    rsast_ridge = RSAST(n_random_points=5,nb_inst_per_class=5, sel_inst_wrepl=True, sel_randp_wrepl=False)
     rsast_ridge.fit(X_train, y_train)
     end = time.time()
     print('rsast score (sel_inst_wrepl=True,sel_randp_wrepl=False):', rsast_ridge.score(X_test, y_test))
@@ -600,7 +610,7 @@ if __name__ == "__main__":
 
     start = time.time()
     random_state = None
-    rsast_ridge = RSAST(n_random_points=2,nb_inst_per_class=5, sel_inst_wrepl=False, sel_randp_wrepl=False)
+    rsast_ridge = RSAST(n_random_points=5,nb_inst_per_class=5, sel_inst_wrepl=False, sel_randp_wrepl=False)
     rsast_ridge.fit(X_train, y_train)
     end = time.time()
     print('rsast score (sel_inst_wrepl=False,sel_randp_wrepl=False):', rsast_ridge.score(X_test, y_test))

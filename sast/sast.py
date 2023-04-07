@@ -458,7 +458,7 @@ class RSAST(BaseEstimator, ClassifierMixin):
                         weights = weights[:len(X_c[idx])-max_shp_length +1]/np.sum(weights[:len(X_c[idx])-max_shp_length+1])
                         
                     if self.half_len==True:
-                        self.n_random_points=np.max(len(X_c[idx])//2, 1)
+                        self.n_random_points=np.max([len(X_c[idx])//2, 1]).astype(int)
                     
                     if self.n_random_points > len(X_c[idx])-max_shp_length+1 and self.sel_randp_wrepl==False:
                         #set a upper limit for the posible of number of random points when selecting without replacement
@@ -614,6 +614,15 @@ if __name__ == "__main__":
     rsast_ridge.fit(X_train, y_train)
     end = time.time()
     print('rsast score (sel_inst_wrepl=False,sel_randp_wrepl=False):', rsast_ridge.score(X_test, y_test))
+    print('duration:', end-start)
+    print('params:', rsast_ridge.get_params())
+    
+    start = time.time()
+    random_state = None
+    rsast_ridge = RSAST(half_instance=True, half_len=True, sel_inst_wrepl=False, sel_randp_wrepl=False)
+    rsast_ridge.fit(X_train, y_train)
+    end = time.time()
+    print('rsast score (sel_inst_wrepl=False,sel_randp_wrepl=False) half instance half len:', rsast_ridge.score(X_test, y_test))
     print('duration:', end-start)
     print('params:', rsast_ridge.get_params())
     

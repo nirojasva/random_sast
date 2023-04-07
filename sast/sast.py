@@ -381,6 +381,7 @@ class RSAST(BaseEstimator, ClassifierMixin):
             X_c = X[y == c]
             if self.half_instance==True:
                 cnt = np.max([X_c.shape[0]//2, 1]).astype(int)
+                self.nb_inst_per_class=cnt
             else:
                 cnt = np.min([self.nb_inst_per_class, X_c.shape[0]]).astype(int)
             #set if the selection of instances is with replacement (if false it is not posible to select the same intance more than one)
@@ -573,7 +574,7 @@ if __name__ == "__main__":
     #print('SASTEnsemble score:', sast.score(X_train, y_train))
     from sktime.datasets import load_UCR_UEA_dataset
     import time
-    ds='ItalyPowerDemand' # Chosing a dataset from # Number of classes to consider
+    ds='Chinatown' # Chosing a dataset from # Number of classes to consider
 
     X_train, y_train = load_UCR_UEA_dataset(name=ds, extract_path='data', split="train", return_type="numpy2d")
     X_test, y_test = load_UCR_UEA_dataset(name=ds, extract_path='data', split="test", return_type="numpy2d")

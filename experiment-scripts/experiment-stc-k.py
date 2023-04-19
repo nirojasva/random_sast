@@ -9,7 +9,7 @@ sys.path.append(os.path.abspath('.'))
 
 from joblib import Parallel, delayed
 
-from sast.utils import *
+from sast.utils_sast import *
 from sast.sast import *
 from sast.stck import ShapeletTransformK
 

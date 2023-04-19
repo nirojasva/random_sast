@@ -6,7 +6,7 @@ import numpy as np
 import sys
 sys.path.append(os.path.abspath("."))
 
-from sast.utils import *
+from sast.utils_sast import *
 from sast.sast import *
 
 from sklearn.linear_model import RidgeClassifierCV

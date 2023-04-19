@@ -3,7 +3,7 @@ import os
 import gc
 import numpy as np
 
-from sast.utils import *
+from sast.utils_sast import *
 from sast.sast import *
 from sklearn.linear_model import RidgeClassifierCV
 

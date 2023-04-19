@@ -50,7 +50,8 @@ file_path = os.getcwd()+"/cd_diagram"
 sys.path.append(file_path)
 
 sys.path
-
+os.chdir(os.getcwd()+"/ExperimentationRSAST")
+os.getcwd()
 
 
 # %%
@@ -75,7 +76,7 @@ ds_sens = ['SmoothSubspace', 'SonyAIBORobotSurface2', 'GunPoint',
        'DistalPhalanxOutlineAgeGroup', 'ShapeletSim', 'SyntheticControl',
        'SonyAIBORobotSurface1', 'Chinatown', 'Coffee', 'BirdChicken']
 
-ds_sens = ['Chinatown']
+ds_sens = ['Coffee']
 max_ds=len(ds_sens) #exploring dataset in UEA & UCR Time Series Classification Repository
 print(max_ds)
 print(ds_sens)

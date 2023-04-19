@@ -18,6 +18,18 @@ file_path = os.path.dirname(os.getcwd())+"\sast"
 #file_path = r"C:\Users\Public\random_sast\sast"
 sys.path.append(file_path)
 
+file_path = os.getcwd()+"/sast"
+
+
+#file_path = r"C:\Users\Public\random_sast\sast"
+sys.path.append(file_path)
+
+file_path = os.getcwd()+"\sast"
+
+
+#file_path = r"C:\Users\Public\random_sast\sast"
+sys.path.append(file_path)
+
 #add cd_diagram library path
 file_path = os.path.dirname(os.getcwd())+"\cd_diagram"
 
@@ -29,7 +41,17 @@ file_path = os.path.dirname(os.getcwd())+"/cd_diagram"
 #file_path = r"C:\Users\Public\random_sast\sast"
 sys.path.append(file_path)
 
+file_path = os.getcwd()+"\cd_diagram"
+#file_path = r"C:\Users\Public\random_sast\sast"
+sys.path.append(file_path)
+
+file_path = os.getcwd()+"/cd_diagram"
+#file_path = r"C:\Users\Public\random_sast\sast"
+sys.path.append(file_path)
+
 sys.path
+
+
 
 # %%
 from sast import *
@@ -47,13 +69,7 @@ import pandas as pd
 # %%
 ds_sens = tsc_dataset_names.univariate_equal_length
 
-ds = pd.read_excel("DataSetsUCLASummary.xlsx")
-ds = ds[ds["USED SAST"]=="Y"]
-ds = ds[ds["USED RSAST ADA"].isna()]
 
-#ds_sens = ['ACSF1', 'Adiac', 'ArrowHead', 'Beef', 'BeetleFly', 'BirdChicken', 'BME', 'Car', 'CBF', 'Chinatown', 'ChlorineConcentration', 'CinCECGTorso', 'Coffee']
-
-ds_sens = ds.Name.unique()
 ds_sens = ['SmoothSubspace', 'SonyAIBORobotSurface2', 'GunPoint',
        'ItalyPowerDemand', 'DistalPhalanxOutlineCorrect',
        'DistalPhalanxOutlineAgeGroup', 'ShapeletSim', 'SyntheticControl',

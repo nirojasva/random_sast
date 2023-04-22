@@ -32,6 +32,9 @@ from statsmodels.tsa.stattools import acf,pacf
 import warnings
 import time
 
+import os
+from operator import itemgetter
+
 def from_2d_array_to_nested(
     X, index=None, columns=None, time_index=None, cells_as_numpy=False
 ):
@@ -574,14 +577,14 @@ if __name__ == "__main__":
     #print('SASTEnsemble score:', sast.score(X_train, y_train))
     from sktime.datasets import load_UCR_UEA_dataset
     import time
-    ds='Chinatown' # Chosing a dataset from # Number of classes to consider
+    ds='Fungi' # Chosing a dataset from # Number of classes to consider
 
     X_train, y_train = load_UCR_UEA_dataset(name=ds, extract_path='data', split="train", return_type="numpy2d")
     X_test, y_test = load_UCR_UEA_dataset(name=ds, extract_path='data', split="test", return_type="numpy2d")
     
     #print("X_train",X_train)
     #print("X_test",X_test)
-
+    """
     start = time.time()
     random_state = None
     rsast_ridge = RSAST(n_random_points=5,nb_inst_per_class=5, sel_inst_wrepl=False,sel_randp_wrepl=True)
@@ -626,6 +629,34 @@ if __name__ == "__main__":
     print('rsast score (sel_inst_wrepl=False,sel_randp_wrepl=False) half instance half len:', rsast_ridge.score(X_test, y_test))
     print('duration:', end-start)
     print('params:', rsast_ridge.get_params())
+    """
+    start = time.time()
+    random_state = None
+    rsast_ridge = RSAST(half_len=True,nb_inst_per_class=1, len_method="both")
+    rsast_ridge.fit(X_train, y_train)
+    end = time.time()
+    print('rsast score (sel_inst_wrepl=False,sel_randp_wrepl=False) half instance half len:', rsast_ridge.score(X_test, y_test))
+    print('duration:', end-start)
+    print('params:', rsast_ridge.get_params())
     
+    top_features=5 
 
-
+    file_path = os.path.dirname(os.getcwd())+"\ExperimentationRSAST"
+    print(file_path)
+    os.chdir(file_path)
+    for c, ts in rsast_ridge.kernels_generators_.items():    
+        fname = f'images_features_exp/{ds}-r_ridge-class{c}-top{top_features}-features-on-ref-ts.jpg'
+        
+        print("-------------")
+        print(ts.squeeze().size) 
+        print(c) 
+    
+    features =rsast_ridge.kernel_orig_
+    scores = rsast_ridge.classifier.coef_[0]
+    features = zip(features, scores)
+    sorted_features = sorted(features, key=itemgetter(1), reverse=True)
+    
+    print(sorted_features[1:2])
+    
+    print(sorted_features[3:4])
+    

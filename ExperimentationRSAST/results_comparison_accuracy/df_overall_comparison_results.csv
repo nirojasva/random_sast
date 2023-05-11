@@ -1,61 +1,55 @@
 ,accuracy,time,dataset_name,hyperparameter,rpoint,nb_per_class,classifier_name
-0,0.8866666666666667,3.355454683303833,SmoothSubspace,None: n_random_points= 100 nb_inst_per_class=10,100,10,RSAST None
-1,0.8266666666666667,0.16059637069702148,SmoothSubspace,ACF&PACF: n_random_points=100 nb_inst_per_class=10,100,10,RSAST ACF&PACF
-2,0.86,0.18993258476257324,SmoothSubspace,None: n_random_points=10000 nb_inst_per_class=10,10000,10,RSAST inf p None
-3,0.8,0.1487891674041748,SmoothSubspace,ACF&PACF: n_random_points=10000 nb_inst_per_class=10,10000,10,RSAST inf p ACF&PACF
-4,0.9733333333333334,1.1211297512054443,SmoothSubspace,num_kernels=10_000,0,0,Rocket
-5,0.9266666666666666,1.3690526485443115,SmoothSubspace,min_shapelet_length=3 max_shapelet_length=15,0,0,SAST
-6,0.8,0.1558208465576172,SmoothSubspace,None: n_random_points= 100 nb_inst_per_class=10,100,10,RSAST None
-7,0.7866666666666666,0.14920854568481445,SmoothSubspace,ACF&PACF: n_random_points=100 nb_inst_per_class=10,100,10,RSAST ACF&PACF
-8,0.8133333333333334,0.1625514030456543,SmoothSubspace,None: n_random_points=10000 nb_inst_per_class=10,10000,10,RSAST inf p None
-9,0.8266666666666667,0.14660882949829102,SmoothSubspace,ACF&PACF: n_random_points=10000 nb_inst_per_class=10,10000,10,RSAST inf p ACF&PACF
-10,0.98,1.0294923782348633,SmoothSubspace,num_kernels=10_000,0,0,Rocket
-11,0.92,1.35508394241333,SmoothSubspace,min_shapelet_length=3 max_shapelet_length=15,0,0,SAST
-12,0.84,0.19202351570129395,SmoothSubspace,None: n_random_points= 100 nb_inst_per_class=10,100,10,RSAST None
-13,0.84,0.15397238731384277,SmoothSubspace,ACF&PACF: n_random_points=100 nb_inst_per_class=10,100,10,RSAST ACF&PACF
-14,0.8266666666666667,0.13014006614685059,SmoothSubspace,None: n_random_points=10000 nb_inst_per_class=10,10000,10,RSAST inf p None
-15,0.8666666666666667,0.17710447311401367,SmoothSubspace,ACF&PACF: n_random_points=10000 nb_inst_per_class=10,10000,10,RSAST inf p ACF&PACF
-16,0.98,1.0481657981872559,SmoothSubspace,num_kernels=10_000,0,0,Rocket
-17,0.9533333333333334,1.350600004196167,SmoothSubspace,min_shapelet_length=3 max_shapelet_length=15,0,0,SAST
-18,0.84,0.15590620040893555,SmoothSubspace,None: n_random_points= 100 nb_inst_per_class=10,100,10,RSAST None
-19,0.7466666666666667,0.12082576751708984,SmoothSubspace,ACF&PACF: n_random_points=100 nb_inst_per_class=10,100,10,RSAST ACF&PACF
-20,0.84,0.17755365371704102,SmoothSubspace,None: n_random_points=10000 nb_inst_per_class=10,10000,10,RSAST inf p None
-21,0.82,0.15508055686950684,SmoothSubspace,ACF&PACF: n_random_points=10000 nb_inst_per_class=10,10000,10,RSAST inf p ACF&PACF
-22,0.98,1.0258278846740723,SmoothSubspace,num_kernels=10_000,0,0,Rocket
-23,0.9266666666666666,1.391402006149292,SmoothSubspace,min_shapelet_length=3 max_shapelet_length=15,0,0,SAST
-24,0.8266666666666667,0.12752175331115723,SmoothSubspace,None: n_random_points= 100 nb_inst_per_class=10,100,10,RSAST None
-25,0.8,0.1199793815612793,SmoothSubspace,ACF&PACF: n_random_points=100 nb_inst_per_class=10,100,10,RSAST ACF&PACF
-26,0.88,0.14595580101013184,SmoothSubspace,None: n_random_points=10000 nb_inst_per_class=10,10000,10,RSAST inf p None
-27,0.8533333333333334,0.1405930519104004,SmoothSubspace,ACF&PACF: n_random_points=10000 nb_inst_per_class=10,10000,10,RSAST inf p ACF&PACF
-28,0.9733333333333334,0.9923019409179688,SmoothSubspace,num_kernels=10_000,0,0,Rocket
-29,0.9333333333333333,1.3780748844146729,SmoothSubspace,min_shapelet_length=3 max_shapelet_length=15,0,0,SAST
-30,0.9475218658892128,0.06943893432617188,ItalyPowerDemand,None: n_random_points= 100 nb_inst_per_class=10,100,10,RSAST None
-31,0.9504373177842566,0.13208436965942383,ItalyPowerDemand,ACF&PACF: n_random_points=100 nb_inst_per_class=10,100,10,RSAST ACF&PACF
-32,0.9504373177842566,0.0996236801147461,ItalyPowerDemand,None: n_random_points=10000 nb_inst_per_class=10,10000,10,RSAST inf p None
-33,0.9533527696793003,0.14557528495788574,ItalyPowerDemand,ACF&PACF: n_random_points=10000 nb_inst_per_class=10,10000,10,RSAST inf p ACF&PACF
-34,0.9698736637512148,0.716062068939209,ItalyPowerDemand,num_kernels=10_000,0,0,Rocket
-35,0.9543245869776482,1.8002004623413086,ItalyPowerDemand,min_shapelet_length=3 max_shapelet_length=24,0,0,SAST
-36,0.9582118561710399,0.1677408218383789,ItalyPowerDemand,None: n_random_points= 100 nb_inst_per_class=10,100,10,RSAST None
-37,0.9523809523809523,0.13039517402648926,ItalyPowerDemand,ACF&PACF: n_random_points=100 nb_inst_per_class=10,100,10,RSAST ACF&PACF
-38,0.9591836734693877,0.14200568199157715,ItalyPowerDemand,None: n_random_points=10000 nb_inst_per_class=10,10000,10,RSAST inf p None
-39,0.9591836734693877,0.12357449531555176,ItalyPowerDemand,ACF&PACF: n_random_points=10000 nb_inst_per_class=10,10000,10,RSAST inf p ACF&PACF
-40,0.967930029154519,0.7015998363494873,ItalyPowerDemand,num_kernels=10_000,0,0,Rocket
-41,0.956268221574344,1.800248146057129,ItalyPowerDemand,min_shapelet_length=3 max_shapelet_length=24,0,0,SAST
-42,0.9591836734693877,0.13376164436340332,ItalyPowerDemand,None: n_random_points= 100 nb_inst_per_class=10,100,10,RSAST None
-43,0.9543245869776482,0.10827445983886719,ItalyPowerDemand,ACF&PACF: n_random_points=100 nb_inst_per_class=10,100,10,RSAST ACF&PACF
-44,0.9533527696793003,0.11812305450439453,ItalyPowerDemand,None: n_random_points=10000 nb_inst_per_class=10,10000,10,RSAST inf p None
-45,0.9552964042759962,0.09624314308166504,ItalyPowerDemand,ACF&PACF: n_random_points=10000 nb_inst_per_class=10,10000,10,RSAST inf p ACF&PACF
-46,0.9698736637512148,0.8167526721954346,ItalyPowerDemand,num_kernels=10_000,0,0,Rocket
-47,0.9543245869776482,1.7588543891906738,ItalyPowerDemand,min_shapelet_length=3 max_shapelet_length=24,0,0,SAST
-48,0.9426627793974732,0.1673600673675537,ItalyPowerDemand,None: n_random_points= 100 nb_inst_per_class=10,100,10,RSAST None
-49,0.9475218658892128,0.0996711254119873,ItalyPowerDemand,ACF&PACF: n_random_points=100 nb_inst_per_class=10,100,10,RSAST ACF&PACF
-50,0.9484936831875608,0.10714221000671387,ItalyPowerDemand,None: n_random_points=10000 nb_inst_per_class=10,10000,10,RSAST inf p None
-51,0.9465500485908649,0.12012076377868652,ItalyPowerDemand,ACF&PACF: n_random_points=10000 nb_inst_per_class=10,10000,10,RSAST inf p ACF&PACF
-52,0.9698736637512148,0.6919345855712891,ItalyPowerDemand,num_kernels=10_000,0,0,Rocket
-53,0.9582118561710399,1.7379186153411865,ItalyPowerDemand,min_shapelet_length=3 max_shapelet_length=24,0,0,SAST
-54,0.9455782312925171,0.10183501243591309,ItalyPowerDemand,None: n_random_points= 100 nb_inst_per_class=10,100,10,RSAST None
-55,0.9339164237123421,0.1739797592163086,ItalyPowerDemand,ACF&PACF: n_random_points=100 nb_inst_per_class=10,100,10,RSAST ACF&PACF
-56,0.9387755102040817,0.14899873733520508,ItalyPowerDemand,None: n_random_points=10000 nb_inst_per_class=10,10000,10,RSAST inf p None
-57,0.9484936831875608,0.17654657363891602,ItalyPowerDemand,ACF&PACF: n_random_points=10000 nb_inst_per_class=10,10000,10,RSAST inf p ACF&PACF
-58,0.9689018464528668,0.6887922286987305,ItalyPowerDemand,num_kernels=10_000,0,0,Rocket
-59,0.9504373177842566,1.7670400142669678,ItalyPowerDemand,min_shapelet_length=3 max_shapelet_length=24,0,0,SAST
+0,0.8333333333333334,0.11868119239807129,SmoothSubspace,None: n_random_points= 100 nb_inst_per_class=10,100,10,RSAST None
+1,0.8466666666666667,0.12466549873352051,SmoothSubspace,ACF&PACF: n_random_points=100 nb_inst_per_class=10,100,10,RSAST ACF&PACF
+2,0.88,0.1745293140411377,SmoothSubspace,None: n_random_points=10000 nb_inst_per_class=10,10000,10,RSAST inf p None
+3,0.76,0.12266945838928223,SmoothSubspace,ACF&PACF: n_random_points=10000 nb_inst_per_class=10,10000,10,RSAST inf p ACF&PACF
+4,0.98,12.696072340011597,SmoothSubspace,num_kernels=10_000,0,0,Rocket
+5,0.92,1.155527114868164,SmoothSubspace,min_shapelet_length=3 max_shapelet_length=15,0,0,SAST
+6,0.7866666666666666,0.16920065879821777,SmoothSubspace,None: n_random_points= 100 nb_inst_per_class=10,100,10,RSAST None
+7,0.8333333333333334,0.18250679969787598,SmoothSubspace,ACF&PACF: n_random_points=100 nb_inst_per_class=10,100,10,RSAST ACF&PACF
+8,0.7733333333333333,0.11320281028747559,SmoothSubspace,None: n_random_points=10000 nb_inst_per_class=10,10000,10,RSAST inf p None
+9,0.84,0.1491069793701172,SmoothSubspace,ACF&PACF: n_random_points=10000 nb_inst_per_class=10,10000,10,RSAST inf p ACF&PACF
+10,0.98,11.418693542480469,SmoothSubspace,num_kernels=10_000,0,0,Rocket
+11,0.9466666666666667,1.1578822135925293,SmoothSubspace,min_shapelet_length=3 max_shapelet_length=15,0,0,SAST
+12,0.82,0.12417459487915039,SmoothSubspace,None: n_random_points= 100 nb_inst_per_class=10,100,10,RSAST None
+13,0.8733333333333333,0.1545259952545166,SmoothSubspace,ACF&PACF: n_random_points=100 nb_inst_per_class=10,100,10,RSAST ACF&PACF
+14,0.82,0.14859914779663086,SmoothSubspace,None: n_random_points=10000 nb_inst_per_class=10,10000,10,RSAST inf p None
+15,0.8133333333333334,0.1238703727722168,SmoothSubspace,ACF&PACF: n_random_points=10000 nb_inst_per_class=10,10000,10,RSAST inf p ACF&PACF
+16,0.98,11.13900351524353,SmoothSubspace,num_kernels=10_000,0,0,Rocket
+17,0.9333333333333333,1.1604859828948975,SmoothSubspace,min_shapelet_length=3 max_shapelet_length=15,0,0,SAST
+18,0.9795918367346939,0.059003353118896484,Chinatown,None: n_random_points= 100 nb_inst_per_class=10,100,10,RSAST None
+19,0.9795918367346939,0.03191065788269043,Chinatown,ACF&PACF: n_random_points=100 nb_inst_per_class=10,100,10,RSAST ACF&PACF
+20,0.9737609329446064,0.04191398620605469,Chinatown,None: n_random_points=10000 nb_inst_per_class=10,10000,10,RSAST inf p None
+21,0.9708454810495627,0.03693675994873047,Chinatown,ACF&PACF: n_random_points=10000 nb_inst_per_class=10,10000,10,RSAST inf p ACF&PACF
+22,0.9825072886297376,7.140217304229736,Chinatown,num_kernels=10_000,0,0,Rocket
+23,0.9854227405247813,0.47486019134521484,Chinatown,min_shapelet_length=3 max_shapelet_length=24,0,0,SAST
+24,0.9795918367346939,0.033933401107788086,Chinatown,None: n_random_points= 100 nb_inst_per_class=10,100,10,RSAST None
+25,0.9825072886297376,0.04186201095581055,Chinatown,ACF&PACF: n_random_points=100 nb_inst_per_class=10,100,10,RSAST ACF&PACF
+26,0.9766763848396501,0.03690290451049805,Chinatown,None: n_random_points=10000 nb_inst_per_class=10,10000,10,RSAST inf p None
+27,0.9825072886297376,0.03699207305908203,Chinatown,ACF&PACF: n_random_points=10000 nb_inst_per_class=10,10000,10,RSAST inf p ACF&PACF
+28,0.9825072886297376,7.3230438232421875,Chinatown,num_kernels=10_000,0,0,Rocket
+29,0.9854227405247813,0.4786813259124756,Chinatown,min_shapelet_length=3 max_shapelet_length=24,0,0,SAST
+30,0.9591836734693877,0.04584670066833496,Chinatown,None: n_random_points= 100 nb_inst_per_class=10,100,10,RSAST None
+31,0.9620991253644315,0.04915761947631836,Chinatown,ACF&PACF: n_random_points=100 nb_inst_per_class=10,100,10,RSAST ACF&PACF
+32,0.9708454810495627,0.07679367065429688,Chinatown,None: n_random_points=10000 nb_inst_per_class=10,10000,10,RSAST inf p None
+33,0.9766763848396501,0.04388928413391113,Chinatown,ACF&PACF: n_random_points=10000 nb_inst_per_class=10,10000,10,RSAST inf p ACF&PACF
+34,0.9825072886297376,7.730619192123413,Chinatown,num_kernels=10_000,0,0,Rocket
+35,0.9854227405247813,1.1304244995117188,Chinatown,min_shapelet_length=3 max_shapelet_length=24,0,0,SAST
+36,0.956268221574344,0.10967230796813965,ItalyPowerDemand,None: n_random_points= 100 nb_inst_per_class=10,100,10,RSAST None
+37,0.9533527696793003,0.24434137344360352,ItalyPowerDemand,ACF&PACF: n_random_points=100 nb_inst_per_class=10,100,10,RSAST ACF&PACF
+38,0.9484936831875608,0.08277606964111328,ItalyPowerDemand,None: n_random_points=10000 nb_inst_per_class=10,10000,10,RSAST inf p None
+39,0.9630709426627794,0.08975887298583984,ItalyPowerDemand,ACF&PACF: n_random_points=10000 nb_inst_per_class=10,10000,10,RSAST inf p ACF&PACF
+40,0.9689018464528668,9.078542709350586,ItalyPowerDemand,num_kernels=10_000,0,0,Rocket
+41,0.9543245869776482,1.554152011871338,ItalyPowerDemand,min_shapelet_length=3 max_shapelet_length=24,0,0,SAST
+42,0.9650145772594753,0.074798583984375,ItalyPowerDemand,None: n_random_points= 100 nb_inst_per_class=10,100,10,RSAST None
+43,0.9494655004859086,0.11568713188171387,ItalyPowerDemand,ACF&PACF: n_random_points=100 nb_inst_per_class=10,100,10,RSAST ACF&PACF
+44,0.9407191448007775,0.11568832397460938,ItalyPowerDemand,None: n_random_points=10000 nb_inst_per_class=10,10000,10,RSAST inf p None
+45,0.9397473275024295,0.0977637767791748,ItalyPowerDemand,ACF&PACF: n_random_points=10000 nb_inst_per_class=10,10000,10,RSAST inf p ACF&PACF
+46,0.9689018464528668,9.259759426116943,ItalyPowerDemand,num_kernels=10_000,0,0,Rocket
+47,0.9601554907677357,1.562053918838501,ItalyPowerDemand,min_shapelet_length=3 max_shapelet_length=24,0,0,SAST
+48,0.9543245869776482,0.11369538307189941,ItalyPowerDemand,None: n_random_points= 100 nb_inst_per_class=10,100,10,RSAST None
+49,0.9523809523809523,0.08477473258972168,ItalyPowerDemand,ACF&PACF: n_random_points=100 nb_inst_per_class=10,100,10,RSAST ACF&PACF
+50,0.9630709426627794,0.08950662612915039,ItalyPowerDemand,None: n_random_points=10000 nb_inst_per_class=10,10000,10,RSAST inf p None
+51,0.9523809523809523,0.09973263740539551,ItalyPowerDemand,ACF&PACF: n_random_points=10000 nb_inst_per_class=10,10000,10,RSAST inf p ACF&PACF
+52,0.9698736637512148,9.266171932220459,ItalyPowerDemand,num_kernels=10_000,0,0,Rocket
+53,0.9504373177842566,1.53898286819458,ItalyPowerDemand,min_shapelet_length=3 max_shapelet_length=24,0,0,SAST

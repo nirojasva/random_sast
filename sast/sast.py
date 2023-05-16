@@ -553,7 +553,7 @@ class RSAST(BaseEstimator, ClassifierMixin):
 if __name__ == "__main__":
     from sktime.datasets import load_UCR_UEA_dataset
     import time
-    ds='SmoothSubspace' # Chosing a dataset from # Number of classes to consider
+    ds='MedicalImages' # Chosing a dataset from # Number of classes to consider
 
     X_train, y_train = load_UCR_UEA_dataset(name=ds, extract_path='data', split="train", return_type="numpy2d")
     X_test, y_test = load_UCR_UEA_dataset(name=ds, extract_path='data', split="test", return_type="numpy2d")

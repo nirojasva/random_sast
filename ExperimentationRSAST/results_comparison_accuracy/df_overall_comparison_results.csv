@@ -1,26 +1,26 @@
 ,accuracy,time,dataset_name,hyperparameter,rpoint,nb_per_class,classifier_name
-0,0.75,3.130727767944336,Car,None: n_random_points= 10 nb_inst_per_class=10,10,10,RSAST None
-1,0.7833333333333333,2.9227452278137207,Car,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
-2,0.9,1480.9620339870453,Car,All: n_random_points=10 nb_inst_per_class=10,10,10,RSAST All
-3,0.9,9.861999750137329,Car,num_kernels=10_000,0,0,Rocket
-4,0.9,5221.55669593811,Car,min_shapelet_length=3 max_shapelet_length=576,0,0,SAST
-5,0.75,2.5430409908294678,Car,None: n_random_points= 10 nb_inst_per_class=10,10,10,RSAST None
-6,0.8333333333333334,2.7918922901153564,Car,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
-7,0.9,1417.5016388893127,Car,All: n_random_points=10 nb_inst_per_class=10,10,10,RSAST All
-8,0.9,9.793922185897827,Car,num_kernels=10_000,0,0,Rocket
-9,0.85,5231.005327939987,Car,min_shapelet_length=3 max_shapelet_length=576,0,0,SAST
-10,0.7833333333333333,2.8930273056030273,Car,None: n_random_points= 10 nb_inst_per_class=10,10,10,RSAST None
-11,0.7833333333333333,2.9634902477264404,Car,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
-12,0.9,1412.2078080177307,Car,All: n_random_points=10 nb_inst_per_class=10,10,10,RSAST All
-13,0.9,9.805578231811523,Car,num_kernels=10_000,0,0,Rocket
-14,0.8833333333333333,5220.3840963840485,Car,min_shapelet_length=3 max_shapelet_length=576,0,0,SAST
-15,0.7833333333333333,2.9077308177948,Car,None: n_random_points= 10 nb_inst_per_class=10,10,10,RSAST None
-16,0.85,2.8327372074127197,Car,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
-17,0.9,1414.0618042945862,Car,All: n_random_points=10 nb_inst_per_class=10,10,10,RSAST All
-18,0.8833333333333333,9.797762393951416,Car,num_kernels=10_000,0,0,Rocket
-19,0.8666666666666667,5213.157419204712,Car,min_shapelet_length=3 max_shapelet_length=576,0,0,SAST
-20,0.85,3.0130958557128906,Car,None: n_random_points= 10 nb_inst_per_class=10,10,10,RSAST None
-21,0.7333333333333333,2.556769847869873,Car,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
-22,0.9,1412.3275353908539,Car,All: n_random_points=10 nb_inst_per_class=10,10,10,RSAST All
-23,0.9,9.745429992675781,Car,num_kernels=10_000,0,0,Rocket
-24,0.8833333333333333,5312.006451845169,Car,min_shapelet_length=3 max_shapelet_length=576,0,0,SAST
+0,0.9333333333333333,1.7065694332122803,SyntheticControl,None: n_random_points= 10 nb_inst_per_class=10,10,10,RSAST None
+1,0.97,23.370452880859375,SyntheticControl,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
+2,0.9866666666666667,102.02280902862549,SyntheticControl,All: n_random_points=10 nb_inst_per_class=10,10,10,RSAST All
+3,1.0,5.284926652908325,SyntheticControl,num_kernels=10_000,0,0,Rocket
+4,0.9733333333333334,38.30573773384094,SyntheticControl,min_shapelet_length=3 max_shapelet_length=59,0,0,SAST
+5,0.9266666666666666,1.8393447399139404,SyntheticControl,None: n_random_points= 10 nb_inst_per_class=10,10,10,RSAST None
+6,0.96,23.488168478012085,SyntheticControl,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
+7,0.98,101.79068779945374,SyntheticControl,All: n_random_points=10 nb_inst_per_class=10,10,10,RSAST All
+8,1.0,5.880529165267944,SyntheticControl,num_kernels=10_000,0,0,Rocket
+9,0.9666666666666667,38.14382362365723,SyntheticControl,min_shapelet_length=3 max_shapelet_length=59,0,0,SAST
+10,0.9333333333333333,2.040766954421997,SyntheticControl,None: n_random_points= 10 nb_inst_per_class=10,10,10,RSAST None
+11,0.9566666666666667,23.696818828582764,SyntheticControl,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
+12,0.9866666666666667,100.60865688323975,SyntheticControl,All: n_random_points=10 nb_inst_per_class=10,10,10,RSAST All
+13,1.0,5.907012462615967,SyntheticControl,num_kernels=10_000,0,0,Rocket
+14,0.97,38.378742694854736,SyntheticControl,min_shapelet_length=3 max_shapelet_length=59,0,0,SAST
+15,0.92,1.9021844863891602,SyntheticControl,None: n_random_points= 10 nb_inst_per_class=10,10,10,RSAST None
+16,0.96,24.145370483398438,SyntheticControl,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
+17,0.9966666666666667,102.36411261558533,SyntheticControl,All: n_random_points=10 nb_inst_per_class=10,10,10,RSAST All
+18,1.0,5.885066032409668,SyntheticControl,num_kernels=10_000,0,0,Rocket
+19,0.97,38.364365339279175,SyntheticControl,min_shapelet_length=3 max_shapelet_length=59,0,0,SAST
+20,0.9266666666666666,2.029146194458008,SyntheticControl,None: n_random_points= 10 nb_inst_per_class=10,10,10,RSAST None
+21,0.96,23.339643955230713,SyntheticControl,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
+22,0.9866666666666667,101.81181359291077,SyntheticControl,All: n_random_points=10 nb_inst_per_class=10,10,10,RSAST All
+23,0.9966666666666667,5.970476865768433,SyntheticControl,num_kernels=10_000,0,0,Rocket
+24,0.96,38.8387553691864,SyntheticControl,min_shapelet_length=3 max_shapelet_length=59,0,0,SAST

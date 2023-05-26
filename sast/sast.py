@@ -484,6 +484,7 @@ class RSAST(BaseEstimator, ClassifierMixin):
                     for i in rand_point_ts:        
                         #2.6-- Extract the subsequence with that point
                         kernel = X_c[idx][i:i+max_shp_length].reshape(1,-1)
+                        print("kernel:"+str(kernel))
                         if m_kernel<max_shp_length:
                             m_kernel = max_shp_length            
                         list_kernels.append(kernel)
@@ -562,7 +563,7 @@ class RSAST(BaseEstimator, ClassifierMixin):
 if __name__ == "__main__":
     from sktime.datasets import load_UCR_UEA_dataset
     import time
-    ds='SmoothSubspace' # Chosing a dataset from # Number of classes to consider
+    ds='Car' # Chosing a dataset from # Number of classes to consider
 
     X_train, y_train = load_UCR_UEA_dataset(name=ds, extract_path='data', split="train", return_type="numpy2d")
     X_test, y_test = load_UCR_UEA_dataset(name=ds, extract_path='data', split="test", return_type="numpy2d")
@@ -634,7 +635,7 @@ if __name__ == "__main__":
     """
     start = time.time()
     random_state = None
-    rsast_ridge = RSAST(n_random_points=10,nb_inst_per_class=1, len_method="Max PACF")
+    rsast_ridge = RSAST(n_random_points=1000,nb_inst_per_class=100, len_method="Max PACF")
     rsast_ridge.fit(X_train, y_train)
     end = time.time()
     print('rsast score :', rsast_ridge.score(X_test, y_test))

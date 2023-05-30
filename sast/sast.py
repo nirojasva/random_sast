@@ -562,11 +562,27 @@ class RSAST(BaseEstimator, ClassifierMixin):
 
 if __name__ == "__main__":
     from sktime.datasets import load_UCR_UEA_dataset
+    from utils_sast import load_dataset, format_dataset
+    
     import time
-    ds='Car' # Chosing a dataset from # Number of classes to consider
+    ds='MelbournePedestrian' # Chosing a dataset from # Number of classes to consider
 
     X_train, y_train = load_UCR_UEA_dataset(name=ds, extract_path='data', split="train", return_type="numpy2d")
-    X_test, y_test = load_UCR_UEA_dataset(name=ds, extract_path='data', split="test", return_type="numpy2d")
+    #X_test, y_test = load_UCR_UEA_dataset(name=ds, extract_path='data', split="test", return_type="numpy2d")
+    #print("ds:"+ds)
+    #print("X_train:"+X_train)
+
+    ds_folder="/home/nirojasvar/random_sast/ExperimentationRSAST/data/"
+
+    train_ds, test_ds = load_dataset(ds_folder, ds)
+
+    #X_train, y_train = format_dataset(train_ds, shuffle=True)
+    X_test, y_test = format_dataset(test_ds)
+    print("ds:"+ds)
+    
+    print("X_train:"+str(X_train.sum()))
+    print("y_train:"+str(np.unique(y_train)))
+
     #X_train = np.arange(10, dtype=np.float32).reshape((2, 5))
     #y_train = np.array([0, 1])
 
@@ -641,5 +657,7 @@ if __name__ == "__main__":
     print('rsast score :', rsast_ridge.score(X_test, y_test))
     print('duration:', end-start)
     print('params:', rsast_ridge.get_params())
+    
+    
     
 

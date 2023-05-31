@@ -451,7 +451,7 @@ class RSAST(BaseEstimator, ClassifierMixin):
                  
                 #remove duplicates for the list of lenghts
                 self.cand_length_list[c+","+str(idx)+","+str(rep)]=list(set(self.cand_length_list[c+","+str(idx)+","+str(rep)]))
-                print("Len list:"+str(self.cand_length_list[c+","+str(idx)+","+str(rep)]))
+                #print("Len list:"+str(self.cand_length_list[c+","+str(idx)+","+str(rep)]))
                 for max_shp_length in self.cand_length_list[c+","+str(idx)+","+str(rep)]:
                     
                     #2.4-- Choose randomly n_random_points point for a TS                
@@ -474,17 +474,17 @@ class RSAST(BaseEstimator, ClassifierMixin):
                         #set a upper limit for the posible of number of random points when selecting without replacement
                         limit_rpoint=len(X_c[idx])-max_shp_length+1
                         rand_point_ts = self.random_state.choice(len(X_c[idx])-max_shp_length+1, limit_rpoint, p=weights, replace=self.sel_randp_wrepl)
-                        print("limit_rpoint:"+str(limit_rpoint))
+                        #print("limit_rpoint:"+str(limit_rpoint))
                     else:
                         rand_point_ts = self.random_state.choice(len(X_c[idx])-max_shp_length+1, self.n_random_points, p=weights, replace=self.sel_randp_wrepl)
-                        print("n_random_points:"+str(self.n_random_points))
+                        #print("n_random_points:"+str(self.n_random_points))
                     
-                    print("rpoints:"+str(rand_point_ts))
+                    #print("rpoints:"+str(rand_point_ts))
                     
                     for i in rand_point_ts:        
                         #2.6-- Extract the subsequence with that point
                         kernel = X_c[idx][i:i+max_shp_length].reshape(1,-1)
-                        print("kernel:"+str(kernel))
+                        #print("kernel:"+str(kernel))
                         if m_kernel<max_shp_length:
                             m_kernel = max_shp_length            
                         list_kernels.append(kernel)

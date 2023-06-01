@@ -565,10 +565,18 @@ if __name__ == "__main__":
     from utils_sast import load_dataset, format_dataset
     
     import time
-    ds='FiftyWords' # Chosing a dataset from # Number of classes to consider
+    ds='DodgerLoopDay' # Chosing a dataset from # Number of classes to consider
 
-    X_train, y_train = load_UCR_UEA_dataset(name=ds, extract_path='data', split="train", return_type="numpy2d")
-    X_test, y_test = load_UCR_UEA_dataset(name=ds, extract_path='data', split="test", return_type="numpy2d")
+    rtype="numpy2d"
+    X_train, y_train = load_UCR_UEA_dataset(name=ds, extract_path='data', split="train", return_type=rtype)
+    X_train=np.nan_to_num(X_train)
+    y_train=np.nan_to_num(y_train)
+    
+    X_test, y_test=load_UCR_UEA_dataset(name=ds, extract_path='data', split="test", return_type=rtype)
+    X_test=np.nan_to_num(X_test)
+    y_test=np.nan_to_num(y_test)
+    #print("ds:"+ds)
+    #X_test, y_test = load_UCR_UEA_dataset(name=ds, extract_path='data', split="test", return_type=rtype)
     #print("ds:"+ds)
     #print("X_train:"+X_train)
 
@@ -648,6 +656,8 @@ if __name__ == "__main__":
     print('rsast score (sel_inst_wrepl=False,sel_randp_wrepl=False) half instance half len:', rsast_ridge.score(X_test, y_test))
     print('duration:', end-start)
     print('params:', rsast_ridge.get_params())
+    
+
     """
     start = time.time()
     random_state = None
@@ -656,8 +666,6 @@ if __name__ == "__main__":
     end = time.time()
     print('rsast score :', rsast_ridge.score(X_test, y_test))
     print('duration:', end-start)
-    print('params:', rsast_ridge.get_params())
-    
-    
+    print('params:', rsast_ridge.get_params())    
     
 

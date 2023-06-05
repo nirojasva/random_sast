@@ -1,16 +1,51 @@
 ,accuracy,time,dataset_name,hyperparameter,rpoint,nb_per_class,classifier_name
-0,0.6474820143884892,6.931968927383423,Earthquakes,None: n_random_points= 10 nb_inst_per_class=10,10,10,RSAST None
-1,0.7410071942446043,386.7485730648041,Earthquakes,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
-2,0.7194244604316546,2943.603024959564,Earthquakes,All: n_random_points=10 nb_inst_per_class=10,10,10,RSAST All
-3,0.762589928057554,45.012051582336426,Earthquakes,num_kernels=10_000,0,0,Rocket
-4,0.6906474820143885,9516.493198394775,Earthquakes,min_shapelet_length=3 max_shapelet_length=511,0,0,SAST
-5,0.6187050359712231,6.9968273639678955,Earthquakes,None: n_random_points= 10 nb_inst_per_class=10,10,10,RSAST None
-6,0.7266187050359713,409.19005942344666,Earthquakes,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
-7,0.7553956834532374,2913.9748990535736,Earthquakes,All: n_random_points=10 nb_inst_per_class=10,10,10,RSAST All
-8,0.7553956834532374,44.78806209564209,Earthquakes,num_kernels=10_000,0,0,Rocket
-9,0.697841726618705,9450.979641199112,Earthquakes,min_shapelet_length=3 max_shapelet_length=511,0,0,SAST
-10,0.6187050359712231,6.200042963027954,Earthquakes,None: n_random_points= 10 nb_inst_per_class=10,10,10,RSAST None
-11,0.6834532374100719,395.3541462421417,Earthquakes,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
-12,0.7266187050359713,2904.2834429740906,Earthquakes,All: n_random_points=10 nb_inst_per_class=10,10,10,RSAST All
-13,0.7553956834532374,44.92672634124756,Earthquakes,num_kernels=10_000,0,0,Rocket
-14,0.697841726618705,9410.462848901749,Earthquakes,min_shapelet_length=3 max_shapelet_length=511,0,0,SAST
+0,0.8769230769230769,21.097628355026245,ToeSegmentation2,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
+1,0.8307692307692308,104.0360963344574,ToeSegmentation2,min_shapelet_length=3 max_shapelet_length=342,0,0,SAST
+2,0.8461538461538461,16.644060373306274,ToeSegmentation2,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
+3,0.9,103.35367703437805,ToeSegmentation2,min_shapelet_length=3 max_shapelet_length=342,0,0,SAST
+4,0.9,16.19629740715027,ToeSegmentation2,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
+5,0.9153846153846154,99.9948742389679,ToeSegmentation2,min_shapelet_length=3 max_shapelet_length=342,0,0,SAST
+6,0.9076923076923077,13.841989517211914,ToeSegmentation2,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
+7,0.8153846153846154,94.63934111595154,ToeSegmentation2,min_shapelet_length=3 max_shapelet_length=342,0,0,SAST
+8,0.9076923076923077,14.030535697937012,ToeSegmentation2,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
+9,0.8461538461538461,94.11829376220703,ToeSegmentation2,min_shapelet_length=3 max_shapelet_length=342,0,0,SAST
+10,0.9572400388726919,0.0571141242980957,ItalyPowerDemand,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
+11,0.9640427599611273,0.05526113510131836,ItalyPowerDemand,min_shapelet_length=3 max_shapelet_length=23,0,0,SAST
+12,0.9484936831875608,0.07319164276123047,ItalyPowerDemand,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
+13,0.9611273080660836,0.054180145263671875,ItalyPowerDemand,min_shapelet_length=3 max_shapelet_length=23,0,0,SAST
+14,0.9523809523809523,0.0885927677154541,ItalyPowerDemand,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
+15,0.9611273080660836,0.07398629188537598,ItalyPowerDemand,min_shapelet_length=3 max_shapelet_length=23,0,0,SAST
+16,0.9426627793974732,0.09734487533569336,ItalyPowerDemand,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
+17,0.9523809523809523,0.06884384155273438,ItalyPowerDemand,min_shapelet_length=3 max_shapelet_length=23,0,0,SAST
+18,0.9533527696793003,0.10645341873168945,ItalyPowerDemand,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
+19,0.9455782312925171,0.06807684898376465,ItalyPowerDemand,min_shapelet_length=3 max_shapelet_length=23,0,0,SAST
+20,0.8666666666666667,0.08733582496643066,SmoothSubspace,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
+21,0.9,0.10431599617004395,SmoothSubspace,min_shapelet_length=3 max_shapelet_length=14,0,0,SAST
+22,0.8866666666666667,0.090606689453125,SmoothSubspace,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
+23,0.8466666666666667,0.046442508697509766,SmoothSubspace,min_shapelet_length=3 max_shapelet_length=14,0,0,SAST
+24,0.8733333333333333,0.10230493545532227,SmoothSubspace,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
+25,0.8133333333333334,0.02874135971069336,SmoothSubspace,min_shapelet_length=3 max_shapelet_length=14,0,0,SAST
+26,0.8666666666666667,0.07426238059997559,SmoothSubspace,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
+27,0.82,0.02158665657043457,SmoothSubspace,min_shapelet_length=3 max_shapelet_length=14,0,0,SAST
+28,0.8733333333333333,0.07708573341369629,SmoothSubspace,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
+29,0.82,0.02861928939819336,SmoothSubspace,min_shapelet_length=3 max_shapelet_length=14,0,0,SAST
+30,0.85,132.56615376472473,Car,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
+31,0.8166666666666667,2307.152031183243,Car,min_shapelet_length=3 max_shapelet_length=576,0,0,SAST
+32,0.85,143.10944867134094,Car,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
+33,0.8666666666666667,2202.498349905014,Car,min_shapelet_length=3 max_shapelet_length=576,0,0,SAST
+34,0.8166666666666667,125.9744005203247,Car,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
+35,0.8666666666666667,2346.6929001808167,Car,min_shapelet_length=3 max_shapelet_length=576,0,0,SAST
+36,0.8333333333333334,151.6422986984253,Car,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
+37,0.8666666666666667,2348.337211370468,Car,min_shapelet_length=3 max_shapelet_length=576,0,0,SAST
+38,0.85,134.44588041305542,Car,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
+39,0.8833333333333333,2346.041750907898,Car,min_shapelet_length=3 max_shapelet_length=576,0,0,SAST
+40,0.5730774218648683,296.5501289367676,ElectricDevices,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
+41,0.4759434573985216,827.7449169158936,ElectricDevices,min_shapelet_length=3 max_shapelet_length=95,0,0,SAST
+42,0.5646479055894177,415.4500997066498,ElectricDevices,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
+43,0.4551938788743354,827.5029504299164,ElectricDevices,min_shapelet_length=3 max_shapelet_length=95,0,0,SAST
+44,0.6058876929062379,368.17823576927185,ElectricDevices,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
+45,0.45558293347166384,826.4370362758636,ElectricDevices,min_shapelet_length=3 max_shapelet_length=95,0,0,SAST
+46,0.5676306575022695,304.118524312973,ElectricDevices,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
+47,0.4348333549474776,827.8486211299896,ElectricDevices,min_shapelet_length=3 max_shapelet_length=95,0,0,SAST
+48,0.5310595253533913,304.0001196861267,ElectricDevices,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
+49,0.42562572947737,827.7648932933807,ElectricDevices,min_shapelet_length=3 max_shapelet_length=95,0,0,SAST

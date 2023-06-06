@@ -1,51 +1,101 @@
 ,accuracy,time,dataset_name,hyperparameter,rpoint,nb_per_class,classifier_name
-0,0.8769230769230769,21.097628355026245,ToeSegmentation2,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
-1,0.8307692307692308,104.0360963344574,ToeSegmentation2,min_shapelet_length=3 max_shapelet_length=342,0,0,SAST
-2,0.8461538461538461,16.644060373306274,ToeSegmentation2,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
-3,0.9,103.35367703437805,ToeSegmentation2,min_shapelet_length=3 max_shapelet_length=342,0,0,SAST
-4,0.9,16.19629740715027,ToeSegmentation2,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
-5,0.9153846153846154,99.9948742389679,ToeSegmentation2,min_shapelet_length=3 max_shapelet_length=342,0,0,SAST
-6,0.9076923076923077,13.841989517211914,ToeSegmentation2,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
-7,0.8153846153846154,94.63934111595154,ToeSegmentation2,min_shapelet_length=3 max_shapelet_length=342,0,0,SAST
-8,0.9076923076923077,14.030535697937012,ToeSegmentation2,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
-9,0.8461538461538461,94.11829376220703,ToeSegmentation2,min_shapelet_length=3 max_shapelet_length=342,0,0,SAST
-10,0.9572400388726919,0.0571141242980957,ItalyPowerDemand,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
-11,0.9640427599611273,0.05526113510131836,ItalyPowerDemand,min_shapelet_length=3 max_shapelet_length=23,0,0,SAST
-12,0.9484936831875608,0.07319164276123047,ItalyPowerDemand,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
-13,0.9611273080660836,0.054180145263671875,ItalyPowerDemand,min_shapelet_length=3 max_shapelet_length=23,0,0,SAST
-14,0.9523809523809523,0.0885927677154541,ItalyPowerDemand,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
-15,0.9611273080660836,0.07398629188537598,ItalyPowerDemand,min_shapelet_length=3 max_shapelet_length=23,0,0,SAST
-16,0.9426627793974732,0.09734487533569336,ItalyPowerDemand,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
-17,0.9523809523809523,0.06884384155273438,ItalyPowerDemand,min_shapelet_length=3 max_shapelet_length=23,0,0,SAST
-18,0.9533527696793003,0.10645341873168945,ItalyPowerDemand,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
-19,0.9455782312925171,0.06807684898376465,ItalyPowerDemand,min_shapelet_length=3 max_shapelet_length=23,0,0,SAST
-20,0.8666666666666667,0.08733582496643066,SmoothSubspace,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
-21,0.9,0.10431599617004395,SmoothSubspace,min_shapelet_length=3 max_shapelet_length=14,0,0,SAST
-22,0.8866666666666667,0.090606689453125,SmoothSubspace,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
-23,0.8466666666666667,0.046442508697509766,SmoothSubspace,min_shapelet_length=3 max_shapelet_length=14,0,0,SAST
-24,0.8733333333333333,0.10230493545532227,SmoothSubspace,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
-25,0.8133333333333334,0.02874135971069336,SmoothSubspace,min_shapelet_length=3 max_shapelet_length=14,0,0,SAST
-26,0.8666666666666667,0.07426238059997559,SmoothSubspace,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
-27,0.82,0.02158665657043457,SmoothSubspace,min_shapelet_length=3 max_shapelet_length=14,0,0,SAST
-28,0.8733333333333333,0.07708573341369629,SmoothSubspace,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
-29,0.82,0.02861928939819336,SmoothSubspace,min_shapelet_length=3 max_shapelet_length=14,0,0,SAST
-30,0.85,132.56615376472473,Car,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
-31,0.8166666666666667,2307.152031183243,Car,min_shapelet_length=3 max_shapelet_length=576,0,0,SAST
-32,0.85,143.10944867134094,Car,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
-33,0.8666666666666667,2202.498349905014,Car,min_shapelet_length=3 max_shapelet_length=576,0,0,SAST
-34,0.8166666666666667,125.9744005203247,Car,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
-35,0.8666666666666667,2346.6929001808167,Car,min_shapelet_length=3 max_shapelet_length=576,0,0,SAST
-36,0.8333333333333334,151.6422986984253,Car,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
-37,0.8666666666666667,2348.337211370468,Car,min_shapelet_length=3 max_shapelet_length=576,0,0,SAST
-38,0.85,134.44588041305542,Car,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
-39,0.8833333333333333,2346.041750907898,Car,min_shapelet_length=3 max_shapelet_length=576,0,0,SAST
-40,0.5730774218648683,296.5501289367676,ElectricDevices,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
-41,0.4759434573985216,827.7449169158936,ElectricDevices,min_shapelet_length=3 max_shapelet_length=95,0,0,SAST
-42,0.5646479055894177,415.4500997066498,ElectricDevices,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
-43,0.4551938788743354,827.5029504299164,ElectricDevices,min_shapelet_length=3 max_shapelet_length=95,0,0,SAST
-44,0.6058876929062379,368.17823576927185,ElectricDevices,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
-45,0.45558293347166384,826.4370362758636,ElectricDevices,min_shapelet_length=3 max_shapelet_length=95,0,0,SAST
-46,0.5676306575022695,304.118524312973,ElectricDevices,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
-47,0.4348333549474776,827.8486211299896,ElectricDevices,min_shapelet_length=3 max_shapelet_length=95,0,0,SAST
-48,0.5310595253533913,304.0001196861267,ElectricDevices,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
-49,0.42562572947737,827.7648932933807,ElectricDevices,min_shapelet_length=3 max_shapelet_length=95,0,0,SAST
+0,0.8692307692307693,5.06131649017334,ToeSegmentation2,ACF&PACF: n_random_points=30 nb_inst_per_class=1,30,1,RSAST ACF&PACF
+1,0.8769230769230769,15.817927360534668,ToeSegmentation2,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
+2,0.8923076923076924,47.36009240150452,ToeSegmentation2,All: n_random_points=10 nb_inst_per_class=10,10,10,RSAST All
+3,0.9307692307692308,9.430854082107544,ToeSegmentation2,num_kernels=10_000,0,0,Rocket
+4,0.8923076923076924,99.54391503334045,ToeSegmentation2,min_shapelet_length=3 max_shapelet_length=342,0,0,SAST
+5,0.8615384615384616,4.4624199867248535,ToeSegmentation2,ACF&PACF: n_random_points=30 nb_inst_per_class=1,30,1,RSAST ACF&PACF
+6,0.9230769230769231,20.49516224861145,ToeSegmentation2,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
+7,0.8538461538461538,50.32120752334595,ToeSegmentation2,All: n_random_points=10 nb_inst_per_class=10,10,10,RSAST All
+8,0.9153846153846154,2.8923966884613037,ToeSegmentation2,num_kernels=10_000,0,0,Rocket
+9,0.8307692307692308,99.68999552726746,ToeSegmentation2,min_shapelet_length=3 max_shapelet_length=342,0,0,SAST
+10,0.8923076923076924,4.07789158821106,ToeSegmentation2,ACF&PACF: n_random_points=30 nb_inst_per_class=1,30,1,RSAST ACF&PACF
+11,0.9153846153846154,13.821661710739136,ToeSegmentation2,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
+12,0.8769230769230769,45.55546951293945,ToeSegmentation2,All: n_random_points=10 nb_inst_per_class=10,10,10,RSAST All
+13,0.9153846153846154,2.746131420135498,ToeSegmentation2,num_kernels=10_000,0,0,Rocket
+14,0.8769230769230769,102.90429520606995,ToeSegmentation2,min_shapelet_length=3 max_shapelet_length=342,0,0,SAST
+15,0.8461538461538461,2.263432025909424,ToeSegmentation2,ACF&PACF: n_random_points=30 nb_inst_per_class=1,30,1,RSAST ACF&PACF
+16,0.8769230769230769,12.19603157043457,ToeSegmentation2,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
+17,0.8846153846153846,42.48713397979736,ToeSegmentation2,All: n_random_points=10 nb_inst_per_class=10,10,10,RSAST All
+18,0.9153846153846154,2.5636134147644043,ToeSegmentation2,num_kernels=10_000,0,0,Rocket
+19,0.9,92.68461537361145,ToeSegmentation2,min_shapelet_length=3 max_shapelet_length=342,0,0,SAST
+20,0.8076923076923077,3.4650557041168213,ToeSegmentation2,ACF&PACF: n_random_points=30 nb_inst_per_class=1,30,1,RSAST ACF&PACF
+21,0.9,13.607352256774902,ToeSegmentation2,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
+22,0.8615384615384616,42.145437717437744,ToeSegmentation2,All: n_random_points=10 nb_inst_per_class=10,10,10,RSAST All
+23,0.9230769230769231,2.5651633739471436,ToeSegmentation2,num_kernels=10_000,0,0,Rocket
+24,0.8307692307692308,92.78362727165222,ToeSegmentation2,min_shapelet_length=3 max_shapelet_length=342,0,0,SAST
+25,0.9455782312925171,0.022348403930664062,ItalyPowerDemand,ACF&PACF: n_random_points=30 nb_inst_per_class=1,30,1,RSAST ACF&PACF
+26,0.9446064139941691,0.07799625396728516,ItalyPowerDemand,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
+27,0.9533527696793003,0.18645644187927246,ItalyPowerDemand,All: n_random_points=10 nb_inst_per_class=10,10,10,RSAST All
+28,0.9698736637512148,0.5203275680541992,ItalyPowerDemand,num_kernels=10_000,0,0,Rocket
+29,0.9494655004859086,0.0890660285949707,ItalyPowerDemand,min_shapelet_length=3 max_shapelet_length=23,0,0,SAST
+30,0.8969873663751214,0.01975226402282715,ItalyPowerDemand,ACF&PACF: n_random_points=30 nb_inst_per_class=1,30,1,RSAST ACF&PACF
+31,0.9533527696793003,0.0981903076171875,ItalyPowerDemand,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
+32,0.9543245869776482,0.1942434310913086,ItalyPowerDemand,All: n_random_points=10 nb_inst_per_class=10,10,10,RSAST All
+33,0.967930029154519,0.4983241558074951,ItalyPowerDemand,num_kernels=10_000,0,0,Rocket
+34,0.9582118561710399,0.08445310592651367,ItalyPowerDemand,min_shapelet_length=3 max_shapelet_length=23,0,0,SAST
+35,0.9465500485908649,0.05953335762023926,ItalyPowerDemand,ACF&PACF: n_random_points=30 nb_inst_per_class=1,30,1,RSAST ACF&PACF
+36,0.9494655004859086,0.09472084045410156,ItalyPowerDemand,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
+37,0.9514091350826045,0.19426369667053223,ItalyPowerDemand,All: n_random_points=10 nb_inst_per_class=10,10,10,RSAST All
+38,0.9698736637512148,0.5307848453521729,ItalyPowerDemand,num_kernels=10_000,0,0,Rocket
+39,0.956268221574344,0.03312516212463379,ItalyPowerDemand,min_shapelet_length=3 max_shapelet_length=23,0,0,SAST
+40,0.9378036929057337,0.06713175773620605,ItalyPowerDemand,ACF&PACF: n_random_points=30 nb_inst_per_class=1,30,1,RSAST ACF&PACF
+41,0.9387755102040817,0.0903012752532959,ItalyPowerDemand,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
+42,0.9552964042759962,0.18255329132080078,ItalyPowerDemand,All: n_random_points=10 nb_inst_per_class=10,10,10,RSAST All
+43,0.9708454810495627,0.5871143341064453,ItalyPowerDemand,num_kernels=10_000,0,0,Rocket
+44,0.9591836734693877,0.08716201782226562,ItalyPowerDemand,min_shapelet_length=3 max_shapelet_length=23,0,0,SAST
+45,0.9280855199222546,0.017126083374023438,ItalyPowerDemand,ACF&PACF: n_random_points=30 nb_inst_per_class=1,30,1,RSAST ACF&PACF
+46,0.9484936831875608,0.07279276847839355,ItalyPowerDemand,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
+47,0.9611273080660836,0.18677926063537598,ItalyPowerDemand,All: n_random_points=10 nb_inst_per_class=10,10,10,RSAST All
+48,0.9698736637512148,0.50213623046875,ItalyPowerDemand,num_kernels=10_000,0,0,Rocket
+49,0.9504373177842566,0.0836484432220459,ItalyPowerDemand,min_shapelet_length=3 max_shapelet_length=23,0,0,SAST
+50,0.82,0.012032270431518555,SmoothSubspace,ACF&PACF: n_random_points=30 nb_inst_per_class=1,30,1,RSAST ACF&PACF
+51,0.9,0.06634807586669922,SmoothSubspace,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
+52,0.9266666666666666,0.19076991081237793,SmoothSubspace,All: n_random_points=10 nb_inst_per_class=10,10,10,RSAST All
+53,0.9733333333333334,0.76021409034729,SmoothSubspace,num_kernels=10_000,0,0,Rocket
+54,0.8533333333333334,0.06461620330810547,SmoothSubspace,min_shapelet_length=3 max_shapelet_length=14,0,0,SAST
+55,0.86,0.02410745620727539,SmoothSubspace,ACF&PACF: n_random_points=30 nb_inst_per_class=1,30,1,RSAST ACF&PACF
+56,0.8533333333333334,0.08741164207458496,SmoothSubspace,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
+57,0.9333333333333333,0.18387150764465332,SmoothSubspace,All: n_random_points=10 nb_inst_per_class=10,10,10,RSAST All
+58,0.98,0.7842059135437012,SmoothSubspace,num_kernels=10_000,0,0,Rocket
+59,0.86,0.0874948501586914,SmoothSubspace,min_shapelet_length=3 max_shapelet_length=14,0,0,SAST
+60,0.8533333333333334,0.036791324615478516,SmoothSubspace,ACF&PACF: n_random_points=30 nb_inst_per_class=1,30,1,RSAST ACF&PACF
+61,0.9333333333333333,0.09033393859863281,SmoothSubspace,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
+62,0.9266666666666666,0.1889183521270752,SmoothSubspace,All: n_random_points=10 nb_inst_per_class=10,10,10,RSAST All
+63,0.98,0.7721199989318848,SmoothSubspace,num_kernels=10_000,0,0,Rocket
+64,0.8466666666666667,0.06391787528991699,SmoothSubspace,min_shapelet_length=3 max_shapelet_length=14,0,0,SAST
+65,0.86,0.015198707580566406,SmoothSubspace,ACF&PACF: n_random_points=30 nb_inst_per_class=1,30,1,RSAST ACF&PACF
+66,0.8533333333333334,0.08127665519714355,SmoothSubspace,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
+67,0.9266666666666666,0.19108963012695312,SmoothSubspace,All: n_random_points=10 nb_inst_per_class=10,10,10,RSAST All
+68,0.98,0.7624561786651611,SmoothSubspace,num_kernels=10_000,0,0,Rocket
+69,0.8666666666666667,0.08299612998962402,SmoothSubspace,min_shapelet_length=3 max_shapelet_length=14,0,0,SAST
+70,0.8533333333333334,0.04079937934875488,SmoothSubspace,ACF&PACF: n_random_points=30 nb_inst_per_class=1,30,1,RSAST ACF&PACF
+71,0.9066666666666666,0.09840011596679688,SmoothSubspace,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
+72,0.9266666666666666,0.18832898139953613,SmoothSubspace,All: n_random_points=10 nb_inst_per_class=10,10,10,RSAST All
+73,0.98,0.7907102108001709,SmoothSubspace,num_kernels=10_000,0,0,Rocket
+74,0.8133333333333334,0.10302209854125977,SmoothSubspace,min_shapelet_length=3 max_shapelet_length=14,0,0,SAST
+75,0.8333333333333334,26.713563680648804,Car,ACF&PACF: n_random_points=30 nb_inst_per_class=1,30,1,RSAST ACF&PACF
+76,0.8666666666666667,125.46628212928772,Car,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
+77,0.9,583.9365177154541,Car,All: n_random_points=10 nb_inst_per_class=10,10,10,RSAST All
+78,0.8833333333333333,6.936715126037598,Car,num_kernels=10_000,0,0,Rocket
+79,0.8666666666666667,2191.9736285209656,Car,min_shapelet_length=3 max_shapelet_length=576,0,0,SAST
+80,0.8333333333333334,37.522274017333984,Car,ACF&PACF: n_random_points=30 nb_inst_per_class=1,30,1,RSAST ACF&PACF
+81,0.8333333333333334,151.0125858783722,Car,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
+82,0.9,660.4983921051025,Car,All: n_random_points=10 nb_inst_per_class=10,10,10,RSAST All
+83,0.9,7.903050184249878,Car,num_kernels=10_000,0,0,Rocket
+84,0.8333333333333334,2398.3117969036102,Car,min_shapelet_length=3 max_shapelet_length=576,0,0,SAST
+85,0.7666666666666667,27.44006586074829,Car,ACF&PACF: n_random_points=30 nb_inst_per_class=1,30,1,RSAST ACF&PACF
+86,0.85,145.37680792808533,Car,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
+87,0.9,636.7905225753784,Car,All: n_random_points=10 nb_inst_per_class=10,10,10,RSAST All
+88,0.9,7.065191268920898,Car,num_kernels=10_000,0,0,Rocket
+89,0.9,2353.847904920578,Car,min_shapelet_length=3 max_shapelet_length=576,0,0,SAST
+90,0.8333333333333334,27.443933248519897,Car,ACF&PACF: n_random_points=30 nb_inst_per_class=1,30,1,RSAST ACF&PACF
+91,0.85,126.58850264549255,Car,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
+92,0.9,584.4272291660309,Car,All: n_random_points=10 nb_inst_per_class=10,10,10,RSAST All
+93,0.8833333333333333,6.925904989242554,Car,num_kernels=10_000,0,0,Rocket
+94,0.8833333333333333,2193.5639095306396,Car,min_shapelet_length=3 max_shapelet_length=576,0,0,SAST
+95,0.8333333333333334,30.22270679473877,Car,ACF&PACF: n_random_points=30 nb_inst_per_class=1,30,1,RSAST ACF&PACF
+96,0.8333333333333334,125.26516008377075,Car,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF
+97,0.9,584.861519575119,Car,All: n_random_points=10 nb_inst_per_class=10,10,10,RSAST All
+98,0.9333333333333333,6.951913595199585,Car,num_kernels=10_000,0,0,Rocket
+99,0.9166666666666666,2193.1381306648254,Car,min_shapelet_length=3 max_shapelet_length=576,0,0,SAST

@@ -1,0 +1,5 @@
+,accuracy,time,cweights_time,fsubsequence_time,tdataset_time,tclassifier_time,dataset_name,classifier_name,rpoint,nb_per_class,method,len_method
+0,0.8292682926829268,15.725505590438843,0.0328521728515625,0.05065608024597168,15.544055700302124,0.08588647842407227,ProximalPhalanxOutlineAgeGroup,all: n_random_points=10 nb_inst_per_class=1,10,1,Rsast,all
+1,0.7902439024390244,154.4235336780548,0.03245806694030762,0.5028834342956543,153.66089296340942,0.21633481979370117,ProximalPhalanxOutlineAgeGroup,all: n_random_points=10 nb_inst_per_class=10,10,10,Rsast,all
+2,0.8292682926829268,43.52387452125549,0.045042991638183594,0.08173084259033203,43.287508487701416,0.10201644897460938,ProximalPhalanxOutlineAgeGroup,all: n_random_points=30 nb_inst_per_class=1,30,1,Rsast,all
+3,0.775609756097561,435.5474362373352,0.030885934829711914,0.7616739273071289,434.22423005104065,0.5074107646942139,ProximalPhalanxOutlineAgeGroup,all: n_random_points=30 nb_inst_per_class=10,30,10,Rsast,all

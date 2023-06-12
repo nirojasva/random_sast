@@ -197,8 +197,6 @@ class SAST(BaseEstimator, ClassifierMixin):
 
                     k += 1
         
-
-
     def fit(self, X, y):
 
         X, y = check_X_y(X, y)  # check the shape of the data

@@ -561,9 +561,9 @@ class RSAST(BaseEstimator, ClassifierMixin):
 if __name__ == "__main__":
     from sktime.datasets import load_UCR_UEA_dataset
     from utils_sast import load_dataset, format_dataset
-    
+
     import time
-    ds='DodgerLoopDay' # Chosing a dataset from # Number of classes to consider
+    ds='MedicalImages' # Chosing a dataset from # Number of classes to consider
 
     rtype="numpy2d"
     X_train, y_train = load_UCR_UEA_dataset(name=ds, extract_path='data', split="train", return_type=rtype)

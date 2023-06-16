@@ -1,5 +1,0 @@
-,accuracy,time,cweights_time,fsubsequence_time,tdataset_time,tclassifier_time,dataset_name,classifier_name,rpoint,nb_per_class,method,len_method
-0,0.575,97.425861120224,0.14851117134094238,0.5112831592559814,96.62234902381897,0.04643654823303223,DodgerLoopDay,all: n_random_points=10 nb_inst_per_class=1,10,1,Rsast,all
-1,0.675,964.8518087863922,0.14674878120422363,4.3315582275390625,959.9571890830994,0.3639347553253174,DodgerLoopDay,all: n_random_points=10 nb_inst_per_class=10,10,10,Rsast,all
-2,0.5125,286.19953870773315,0.14826107025146484,0.7731590270996094,285.1132655143738,0.11672115325927734,DodgerLoopDay,all: n_random_points=30 nb_inst_per_class=1,30,1,Rsast,all
-3,0.65,2863.620085954666,0.14765214920043945,5.166254758834839,2857.177251815796,1.0527186393737793,DodgerLoopDay,all: n_random_points=30 nb_inst_per_class=10,30,10,Rsast,all

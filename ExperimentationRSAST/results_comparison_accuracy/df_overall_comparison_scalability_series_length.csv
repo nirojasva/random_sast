@@ -1,36 +1,11 @@
 ,accuracy,time_fit,time_test,dataset_name,hyperparameter,rpoint,nb_per_class,classifier_name,series_length,exp_length
-0,0.475,0.01921868324279785,0.0029993057250976562,HouseTwenty,ACF&PACF: n_random_points=30 nb_inst_per_class=1,30,1,RSAST ACF&PACF,16,4
-1,0.25,0.045211076736450195,0.05330038070678711,HouseTwenty,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF,16,4
-2,0.475,0.13893437385559082,0.10750102996826172,HouseTwenty,All: n_random_points=10 nb_inst_per_class=10,10,10,RSAST All,16,4
-3,0.525,0.33406972885131836,0.12253737449645996,HouseTwenty,ROCKET: num_kernels=10_000,0,0,Rocket,16,4
-4,0.55,0.05663251876831055,0.05145573616027832,HouseTwenty,SAST: min_shapelet_length=3 max_shapelet_length=m,0,0,SAST,16,4
-5,0.6,0.03513693809509277,0.0076334476470947266,HouseTwenty,ACF&PACF: n_random_points=30 nb_inst_per_class=1,30,1,RSAST ACF&PACF,32,5
-6,0.575,0.10128903388977051,0.07554244995117188,HouseTwenty,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF,32,5
-7,0.625,0.29706406593322754,0.2335951328277588,HouseTwenty,All: n_random_points=10 nb_inst_per_class=10,10,10,RSAST All,32,5
-8,0.675,0.453585147857666,0.22583246231079102,HouseTwenty,ROCKET: num_kernels=10_000,0,0,Rocket,32,5
-9,0.55,0.12877225875854492,0.11370348930358887,HouseTwenty,SAST: min_shapelet_length=3 max_shapelet_length=m,0,0,SAST,32,5
-10,0.6,0.16306304931640625,0.15669679641723633,HouseTwenty,ACF&PACF: n_random_points=30 nb_inst_per_class=1,30,1,RSAST ACF&PACF,64,6
-11,0.6,0.29401326179504395,0.2458336353302002,HouseTwenty,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF,64,6
-12,0.475,1.1195170879364014,0.9206137657165527,HouseTwenty,All: n_random_points=10 nb_inst_per_class=10,10,10,RSAST All,64,6
-13,0.625,0.6951119899749756,0.33943653106689453,HouseTwenty,ROCKET: num_kernels=10_000,0,0,Rocket,64,6
-14,0.575,0.40467166900634766,0.4052395820617676,HouseTwenty,SAST: min_shapelet_length=3 max_shapelet_length=m,0,0,SAST,64,6
-15,0.475,0.7740702629089355,0.7064149379730225,HouseTwenty,ACF&PACF: n_random_points=30 nb_inst_per_class=1,30,1,RSAST ACF&PACF,128,7
-16,0.475,1.9816937446594238,1.3598077297210693,HouseTwenty,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF,128,7
-17,0.5,5.488156318664551,5.156728267669678,HouseTwenty,All: n_random_points=10 nb_inst_per_class=10,10,10,RSAST All,128,7
-18,0.55,1.177720069885254,0.5501730442047119,HouseTwenty,ROCKET: num_kernels=10_000,0,0,Rocket,128,7
-19,0.55,3.9318835735321045,4.121693849563599,HouseTwenty,SAST: min_shapelet_length=3 max_shapelet_length=m,0,0,SAST,128,7
-20,0.65,1.0020368099212646,0.5126862525939941,HouseTwenty,ACF&PACF: n_random_points=30 nb_inst_per_class=1,30,1,RSAST ACF&PACF,256,8
-21,0.75,10.569801330566406,5.510981321334839,HouseTwenty,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF,256,8
-22,0.6,31.612493991851807,31.724090814590454,HouseTwenty,All: n_random_points=10 nb_inst_per_class=10,10,10,RSAST All,256,8
-23,0.95,2.207764148712158,1.058924913406372,HouseTwenty,ROCKET: num_kernels=10_000,0,0,Rocket,256,8
-24,0.75,50.24103927612305,53.28262138366699,HouseTwenty,SAST: min_shapelet_length=3 max_shapelet_length=m,0,0,SAST,256,8
-25,0.725,10.898045778274536,7.486358880996704,HouseTwenty,ACF&PACF: n_random_points=30 nb_inst_per_class=1,30,1,RSAST ACF&PACF,512,9
-26,0.875,37.61985969543457,11.39087176322937,HouseTwenty,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF,512,9
-27,0.85,210.56975197792053,211.44367384910583,HouseTwenty,All: n_random_points=10 nb_inst_per_class=10,10,10,RSAST All,512,9
-28,0.975,4.239043712615967,2.137843370437622,HouseTwenty,ROCKET: num_kernels=10_000,0,0,Rocket,512,9
-29,0.875,713.5499796867371,710.0387053489685,HouseTwenty,SAST: min_shapelet_length=3 max_shapelet_length=m,0,0,SAST,512,9
-30,0.85,33.33363938331604,18.24748921394348,HouseTwenty,ACF&PACF: n_random_points=30 nb_inst_per_class=1,30,1,RSAST ACF&PACF,1024,10
-31,0.85,385.60894322395325,205.46099424362183,HouseTwenty,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF,1024,10
-32,0.925,1529.2414646148682,1452.2556760311127,HouseTwenty,All: n_random_points=10 nb_inst_per_class=10,10,10,RSAST All,1024,10
-33,1.0,7.614155054092407,3.7917895317077637,HouseTwenty,ROCKET: num_kernels=10_000,0,0,Rocket,1024,10
-34,0.85,9462.78209400177,10104.583161354065,HouseTwenty,SAST: min_shapelet_length=3 max_shapelet_length=m,0,0,SAST,1024,10
+0,0.35,4.507572650909424,0.008009195327758789,HouseTwenty,ACF&PACF: n_random_points=30 nb_inst_per_class=1,30,1,RSAST ACF&PACF,16,4
+1,0.3,0.0976402759552002,0.045534610748291016,HouseTwenty,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF,16,4
+2,0.425,0.2817821502685547,0.20707130432128906,HouseTwenty,All: n_random_points=10 nb_inst_per_class=10,10,10,RSAST All,16,4
+3,0.475,8.821688413619995,3.1018409729003906,HouseTwenty,ROCKET: num_kernels=10_000,0,0,Rocket,16,4
+4,0.45,0.034102678298950195,0.03504180908203125,HouseTwenty,SAST: min_shapelet_length=3 max_shapelet_length=m,0,0,SAST,16,4
+5,0.525,0.07491803169250488,0.057987213134765625,HouseTwenty,ACF&PACF: n_random_points=30 nb_inst_per_class=1,30,1,RSAST ACF&PACF,32,5
+6,0.675,0.27518200874328613,0.2366492748260498,HouseTwenty,ACF&PACF: n_random_points=10 nb_inst_per_class=10,10,10,RSAST ACF&PACF,32,5
+7,0.625,1.2458992004394531,1.141509771347046,HouseTwenty,All: n_random_points=10 nb_inst_per_class=10,10,10,RSAST All,32,5
+8,0.675,8.564855813980103,3.3564722537994385,HouseTwenty,ROCKET: num_kernels=10_000,0,0,Rocket,32,5
+9,0.65,0.22446298599243164,0.2868795394897461,HouseTwenty,SAST: min_shapelet_length=3 max_shapelet_length=m,0,0,SAST,32,5

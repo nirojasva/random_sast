@@ -519,7 +519,7 @@ class RSAST(BaseEstimator, ClassifierMixin):
         
         if self.classifier is None:
             
-            if X_transformed.shape[0]<=X_transformed.shape[1]:
+            if X_transformed.shape[0]<=X_transformed.shape[1]: #n_features (kernels) > n_samples (intances)
                 self.classifier=RidgeClassifierCV()
                 print("RidgeClassifierCV:"+str("size training")+str(X_transformed.shape[0])+"<="+" kernels"+str(X_transformed.shape[1]))
             else: 

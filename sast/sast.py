@@ -563,7 +563,49 @@ if __name__ == "__main__":
     from utils_sast import load_dataset, format_dataset
 
     import time
-    ds='DodgerLoopDay' # Chosing a dataset from # Number of classes to consider
+    ds='MelbournePedestrian' # Chosing a dataset from # Number of classes to consider
+
+    rtype="nested_univ"
+    X_train, y_train = load_UCR_UEA_dataset(name=ds, extract_path='data', split="train", return_type=rtype)
+    X_train=np.nan_to_num(X_train)
+    y_train=np.nan_to_num(y_train)
+    
+    X_test, y_test=load_UCR_UEA_dataset(name=ds, extract_path='data', split="test", return_type=rtype)
+    X_test=np.nan_to_num(X_test)
+    y_test=np.nan_to_num(y_test)
+    """
+    print("ds:"+ds)
+    X_train_mod=[]
+    for i , element in enumerate(X_train):
+        element=np.array(element[0])
+        print("TS N:"+str(i)+" len:"+str(element.shape))
+        #print(element)
+        X_train_mod.append(element)
+       
+    X_train_mod= np.array(X_train_mod)
+    print(X_train_mod.shape) 
+    
+    X_train_mod=np.nan_to_num(X_train_mod)
+    """
+    
+    ds_train , ds_test = load_dataset(ds_folder="/home/nirojasvar/Téléchargements/",ds_name="MelbournePedestrian")
+    X_test, y_test = format_dataset(ds_test)
+    X_train, y_train = format_dataset(ds_train)
+    X_train=np.nan_to_num(X_train)
+    y_train=np.nan_to_num(y_train)
+    X_test=np.nan_to_num(X_test)
+    y_test=np.nan_to_num(y_test)
+
+    print(X_train.shape)
+
+    print(X_test.shape)
+    
+   
+    
+    
+
+    """
+    ds='Chinatown' # Chosing a dataset from # Number of classes to consider
 
     rtype="numpy2d"
     X_train, y_train = load_UCR_UEA_dataset(name=ds, extract_path='data', split="train", return_type=rtype)
@@ -573,13 +615,12 @@ if __name__ == "__main__":
     X_test, y_test=load_UCR_UEA_dataset(name=ds, extract_path='data', split="test", return_type=rtype)
     X_test=np.nan_to_num(X_test)
     y_test=np.nan_to_num(y_test)
-    #print("ds:"+ds)
-    #X_test, y_test = load_UCR_UEA_dataset(name=ds, extract_path='data', split="test", return_type=rtype)
-    #print("ds:"+ds)
-    #print("X_train:"+X_train)
-
-    ds_folder="/home/nirojasvar/random_sast/ExperimentationRSAST/data/"
-
+    print("ds:"+ds)
+    
+    
+    print(X_train.shape)
+    """
+    
     #train_ds, test_ds = load_dataset(ds_folder, ds)
 
     #X_train, y_train = format_dataset(train_ds, shuffle=True)

@@ -561,18 +561,38 @@ class RSAST(BaseEstimator, ClassifierMixin):
 if __name__ == "__main__":
     from sktime.datasets import load_UCR_UEA_dataset
     from utils_sast import load_dataset, format_dataset
-
+    from convst.classifiers import R_DST_Ridge
+    
     import time
-    ds='MelbournePedestrian' # Chosing a dataset from # Number of classes to consider
+    
+    from convst.utils.dataset_utils import load_UCR_UEA_dataset_split
 
-    rtype="nested_univ"
+    
+
+    ds='Chinatown' # Chosing a dataset from # Number of classes to consider
+
+    rtype="numpy2D"
     X_train, y_train = load_UCR_UEA_dataset(name=ds, extract_path='data', split="train", return_type=rtype)
-    X_train=np.nan_to_num(X_train)
-    y_train=np.nan_to_num(y_train)
+    
+    X_train = X_train[:, np.newaxis, :]
+    #X_train=np.nan_to_num(X_train)
+    #y_train=np.nan_to_num(y_train)
     
     X_test, y_test=load_UCR_UEA_dataset(name=ds, extract_path='data', split="test", return_type=rtype)
-    X_test=np.nan_to_num(X_test)
-    y_test=np.nan_to_num(y_test)
+    X_test = X_test[:, np.newaxis, :]
+    #X_test=np.nan_to_num(X_test)
+    #y_test=np.nan_to_num(y_test)
+    print('Format: load_UCR_UEA_dataset')
+    print(X_train.shape)
+    print(X_test.shape)
+    print(y_train.shape)
+    print(y_test.shape)
+    y_train=np.asarray([int(x_s) for x_s in y_train])
+    y_test=np.asarray([int(x_s) for x_s in y_test])
+    #y_train = list(map(int, y_train))
+    #y_test =list(map(int, y_test))    
+    print(X_train[0])  
+     
     """
     print("ds:"+ds)
     X_train_mod=[]
@@ -588,116 +608,24 @@ if __name__ == "__main__":
     X_train_mod=np.nan_to_num(X_train_mod)
     """
     
-    ds_train , ds_test = load_dataset(ds_folder="/home/nirojasvar/Téléchargements/",ds_name="MelbournePedestrian")
-    X_test, y_test = format_dataset(ds_test)
-    X_train, y_train = format_dataset(ds_train)
-    X_train=np.nan_to_num(X_train)
-    y_train=np.nan_to_num(y_train)
-    X_test=np.nan_to_num(X_test)
-    y_test=np.nan_to_num(y_test)
-
-    print(X_train.shape)
-
-    print(X_test.shape)
-    
+    ds_train_lds , ds_test_lds = load_dataset(ds_folder="C:/Users/Nicolas R/random_sast/sast/data/",ds_name=ds)
+    X_test_lds, y_test_lds = format_dataset(ds_test_lds)
+    X_train_lds, y_train_lds = format_dataset(ds_train_lds)
+    X_train_lds=np.nan_to_num(X_train_lds)
+    y_train_lds=np.nan_to_num(y_train_lds)
+    X_test_lds=np.nan_to_num(X_test_lds)
+    y_test_lds=np.nan_to_num(y_test_lds)
+    print('Format: load_dataset')
+    print(X_train_lds.shape)
+    print(X_test_lds.shape)
+    print(y_train_lds.shape)
+    print(y_test_lds.shape)
+    print(X_train_lds[0]) 
    
-    
-    
-
-    """
-    ds='Chinatown' # Chosing a dataset from # Number of classes to consider
-
-    rtype="numpy2d"
-    X_train, y_train = load_UCR_UEA_dataset(name=ds, extract_path='data', split="train", return_type=rtype)
-    X_train=np.nan_to_num(X_train)
-    y_train=np.nan_to_num(y_train)
-    
-    X_test, y_test=load_UCR_UEA_dataset(name=ds, extract_path='data', split="test", return_type=rtype)
-    X_test=np.nan_to_num(X_test)
-    y_test=np.nan_to_num(y_test)
-    print("ds:"+ds)
-    
-    
-    print(X_train.shape)
     """
     
-    #train_ds, test_ds = load_dataset(ds_folder, ds)
 
-    #X_train, y_train = format_dataset(train_ds, shuffle=True)
-    #X_test, y_test = format_dataset(test_ds)
-    #print("ds:"+ds)
     
-    #print("X_train:"+str(X_train.sum()))
-    #print("y_train:"+str(np.unique(y_train)))
-
-    #X_train = np.arange(10, dtype=np.float32).reshape((2, 5))
-    #y_train = np.array([0, 1])
-
-    #X_test = np.arange(10, dtype=np.float32).reshape((2, 5))
-    #y_test = np.array([0, 1])
-    """
-    # SAST
-    start = time.time()
-    sast = SAST(cand_length_list=np.arange(3, len(X_train)),
-                nb_inst_per_class=1, classifier=RidgeClassifierCV())
-
-    sast.fit(X_train, y_train)
-    end = time.time()
-    print('sast score :', sast.score(X_test, y_test))
-    print('duration:', end-start)
-    print('params:', sast.get_params())
-    
- 
-    #print("X_train",X_train)
-    #print("X_test",X_test)
-    
-    start = time.time()
-    random_state = None
-    rsast_ridge = RSAST(n_random_points=5,nb_inst_per_class=5, sel_inst_wrepl=False,sel_randp_wrepl=True)
-    rsast_ridge.fit(X_train, y_train)
-    end = time.time()
-    print('rsast score (sel_inst_wrepl=False,sel_randp_wrepl=True):', rsast_ridge.score(X_test, y_test))
-    print('duration:', end-start)
-    print('params:', rsast_ridge.get_params())
-
-    start = time.time()
-    random_state = None
-    rsast_ridge = RSAST(n_random_points=5,nb_inst_per_class=5, sel_inst_wrepl=True,sel_randp_wrepl=True)
-    rsast_ridge.fit(X_train, y_train)
-    end = time.time()
-    print('rsast score (sel_inst_wrepl=True,sel_randp_wrepl=True):', rsast_ridge.score(X_test, y_test))
-    print('duration:', end-start)
-    print('params:', rsast_ridge.get_params())
-
-    start = time.time()
-    random_state = None
-    rsast_ridge = RSAST(n_random_points=5,nb_inst_per_class=5, sel_inst_wrepl=True, sel_randp_wrepl=False)
-    rsast_ridge.fit(X_train, y_train)
-    end = time.time()
-    print('rsast score (sel_inst_wrepl=True,sel_randp_wrepl=False):', rsast_ridge.score(X_test, y_test))
-    print('duration:', end-start)
-    print('params:', rsast_ridge.get_params())
-
-    start = time.time()
-    random_state = None
-    rsast_ridge = RSAST(n_random_points=5,nb_inst_per_class=5, sel_inst_wrepl=False, sel_randp_wrepl=False)
-    rsast_ridge.fit(X_train, y_train)
-    end = time.time()
-    print('rsast score (sel_inst_wrepl=False,sel_randp_wrepl=False):', rsast_ridge.score(X_test, y_test))
-    print('duration:', end-start)
-    print('params:', rsast_ridge.get_params())
-    
-    start = time.time()
-    random_state = None
-    rsast_ridge = RSAST(half_instance=True, half_len=True, sel_inst_wrepl=False, sel_randp_wrepl=False)
-    rsast_ridge.fit(X_train, y_train)
-    end = time.time()
-    print('rsast score (sel_inst_wrepl=False,sel_randp_wrepl=False) half instance half len:', rsast_ridge.score(X_test, y_test))
-    print('duration:', end-start)
-    print('params:', rsast_ridge.get_params())
-    
-
-    """
     start = time.time()
     random_state = None
     rsast_ridge = RSAST(n_random_points=10,nb_inst_per_class=10, len_method="both")
@@ -706,5 +634,21 @@ if __name__ == "__main__":
     print('rsast score :', rsast_ridge.score(X_test, y_test))
     print('duration:', end-start)
     print('params:', rsast_ridge.get_params())    
+    """
+    X_train_rdst, X_test_rdst, y_train_rdst, y_test_rdst, _ = load_UCR_UEA_dataset_split('GunPoint',normalize=True)
+  
+    print('Format: load_UCR_UEA_dataset_split')
+    print(X_train_rdst.shape)
+    print(X_test_rdst.shape)
+    print(y_train_rdst.shape)
+    print(y_test_rdst.shape)
+    print(X_train_rdst[0])    
+
+
+
+    rdst = R_DST_Ridge(n_shapelets=10_000)
+    rdst.fit(X_train, y_train)
     
+
+    print("Accuracy Score for RDST : {}".format(rdst.score(X_test, y_test)))
 

@@ -569,17 +569,17 @@ if __name__ == "__main__":
 
     
 
-    ds='Chinatown' # Chosing a dataset from # Number of classes to consider
+    ds='ElectricDevices' # Chosing a dataset from # Number of classes to consider
 
     rtype="numpy2D"
     X_train, y_train = load_UCR_UEA_dataset(name=ds, extract_path='data', split="train", return_type=rtype)
     
-    X_train = X_train[:, np.newaxis, :]
+    
     #X_train=np.nan_to_num(X_train)
     #y_train=np.nan_to_num(y_train)
     
     X_test, y_test=load_UCR_UEA_dataset(name=ds, extract_path='data', split="test", return_type=rtype)
-    X_test = X_test[:, np.newaxis, :]
+    
     #X_test=np.nan_to_num(X_test)
     #y_test=np.nan_to_num(y_test)
     print('Format: load_UCR_UEA_dataset')
@@ -587,8 +587,8 @@ if __name__ == "__main__":
     print(X_test.shape)
     print(y_train.shape)
     print(y_test.shape)
-    y_train=np.asarray([int(x_s) for x_s in y_train])
-    y_test=np.asarray([int(x_s) for x_s in y_test])
+
+
     #y_train = list(map(int, y_train))
     #y_test =list(map(int, y_test))    
     print(X_train[0])  
@@ -607,7 +607,7 @@ if __name__ == "__main__":
     
     X_train_mod=np.nan_to_num(X_train_mod)
     """
-    
+    """
     ds_train_lds , ds_test_lds = load_dataset(ds_folder="C:/Users/Nicolas R/random_sast/sast/data/",ds_name=ds)
     X_test_lds, y_test_lds = format_dataset(ds_test_lds)
     X_train_lds, y_train_lds = format_dataset(ds_train_lds)
@@ -622,9 +622,19 @@ if __name__ == "__main__":
     print(y_test_lds.shape)
     print(X_train_lds[0]) 
    
-    """
+    
     
 
+    
+
+    X_train_rdst, X_test_rdst, y_train_rdst, y_test_rdst, _ = load_UCR_UEA_dataset_split('GunPoint',normalize=True)
+  
+    print('Format: load_UCR_UEA_dataset_split')
+    print(X_train_rdst.shape)
+    print(X_test_rdst.shape)
+    print(y_train_rdst.shape)
+    print(y_test_rdst.shape)
+    print(X_train_rdst[0])    
     
     start = time.time()
     random_state = None
@@ -635,20 +645,16 @@ if __name__ == "__main__":
     print('duration:', end-start)
     print('params:', rsast_ridge.get_params())    
     """
-    X_train_rdst, X_test_rdst, y_train_rdst, y_test_rdst, _ = load_UCR_UEA_dataset_split('GunPoint',normalize=True)
-  
-    print('Format: load_UCR_UEA_dataset_split')
-    print(X_train_rdst.shape)
-    print(X_test_rdst.shape)
-    print(y_train_rdst.shape)
-    print(y_test_rdst.shape)
-    print(X_train_rdst[0])    
-
-
-
+    X_train = X_train[:, np.newaxis, :]
+    X_test = X_test[:, np.newaxis, :]
+    y_train=np.asarray([int(x_s) for x_s in y_train])
+    y_test=np.asarray([int(x_s) for x_s in y_test])
+    start = time.time()
     rdst = R_DST_Ridge(n_shapelets=10_000)
     rdst.fit(X_train, y_train)
-    
+    end = time.time()
 
-    print("Accuracy Score for RDST : {}".format(rdst.score(X_test, y_test)))
+    print('rdst score :', rdst.score(X_test, y_test))
+    print('duration:', end-start)
+    print('params:', rdst.get_params())    
 

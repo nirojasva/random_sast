@@ -591,7 +591,7 @@ if __name__ == "__main__":
 
     #y_train = list(map(int, y_train))
     #y_test =list(map(int, y_test))    
-    print(X_train[0])  
+    #print(X_train[0])  
      
     """
     print("ds:"+ds)

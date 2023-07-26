@@ -569,7 +569,7 @@ if __name__ == "__main__":
 
     
 
-    ds='ElectricDevices' # Chosing a dataset from # Number of classes to consider
+    ds='Chinatown' # Chosing a dataset from # Number of classes to consider
 
     rtype="numpy2D"
     X_train, y_train = load_UCR_UEA_dataset(name=ds, extract_path='data', split="train", return_type=rtype)
@@ -607,8 +607,8 @@ if __name__ == "__main__":
     
     X_train_mod=np.nan_to_num(X_train_mod)
     """
-    """
-    ds_train_lds , ds_test_lds = load_dataset(ds_folder="C:/Users/Nicolas R/random_sast/sast/data/",ds_name=ds)
+    path="/home/nirojasvar/random_sast/sast/data"
+    ds_train_lds , ds_test_lds = load_dataset(ds_folder=path,ds_name=ds,shuffle=True)
     X_test_lds, y_test_lds = format_dataset(ds_test_lds)
     X_train_lds, y_train_lds = format_dataset(ds_train_lds)
     X_train_lds=np.nan_to_num(X_train_lds)
@@ -627,15 +627,7 @@ if __name__ == "__main__":
 
     
 
-    X_train_rdst, X_test_rdst, y_train_rdst, y_test_rdst, _ = load_UCR_UEA_dataset_split('GunPoint',normalize=True)
-  
-    print('Format: load_UCR_UEA_dataset_split')
-    print(X_train_rdst.shape)
-    print(X_test_rdst.shape)
-    print(y_train_rdst.shape)
-    print(y_test_rdst.shape)
-    print(X_train_rdst[0])    
-    
+   
     start = time.time()
     random_state = None
     rsast_ridge = RSAST(n_random_points=10,nb_inst_per_class=10, len_method="both")
@@ -644,7 +636,7 @@ if __name__ == "__main__":
     print('rsast score :', rsast_ridge.score(X_test, y_test))
     print('duration:', end-start)
     print('params:', rsast_ridge.get_params())    
-    """
+    
     X_train = X_train[:, np.newaxis, :]
     X_test = X_test[:, np.newaxis, :]
     y_train=np.asarray([int(x_s) for x_s in y_train])

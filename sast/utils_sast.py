@@ -5,6 +5,8 @@ from operator import itemgetter
 import matplotlib.pyplot as plt
 from scipy.io.arff import loadarff
 from sast import znormalize_array 
+from sklearn.model_selection import train_test_split
+
 
 def load_arff_2_dataframe(fname):
     data = loadarff(fname)
@@ -12,14 +14,24 @@ def load_arff_2_dataframe(fname):
     data = data.astype(np.float64)
     return data
     
-def load_dataset(ds_folder, ds_name):
+def load_dataset(ds_folder, ds_name, shuffle=False ):
     # dataset path
     ds_path = os.path.join(ds_folder, ds_name)
     
     # load train and test set from arff
     train_ds = load_arff_2_dataframe(os.path.join(ds_path, f'{ds_name}_TRAIN.arff'))
     test_ds = load_arff_2_dataframe(os.path.join(ds_path, f'{ds_name}_TEST.arff'))
-    
+    if shuffle:
+        ntrain=train_ds.shape[0]
+        ntest=test_ds.shape[0]
+        ds_concat=pd.concat([train_ds, test_ds],ignore_index=True)
+        
+        #print("train_ds.shape",str(train_ds.shape))
+        #print("test_ds.shape",str(test_ds.shape))
+        #print("ds_concat.shape",str(ds_concat.shape))
+        #np.random.shuffle(ds_concat)
+        train_ds, test_ds=train_test_split(ds_concat,test_size=ntest, train_size=ntrain,shuffle=True)
+
     return train_ds, test_ds
 
 def format_dataset(data, shuffle=True):

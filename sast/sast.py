@@ -305,7 +305,7 @@ class RocketClassifier:
 
 class RSAST(BaseEstimator, ClassifierMixin):
 
-    def __init__(self,n_random_points=10, nb_inst_per_class=1, len_method="both", random_state=None, classifier=None, sel_inst_wrepl=False,sel_randp_wrepl=False, half_instance=False, half_len=False ):
+    def __init__(self,n_random_points=10, nb_inst_per_class=1, len_method="both", random_state=None, classifier=None, sel_inst_wrepl=False,sel_randp_wrepl=False, half_instance=False, half_len=False,n_shapelet_samples=None ):
         super(RSAST, self).__init__()
         self.n_random_points = n_random_points
         self.nb_inst_per_class = nb_inst_per_class
@@ -325,6 +325,7 @@ class RSAST(BaseEstimator, ClassifierMixin):
         self.time_creating_subsequences = None
         self.time_transform_dataset = None
         self.time_classifier = None
+        self.n_shapelet_samples =n_shapelet_samples
 
     def get_params(self, deep=True):
         return {
@@ -488,7 +489,11 @@ class RSAST(BaseEstimator, ClassifierMixin):
                         list_kernels.append(kernel)
                         self.kernel_orig_.append(np.squeeze(kernel))
         
-        print("total kernels:"+str(len(list_kernels)))
+        if self.n_shapelet_samples!=None:
+            print("Truncated to:"+str(self.n_shapelet_samples))
+            self.kernel_orig_ = self.random_state.permutation(self.kernel_orig_)[:self.n_shapelet_samples]
+
+        print("total kernels:"+str(len(self.kernel_orig_)))
         #3--save the calculated subsequences
         candidates_ts = np.concatenate(candidates_ts, axis=0)
         n, m = candidates_ts.shape
@@ -569,7 +574,7 @@ if __name__ == "__main__":
 
     
 
-    ds='Chinatown' # Chosing a dataset from # Number of classes to consider
+    ds='NonInvasiveFetalECGThorax1' # Chosing a dataset from # Number of classes to consider
 
     rtype="numpy2D"
     X_train, y_train = load_UCR_UEA_dataset(name=ds, extract_path='data', split="train", return_type=rtype)
@@ -607,7 +612,7 @@ if __name__ == "__main__":
     
     X_train_mod=np.nan_to_num(X_train_mod)
     """
-    path="/home/nirojasvar/random_sast/sast/data"
+    path=r"C:\Users\Nicolas R\random_sast\sast\data"
     ds_train_lds , ds_test_lds = load_dataset(ds_folder=path,ds_name=ds,shuffle=True)
     X_test_lds, y_test_lds = format_dataset(ds_test_lds)
     X_train_lds, y_train_lds = format_dataset(ds_train_lds)
@@ -630,7 +635,7 @@ if __name__ == "__main__":
    
     start = time.time()
     random_state = None
-    rsast_ridge = RSAST(n_random_points=10,nb_inst_per_class=10, len_method="both")
+    rsast_ridge = RSAST(n_random_points=10,nb_inst_per_class=10, len_method="both",n_shapelet_samples=10000)
     rsast_ridge.fit(X_train, y_train)
     end = time.time()
     print('rsast score :', rsast_ridge.score(X_test, y_test))

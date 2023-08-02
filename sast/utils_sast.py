@@ -50,19 +50,37 @@ def plot(h, h_val, title):
     plt.legend()
     plt.show()
 
-def plot_most_important_features(kernels, scores, limit = 4):
-    features = zip(kernels, scores)
+def plot_most_important_features(kernels, scores, dilations=[], limit = 4, scale_color=True):
+    if len(dilations)==0:
+        dilations=[1]*len(kernels)
+    features = zip(kernels, scores, dilations)
     sorted_features = sorted(features, key=itemgetter(1), reverse=True)
-    for sf in sorted_features[:limit]:
-        kernel, score = sf
+    for l, sf in enumerate(sorted_features[:limit]):
+        kernel, score, dilation = sf
         kernel = kernel[~np.isnan(kernel)]
-        plt.plot(range(kernel.size), kernel, linewidth=50*score, label=f'{score:.5}')
+        kernel_d=[]
+        for i, value in enumerate(kernel):
+            for j in range(dilation):
+                if j==0:
+                    kernel_d.append(value)        
+                else:
+                    kernel_d.append(None)
+        kernel_d=np.array(kernel_d)
+        if scale_color:
+            plt.scatter(range(kernel_d.size), kernel_d, linewidth=1.5)
+            plt.plot(range(kernel_d.size), kernel_d, linewidth=50*score, label="feature"+str(l+1)+": "+"d="+str(dilation)+" alpha:"+str(f'{score:.5}'))
+        else:
+            plt.scatter(range(kernel_d.size), kernel_d, linewidth=1.5)
+            plt.plot(range(kernel_d.size), kernel_d, label="feature"+str(l+1)+": "+"d="+str(dilation)+" alpha:"+str(f'{score:.5}'))
     plt.legend()
     plt.show()
     
-def plot_most_important_feature_on_ts(ts, label, features, scores, offset=0, limit = 5, fname=None):
+def plot_most_important_feature_on_ts(ts, label, features, scores, dilations=[], offset=0, limit = 5, fname=None, znormalized=True):
     '''Plot the most important features on ts'''
-    features = zip(features, scores)
+    print('Plot the most important features on ts')
+    if len(dilations)==0:
+        dilations=[1]*len(features)
+    features = zip(features, scores, dilations)
     sorted_features = sorted(features, key=itemgetter(1), reverse=True)
     
     max_ = min(limit, len(sorted_features) - offset)
@@ -73,22 +91,72 @@ def plot_most_important_feature_on_ts(ts, label, features, scores, offset=0, lim
     fig, axes = plt.subplots(1, max_, sharey=True, figsize=(3*max_, 3), tight_layout=True)
     
     for f in range(max_):
-        kernel, score = sorted_features[f+offset]
-        kernel_normalized = znormalize_array(kernel)
-        d_best = np.inf
-        for i in range(ts.size - kernel.size):
-            d = np.sum((znormalize_array(ts[i:i+kernel.size]) - kernel_normalized)**2)
-            if d < d_best:
-                d_best = d
-                start_pos = i
-        axes[f].plot(range(start_pos, start_pos + kernel.size), kernel, linewidth=5)
-        axes[f].plot(range(ts.size), ts, linewidth=2)
-        axes[f].set_title(f'feature: {f+1+offset}')
+        if znormalized:
+            kernel, score, dilation = sorted_features[f+offset]
+            kernel_d=[]
+            for i, value in enumerate(kernel):
+                for j in range(dilation):
+                    if j==0:
+                        kernel_d.append(value)        
+                    else:
+                        kernel_d.append(None)
+            kernel_d=np.array(kernel_d)
+            kernel_normalized = znormalize_array(kernel_d)
+            d_best = np.inf
+            for i in range(ts.size - kernel_d.size):
+                ts[i:i+kernel_d.size] = znormalize_array(ts[i:i+kernel_d.size])
+                d=0
+                for k, value in enumerate(kernel_d):
+                    if kernel_d[k] is not None:
+                        d = d+(ts[i:i+kernel_d.size][k] - kernel_d[k])**2
+                    else:
+                        break
+                if d < d_best:
+                    d_best = d
+                    start_pos = i
+            axes[f].scatter(range(start_pos, start_pos + kernel_d.size), kernel_d, linewidth=1.5,color="darkred")
+            axes[f].plot(range(ts.size), ts, linewidth=2,color='darkorange')
+            axes[f].set_title(f'feature: {f+1+offset}')
+            print('gph shapelet values:',str(f+1),' start_pos:',start_pos,' shape:', kernel_d.size,' dilation:', str(dilation))
+            print(" shapelet:", kernel_d )
+            
+        else:
+            kernel, score, dilation = sorted_features[f+offset]
+            kernel_d=[]
+            for i, value in enumerate(kernel):
+                for j in range(dilation):
+                    if j==0:
+                        kernel_d.append(value)        
+                    else:
+                        kernel_d.append(None)
+            kernel_d=np.array(kernel_d)
+
+            d_best = np.inf
+            for i in range(ts.size - kernel_d.size):
+                d=0
+                for k, value in enumerate(kernel_d):
+                    
+                    if kernel_d[k] is not None:
+                        d = d+(ts[i:i+kernel_d.size][k] - kernel_d[k])**2
+                    else:
+                        break
+
+                if d < d_best:
+                    d_best = d
+                    start_pos = i
+            axes[f].scatter(range(start_pos, start_pos + kernel_d.size), kernel_d, linewidth=1.5,color="darkred")
+            axes[f].plot(range(ts.size), ts, linewidth=2,color="darkorange")
+            axes[f].set_title(f'feature: {f+1+offset}')
+            print('gph shapelet values:',str(f+1),' start_pos:',start_pos,' shape:', kernel_d.size,' dilation:', str(dilation))
+            print(" shapelet:", kernel_d )
+            
+    
     fig.suptitle(f'Ground truth class: {label}', fontsize=15)
     plt.show();
 
     if fname is not None:
         fig.savefig(fname)
+
 
 def plot_kernel_generators(sastClf):
     ''' This herper function is used to plot the reference time series used by a SAST'''

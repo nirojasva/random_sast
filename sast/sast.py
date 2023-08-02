@@ -488,12 +488,13 @@ class RSAST(BaseEstimator, ClassifierMixin):
                             m_kernel = max_shp_length            
                         list_kernels.append(kernel)
                         self.kernel_orig_.append(np.squeeze(kernel))
+        print("total kernels:"+str(len(self.kernel_orig_)))
         
         if self.n_shapelet_samples!=None:
             print("Truncated to:"+str(self.n_shapelet_samples))
             self.kernel_orig_ = self.random_state.permutation(self.kernel_orig_)[:self.n_shapelet_samples]
 
-        print("total kernels:"+str(len(self.kernel_orig_)))
+        
         #3--save the calculated subsequences
         candidates_ts = np.concatenate(candidates_ts, axis=0)
         n, m = candidates_ts.shape
@@ -565,16 +566,19 @@ class RSAST(BaseEstimator, ClassifierMixin):
 
 if __name__ == "__main__":
     from sktime.datasets import load_UCR_UEA_dataset
-    from utils_sast import load_dataset, format_dataset
-    from convst.classifiers import R_DST_Ridge
-    
+    from utils_sast import load_dataset, format_dataset, plot_most_important_features, plot_most_important_feature_on_ts
+    from aeon.classification.shapelet_based import RDSTClassifier, MrSQMClassifier
+    from aeon.transformations.collection.dilated_shapelet_transform import (
+    RandomDilatedShapeletTransform
+    )
+
     import time
     
-    from convst.utils.dataset_utils import load_UCR_UEA_dataset_split
+
 
     
 
-    ds='NonInvasiveFetalECGThorax1' # Chosing a dataset from # Number of classes to consider
+    ds='Coffee' # Chosing a dataset from # Number of classes to consider
 
     rtype="numpy2D"
     X_train, y_train = load_UCR_UEA_dataset(name=ds, extract_path='data', split="train", return_type=rtype)
@@ -625,13 +629,9 @@ if __name__ == "__main__":
     print(X_test_lds.shape)
     print(y_train_lds.shape)
     print(y_test_lds.shape)
-    print(X_train_lds[0]) 
+    
+
    
-    
-    
-
-    
-
    
     start = time.time()
     random_state = None
@@ -640,18 +640,68 @@ if __name__ == "__main__":
     end = time.time()
     print('rsast score :', rsast_ridge.score(X_test, y_test))
     print('duration:', end-start)
-    print('params:', rsast_ridge.get_params())    
+    print('params:', rsast_ridge.get_params()) 
+    #for i, shp in enumerate(rsast_ridge.kernel_orig_):
+    #    print('rsast shp:',str(i)," ", shp.shape," shapelet:", shp)
+    #for i, coef in enumerate(rsast_ridge.classifier.coef_[0]):
+        #print('rsast coef:',str(i)," shape:", coef.shape," coef:", coef )
+    print('classifier:',rsast_ridge.classifier.coef_[0])
+    for c, ts in rsast_ridge.kernels_generators_.items():
+        #fname = f'images/chinatown-rf-class{c}-top5-features-on-ref-ts.jpg'
+        
+        plot_most_important_feature_on_ts(ts=ts[-1].squeeze(), label=c, features=rsast_ridge.kernel_orig_, scores=rsast_ridge.classifier.coef_[0], limit=5, offset=0,znormalized=False)   
     
+    plot_most_important_features(rsast_ridge.kernel_orig_, rsast_ridge.classifier.coef_[0], limit=5,scale_color=False)
+    #plot_most_important_feature_on_ts(ts, label, features, scores, offset=0, limit = 5, fname=None)
+
     X_train = X_train[:, np.newaxis, :]
     X_test = X_test[:, np.newaxis, :]
     y_train=np.asarray([int(x_s) for x_s in y_train])
     y_test=np.asarray([int(x_s) for x_s in y_test])
     start = time.time()
-    rdst = R_DST_Ridge(n_shapelets=10_000)
+    #rdst = R_DST_Ridge(n_shapelets=10_000)
+    #rdst.fit(X_train, y_train)
+    rdst = RDSTClassifier(
+        max_shapelets=4,
+        shapelet_lengths=[7],
+        proba_normalization=0,
+        save_transformed_data=True
+    )
+    rdst = RDSTClassifier(proba_normalization=0)
     rdst.fit(X_train, y_train)
     end = time.time()
-
+    
+    #print(X_train[0]) 
+    #print(y_train) 
+    
     print('rdst score :', rdst.score(X_test, y_test))
     print('duration:', end-start)
-    print('params:', rdst.get_params())    
+    print('params:', rdst.get_params())
+    
+    for i, shp in enumerate(rdst._transformer.shapelets_[0].squeeze()):
+        print('rdst shapelet values:',str(i+1)," shape:", shp.shape," shapelet:", shp )
+    
+    for i, dilation in enumerate(rdst._transformer.shapelets_[2].squeeze()):
+        print('rdst dilation parameter:',str(i+1)," shape:", shp.shape," dilation:", dilation )
+    
+    for i, treshold in enumerate(rdst._transformer.shapelets_[3].squeeze()):
+        print('rdst treshold parameter:',str(i+1)," shape:", shp.shape," treshold:", treshold )
+   
+    for i, normalization in enumerate(rdst._transformer.shapelets_[4].squeeze()):
+        print('rdst normalization parameter:',str(i+1)," shape:", shp.shape," normalization:", normalization )
+    
+    for i, coef in enumerate(rdst._estimator["ridgeclassifiercv"].coef_):
+        print('rdst coef:',str(i+1)," shape:", coef.shape," coef:", coef )
 
+    loc_shp=range(0,len(rdst._transformer.shapelets_[0].squeeze())*3,3)
+
+    coef_cl=[rdst._estimator["ridgeclassifiercv"].coef_[0][i] for i in loc_shp]
+    print("loc_shp: ",coef_cl)
+
+    for c, ts in rsast_ridge.kernels_generators_.items():
+        fname = f'images/chinatown-rf-class{c}-top5-features-on-ref-ts.jpg'
+        plot_most_important_feature_on_ts(ts=ts[0].squeeze(), label=c, features=rdst._transformer.shapelets_[0].squeeze(), scores=coef_cl,dilations=rdst._transformer.shapelets_[2].squeeze(), limit=5, offset=0,znormalized=False)   
+    plot_most_important_features(rdst._transformer.shapelets_[0].squeeze(),coef_cl,dilations=rdst._transformer.shapelets_[2].squeeze(), limit=5, scale_color=False)
+    
+    
+    

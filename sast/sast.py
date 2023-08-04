@@ -696,6 +696,7 @@ if __name__ == "__main__":
     loc_shp=range(0,len(rdst._transformer.shapelets_[0].squeeze())*3,3)
 
     coef_cl=[rdst._estimator["ridgeclassifiercv"].coef_[0][i] for i in loc_shp]
+    
     print("loc_shp: ",coef_cl)
 
     for c, ts in rsast_ridge.kernels_generators_.items():

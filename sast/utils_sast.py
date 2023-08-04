@@ -59,19 +59,21 @@ def plot_most_important_features(kernels, scores, dilations=[], limit = 4, scale
         kernel, score, dilation = sf
         kernel = kernel[~np.isnan(kernel)]
         kernel_d=[]
-        for i, value in enumerate(kernel):
+        for value in kernel:
             for j in range(dilation):
                 if j==0:
                     kernel_d.append(value)        
                 else:
                     kernel_d.append(None)
         kernel_d=np.array(kernel_d)
+        dmask = np.isfinite(kernel_d.astype(np.double))
+        shp_range=np.arange(kernel_d.size)
         if scale_color:
-            plt.scatter(range(kernel_d.size), kernel_d, linewidth=1.5)
-            plt.plot(range(kernel_d.size), kernel_d, linewidth=50*score, label="feature"+str(l+1)+": "+"d="+str(dilation)+" alpha:"+str(f'{score:.5}'))
+            #plt.scatter(range(kernel_d.size), kernel_d, linewidth=1.5)
+            plt.plot(shp_range[dmask], kernel_d[dmask], linewidth=50*score, label="feature"+str(l+1)+": "+"d="+str(dilation)+" coef="+str(f'{score:.5}'), linestyle='-', marker='o')
         else:
-            plt.scatter(range(kernel_d.size), kernel_d, linewidth=1.5)
-            plt.plot(range(kernel_d.size), kernel_d, label="feature"+str(l+1)+": "+"d="+str(dilation)+" alpha:"+str(f'{score:.5}'))
+            #plt.scatter(range(kernel_d.size), kernel_d, linewidth=1.5)
+            plt.plot(shp_range[dmask], kernel_d[dmask], label="feature"+str(l+1)+": "+"d="+str(dilation)+" coef="+str(f'{score:.5}'), linestyle='-', marker='o')
     plt.legend()
     plt.show()
     
@@ -94,13 +96,14 @@ def plot_most_important_feature_on_ts(ts, label, features, scores, dilations=[],
         if znormalized:
             kernel, score, dilation = sorted_features[f+offset]
             kernel_d=[]
-            for i, value in enumerate(kernel):
+            for value in kernel:
                 for j in range(dilation):
                     if j==0:
                         kernel_d.append(value)        
                     else:
                         kernel_d.append(None)
             kernel_d=np.array(kernel_d)
+            
             kernel_normalized = znormalize_array(kernel_d)
             d_best = np.inf
             for i in range(ts.size - kernel_d.size):
@@ -114,7 +117,9 @@ def plot_most_important_feature_on_ts(ts, label, features, scores, dilations=[],
                 if d < d_best:
                     d_best = d
                     start_pos = i
-            axes[f].scatter(range(start_pos, start_pos + kernel_d.size), kernel_d, linewidth=1.5,color="darkred")
+            dmask = np.isfinite(kernel_d.astype(np.double))
+            shp_range=np.arange(start_pos, start_pos + kernel_d.size)
+            axes[f].plot(shp_range[dmask], kernel_d[dmask], linewidth=4,color="darkred", linestyle='-', marker='o')
             axes[f].plot(range(ts.size), ts, linewidth=2,color='darkorange')
             axes[f].set_title(f'feature: {f+1+offset}')
             print('gph shapelet values:',str(f+1),' start_pos:',start_pos,' shape:', kernel_d.size,' dilation:', str(dilation))
@@ -144,7 +149,10 @@ def plot_most_important_feature_on_ts(ts, label, features, scores, dilations=[],
                 if d < d_best:
                     d_best = d
                     start_pos = i
-            axes[f].scatter(range(start_pos, start_pos + kernel_d.size), kernel_d, linewidth=1.5,color="darkred")
+            
+            dmask = np.isfinite(kernel_d.astype(np.double))
+            shp_range=np.arange(start_pos, start_pos + kernel_d.size)
+            axes[f].plot(shp_range[dmask], kernel_d[dmask], linewidth=4,color="darkred", linestyle='-', marker='o')
             axes[f].plot(range(ts.size), ts, linewidth=2,color="darkorange")
             axes[f].set_title(f'feature: {f+1+offset}')
             print('gph shapelet values:',str(f+1),' start_pos:',start_pos,' shape:', kernel_d.size,' dilation:', str(dilation))

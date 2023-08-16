@@ -54,7 +54,8 @@ def plot_most_important_features(kernels, scores, dilations=[], limit = 4, scale
     if len(dilations)==0:
         dilations=[1]*len(kernels)
     features = zip(kernels, scores, dilations)
-    sorted_features = sorted(features, key=itemgetter(1), reverse=True)
+    sorted_features = sorted(features, key=lambda sublist: abs(sublist[1]), reverse=True)
+    #sorted_features =sorted(features, key=itemgetter(1), reverse=True)
     for l, sf in enumerate(sorted_features[:limit]):
         kernel, score, dilation = sf
         kernel = kernel[~np.isnan(kernel)]
@@ -77,24 +78,47 @@ def plot_most_important_features(kernels, scores, dilations=[], limit = 4, scale
     plt.legend()
     plt.show()
     
-def plot_most_important_feature_on_ts(ts, label, features, scores, dilations=[], offset=0, limit = 5, fname=None, znormalized=True):
+def plot_most_important_feature_on_ts(  features, scores,set_ts,labels, dilations=[],type_features=[], offset=0, limit = 5, fname=None, znormalized=False):
     '''Plot the most important features on ts'''
     print('Plot the most important features on ts')
     if len(dilations)==0:
         dilations=[1]*len(features)
-    features = zip(features, scores, dilations)
-    sorted_features = sorted(features, key=itemgetter(1), reverse=True)
     
-    max_ = min(limit, len(sorted_features) - offset)
+    if len(type_features)==0:
+        type_features=["min"]*len(features)
 
+    
+    features = zip(features, scores, dilations,type_features, set_ts, labels)
+    
+    
+    sorted_features = sorted(features, key=lambda sublist: abs(sublist[1]), reverse=True)
+    max_ = min(limit, len(sorted_features) - offset)    
+    #sorted_features = sorted(features, key=itemgetter(1), reverse=True)
+    
+    
+    
+    
+    
     if max_ <= 0:
         print('Nothing to plot')
-        return
-    fig, axes = plt.subplots(1, max_, sharey=True, figsize=(3*max_, 3), tight_layout=True)
+        return        
     
-    for f in range(max_):
-        if znormalized:
-            kernel, score, dilation = sorted_features[f+offset]
+    
+    for s, l in enumerate(np.unique(labels)):
+        fig, axes = plt.subplots(1, max_, sharey=True, figsize=(3*max_, 3), tight_layout=True, clear=True)
+        
+        print(f"s+1 {s+1} max_ {max_} label {l}")            
+        for f in range(max_):
+            
+            kernel, score, dilation, type_f, ts, label = sorted_features[f+offset]
+            print(f"ts {ts} kernel {kernel}") 
+            if label!=l:
+                *_, ts, _=list(filter(lambda x: x[5] == l,sorted_features))[0]
+                print(f"label {label} l {l}") 
+                print(f"diff ts {ts} kernel {kernel}") 
+                
+                
+
             kernel_d=[]
             for value in kernel:
                 for j in range(dilation):
@@ -104,12 +128,20 @@ def plot_most_important_feature_on_ts(ts, label, features, scores, dilations=[],
                         kernel_d.append(None)
             kernel_d=np.array(kernel_d)
             
-            kernel_normalized = znormalize_array(kernel_d)
+            if znormalized:
+                kernel_d = znormalize_array(kernel_d)
+                ts = znormalize_array(ts)            
+            
             d_best = np.inf
-            for i in range(ts.size - kernel_d.size):
-                ts[i:i+kernel_d.size] = znormalize_array(ts[i:i+kernel_d.size])
+
+            
+            for i in range(ts.size - kernel_d.size + 1):
+
                 d=0
                 for k, value in enumerate(kernel_d):
+                   
+
+                    
                     if kernel_d[k] is not None:
                         d = d+(ts[i:i+kernel_d.size][k] - kernel_d[k])**2
                     else:
@@ -121,49 +153,16 @@ def plot_most_important_feature_on_ts(ts, label, features, scores, dilations=[],
             shp_range=np.arange(start_pos, start_pos + kernel_d.size)
             axes[f].plot(shp_range[dmask], kernel_d[dmask], linewidth=4,color="darkred", linestyle='-', marker='o')
             axes[f].plot(range(ts.size), ts, linewidth=2,color='darkorange')
-            axes[f].set_title(f'feature: {f+1+offset}')
-            print('gph shapelet values:',str(f+1),' start_pos:',start_pos,' shape:', kernel_d.size,' dilation:', str(dilation))
-            print(" shapelet:", kernel_d )
-            
-        else:
-            kernel, score, dilation = sorted_features[f+offset]
-            kernel_d=[]
-            for i, value in enumerate(kernel):
-                for j in range(dilation):
-                    if j==0:
-                        kernel_d.append(value)        
-                    else:
-                        kernel_d.append(None)
-            kernel_d=np.array(kernel_d)
+            axes[f].set_title(f'feature: {f+1+offset}, type: {type_f}')
+            #print('gph shapelet values:',str(f+1),' start_pos:',start_pos,' shape:', kernel_d.size,' dilation:', str(dilation))
+            #print(" shapelet:", kernel_d )
 
-            d_best = np.inf
-            for i in range(ts.size - kernel_d.size):
-                d=0
-                for k, value in enumerate(kernel_d):
-                    
-                    if kernel_d[k] is not None:
-                        d = d+(ts[i:i+kernel_d.size][k] - kernel_d[k])**2
-                    else:
-                        break
+        fig.suptitle(f'Ground truth class: {l}', fontsize=15)
 
-                if d < d_best:
-                    d_best = d
-                    start_pos = i
-            
-            dmask = np.isfinite(kernel_d.astype(np.double))
-            shp_range=np.arange(start_pos, start_pos + kernel_d.size)
-            axes[f].plot(shp_range[dmask], kernel_d[dmask], linewidth=4,color="darkred", linestyle='-', marker='o')
-            axes[f].plot(range(ts.size), ts, linewidth=2,color="darkorange")
-            axes[f].set_title(f'feature: {f+1+offset}')
-            print('gph shapelet values:',str(f+1),' start_pos:',start_pos,' shape:', kernel_d.size,' dilation:', str(dilation))
-            print(" shapelet:", kernel_d )
-            
-    
-    fig.suptitle(f'Ground truth class: {label}', fontsize=15)
-    plt.show();
+        plt.show();
 
-    if fname is not None:
-        fig.savefig(fname)
+        if fname is not None:
+            fig.savefig(fname)
 
 
 def plot_kernel_generators(sastClf):

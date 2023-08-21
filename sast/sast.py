@@ -587,7 +587,7 @@ if __name__ == "__main__":
 
     
 
-    ds='GunPoint' # Chosing a dataset from # Number of classes to consider
+    ds='Coffee' # Chosing a dataset from # Number of classes to consider
 
     rtype="numpy2D"
     X_train, y_train = load_UCR_UEA_dataset(name=ds, extract_path='data', split="train", return_type=rtype)
@@ -644,7 +644,7 @@ if __name__ == "__main__":
    
     start = time.time()
     random_state = None
-    rsast_ridge = RSAST(n_random_points=10,nb_inst_per_class=10, len_method="both",n_shapelet_samples=10000)
+    rsast_ridge = RSAST(n_random_points=10, nb_inst_per_class=10, len_method="both")
     rsast_ridge.fit(X_train, y_train)
     end = time.time()
     print('rsast score :', rsast_ridge.score(X_test, y_test))
@@ -654,8 +654,8 @@ if __name__ == "__main__":
     #print('classifier:',rsast_ridge.classifier.coef_[0])
     
     #fname = f'images/chinatown-rf-class{c}-top5-features-on-ref-ts.jpg'
-    print(f"ts.shape{pd.array(rsast_ridge.kernels_generators_).shape}")
-    print(f"kernel_d.shape{pd.array(rsast_ridge.kernel_orig_).shape}")
+    #print(f"ts.shape{pd.array(rsast_ridge.kernels_generators_).shape}")
+    #print(f"kernel_d.shape{pd.array(rsast_ridge.kernel_orig_).shape}")
     plot_most_important_feature_on_ts(set_ts=rsast_ridge.kernels_generators_, labels=rsast_ridge.class_generators_, features=rsast_ridge.kernel_orig_, scores=rsast_ridge.classifier.coef_[0], limit=5, offset=0,znormalized=False)   
     
     plot_most_important_features(rsast_ridge.kernel_orig_, rsast_ridge.classifier.coef_[0], limit=5,scale_color=False)
@@ -681,7 +681,7 @@ if __name__ == "__main__":
     print('rdst score :', rdst.score(X_test, y_test))
     print('duration:', end-start)
     print('params:', rdst.get_params())
-    
+    """
     for i, shp in enumerate(rdst._transformer.shapelets_[0].squeeze()):
         print('rdst shapelet values:',str(i+1)," shape:", shp.shape," shapelet:", shp )
     
@@ -696,7 +696,7 @@ if __name__ == "__main__":
     
     for i, coef in enumerate(rdst._estimator["ridgeclassifiercv"].coef_):
         print('rdst coef:',str(i+1)," shape:", coef.shape," coef:", coef )
-    
+    """
     
     features_cl=rdst._transformer.shapelets_[0].squeeze()
     dilations_cl=rdst._transformer.shapelets_[2].squeeze()
@@ -704,7 +704,7 @@ if __name__ == "__main__":
     coef_cl=rdst._estimator["ridgeclassifiercv"].coef_[0]
     features_cl=[a for a in features_cl for i in range(3)]
     dilations_cl=[a for a in dilations_cl for i in range(3)]
-    type_features_cl=["min","argmin","#match"]*len(features_cl)
+    type_features_cl=["min","argmin","SO"]*len(features_cl)
 
     for l in pd.unique(rsast_ridge.class_generators_):
         
@@ -714,11 +714,12 @@ if __name__ == "__main__":
         ts_cl=[ts_cl for i in range(len(features_cl))]
         labels=[l for i in range(len(features_cl))]
         plot_most_important_feature_on_ts(set_ts=ts_cl, labels=labels, features=features_cl, scores=coef_cl,dilations=dilations_cl,type_features=type_features_cl, limit=5, offset=0,znormalized=False)   
-    plot_most_important_features(features_cl,coef_cl,dilations=dilations_cl, limit=5, scale_color=False)
+    plot_most_important_features(features_cl, coef_cl, dilations=dilations_cl, limit=5, scale_color=False)
     
+    """
     for i, shp in enumerate(features_cl):
         print('rdst shapelet values:',str(i+1)," shape:", shp.shape," shapelet:", shp )
     for i, coef in enumerate(coef_cl):
         print('rdst coef:',str(i+1)," shape:", coef.shape," coef:", coef )
-    
+    """
 

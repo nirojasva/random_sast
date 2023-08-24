@@ -164,7 +164,6 @@ def plot_most_important_feature_on_ts(  features, scores,set_ts,labels, dilation
         if fname is not None:
             fig.savefig(fname)
 
-
 def plot_kernel_generators(sastClf):
     ''' This herper function is used to plot the reference time series used by a SAST'''
     for c, ts in sastClf.kernels_generators_.items():
@@ -174,3 +173,14 @@ def plot_kernel_generators(sastClf):
         for t in ts:
             plt.plot(t)
         plt.show()
+
+def delete_files_in_directory(directory_path):
+   try:
+     files = os.listdir(directory_path)
+     for file in files:
+       file_path = os.path.join(directory_path, file)
+       if os.path.isfile(file_path):
+         os.remove(file_path)
+     print("All files deleted successfully.")
+   except OSError:
+     print("Error occurred while deleting files.")

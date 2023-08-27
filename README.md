@@ -102,6 +102,14 @@ import numpy as np
 from sast.utils_sast import *
 from sast.sast import *
 from sklearn.linear_model import RidgeClassifierCV
+from sktime.datasets import load_UCR_UEA_dataset
+
+ds='Chinatown' # Chosing a dataset from # Number of classes to consider
+rtype="numpy2D"
+
+X_train, y_train = load_UCR_UEA_dataset(name=ds, extract_path='data', split="train", return_type=rtype)
+
+X_test, y_test = load_UCR_UEA_dataset(name=ds, extract_path='data', split="test", return_type=rtype)
 
 clf = RidgeClassifierCV(alphas=np.logspace(-3, 3, 10))
 rsast_ridge = RSAST(n_random_points=10, nb_inst_per_class=10, len_method="both")

@@ -9,11 +9,11 @@ import numpy as np
 
 from sklearn.base import BaseEstimator, ClassifierMixin, clone
 from sklearn.utils.validation import check_array, check_X_y, check_is_fitted
-from sklearn.utils.multiclass import unique_labels
+
 from sklearn.ensemble import RandomForestClassifier, VotingClassifier
 
 from sklearn.linear_model import RidgeClassifierCV, LogisticRegressionCV, LogisticRegression, RidgeClassifier
-from sklearn.svm import SVC
+
 
 from sklearn.linear_model._base import LinearClassifierMixin
 from sklearn.pipeline import Pipeline
@@ -28,12 +28,20 @@ from mass_ts import *
 import pandas as pd
 
 from scipy.stats import f_oneway
-from statsmodels.tsa.stattools import acf,pacf
+from statsmodels.tsa.stattools import acf, pacf
 
 import time
 
 import os
 from operator import itemgetter
+
+
+
+from utils_sast import znormalize_array, load_dataset, format_dataset, plot_most_important_features, plot_most_important_feature_on_ts
+from aeon.classification.shapelet_based import RDSTClassifier
+from sktime.datasets import load_UCR_UEA_dataset
+
+
 
 def from_2d_array_to_nested(
     X, index=None, columns=None, time_index=None, cells_as_numpy=False
@@ -83,16 +91,6 @@ def from_2d_array_to_nested(
         Xt.columns = columns
     return Xt
 
-
-@njit(fastmath=True)
-def znormalize_array(arr):
-    m = np.mean(arr)
-    s = np.std(arr)
-
-    # s[s == 0] = 1 # avoid division by zero if any
-
-    return (arr - m) / (s + 1e-8)
-    # return arr
 
 
 @njit(fastmath=False)
@@ -305,7 +303,7 @@ class RocketClassifier:
 
 class RSAST(BaseEstimator, ClassifierMixin):
 
-    def __init__(self,n_random_points=10, nb_inst_per_class=1, len_method="both", random_state=None, classifier=None, sel_inst_wrepl=False,sel_randp_wrepl=False, half_instance=False, half_len=False,n_shapelet_samples=None ):
+    def __init__(self,n_random_points=10, nb_inst_per_class=10, len_method="both", random_state=None, classifier=None, sel_inst_wrepl=False,sel_randp_wrepl=False, half_instance=False, half_len=False,n_shapelet_samples=None ):
         super(RSAST, self).__init__()
         self.n_random_points = n_random_points
         self.nb_inst_per_class = nb_inst_per_class
@@ -574,29 +572,17 @@ class RSAST(BaseEstimator, ClassifierMixin):
 
 
 if __name__ == "__main__":
-    from sktime.datasets import load_UCR_UEA_dataset
-    from utils_sast import load_dataset, format_dataset, plot_most_important_features, plot_most_important_feature_on_ts
-    from aeon.classification.shapelet_based import RDSTClassifier, MrSQMClassifier
-    from aeon.transformations.collection.dilated_shapelet_transform import (
-    RandomDilatedShapeletTransform
-    )
 
-    import time
-    
-
-
-    
-
-    ds='Coffee' # Chosing a dataset from # Number of classes to consider
+    ds='Chinatown' # Chosing a dataset from # Number of classes to consider
 
     rtype="numpy2D"
-    X_train, y_train = load_UCR_UEA_dataset(name=ds, extract_path='data', split="train", return_type=rtype)
+    X_train, y_train = load_UCR_UEA_dataset(name=ds, split="train",extract_path="data", return_type=rtype)
     
     
     #X_train=np.nan_to_num(X_train)
     #y_train=np.nan_to_num(y_train)
     
-    X_test, y_test=load_UCR_UEA_dataset(name=ds, extract_path='data', split="test", return_type=rtype)
+    X_test, y_test = load_UCR_UEA_dataset(name=ds, split="test", extract_path="data", return_type=rtype)
     
     #X_test=np.nan_to_num(X_test)
     #y_test=np.nan_to_num(y_test)
@@ -625,7 +611,7 @@ if __name__ == "__main__":
     
     X_train_mod=np.nan_to_num(X_train_mod)
     """
-    path=r"C:\Users\Nicolas R\random_sast\sast\data"
+    path=r"C:\Users\Nicolas R\data"
     ds_train_lds , ds_test_lds = load_dataset(ds_folder=path,ds_name=ds,shuffle=True)
     X_test_lds, y_test_lds = format_dataset(ds_test_lds)
     X_train_lds, y_train_lds = format_dataset(ds_train_lds)

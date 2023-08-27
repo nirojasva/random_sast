@@ -4,8 +4,20 @@ import pandas as pd
 from operator import itemgetter
 import matplotlib.pyplot as plt
 from scipy.io.arff import loadarff
-from sast import znormalize_array 
+
 from sklearn.model_selection import train_test_split
+from numba import njit, prange
+
+@njit(fastmath=True)
+def znormalize_array(arr):
+    m = np.mean(arr)
+    s = np.std(arr)
+
+    # s[s == 0] = 1 # avoid division by zero if any
+
+    return (arr - m) / (s + 1e-8)
+    # return arr
+
 
 
 def load_arff_2_dataframe(fname):

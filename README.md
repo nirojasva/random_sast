@@ -4,9 +4,11 @@ RSAST is a shapelet-based time series classification method based on SAST. But, 
 
 
 
-### Results
+### Results RSAST
 
-- [All models results](./ExperimentationRSAST/results_default_split.csv)
+- [Results Default Split](./ExperimentationRSAST/results_default_split.csv)
+
+- [Results 10 Resamplings](./ExperimentationRSAST/results_default_split.csv)
 
 - [Execution time regarding the number of series](./ExperimentationRSAST/results_comparison_accuracy/df_overall_comparison_scalability_number_of_seriesLR.csv)
 
@@ -14,13 +16,12 @@ RSAST is a shapelet-based time series classification method based on SAST. But, 
 
 
 
-### SAST vs SASTEN
+### RSAST, SAST and STC
 
 #### Pairwise accuracy comparison
 
-| ![](images/scatter-sast-ridge-A-vs-sast-ridge.jpg) | ![](images/scatter-sasten-ridge-A-vs-sast-ridge.jpg) |
+| ![](./ExperimentationRSAST/images_one_vs_one_comparison/RSASTvsSAST.png) | ![](./ExperimentationRSAST/images_one_vs_one_comparison/RSASTvsSTC.png) |
 | -------------------------------------------------- | ---------------------------------------------------- |
-| ![](images/scatter-sast-rf-vs-ridge.jpg)           | ![](images/scatter-sasten-vs-sast-ridge.jpg)         |
 
 #### Critical difference diagram
 

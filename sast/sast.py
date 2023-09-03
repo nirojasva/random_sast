@@ -37,59 +37,11 @@ from operator import itemgetter
 
 
 
-from utils_sast import znormalize_array, load_dataset, format_dataset, plot_most_important_features, plot_most_important_feature_on_ts
+from sast.utils_sast import from_2d_array_to_nested, znormalize_array, load_dataset, format_dataset, plot_most_important_features, plot_most_important_feature_on_ts
 from aeon.classification.shapelet_based import RDSTClassifier
-from sktime.datasets import load_UCR_UEA_dataset
+#from sktime.datasets import load_UCR_UEA_dataset
 
 
-
-def from_2d_array_to_nested(
-    X, index=None, columns=None, time_index=None, cells_as_numpy=False
-):
-    """Convert 2D dataframe to nested dataframe.
-    Convert tabular pandas DataFrame with only primitives in cells into
-    nested pandas DataFrame with a single column.
-    Parameters
-    ----------
-    X : pd.DataFrame
-    cells_as_numpy : bool, default = False
-        If True, then nested cells contain NumPy array
-        If False, then nested cells contain pandas Series
-    index : array-like, shape=[n_samples], optional (default = None)
-        Sample (row) index of transformed DataFrame
-    time_index : array-like, shape=[n_obs], optional (default = None)
-        Time series index of transformed DataFrame
-    Returns
-    -------
-    Xt : pd.DataFrame
-        Transformed DataFrame in nested format
-    """
-    if (time_index is not None) and cells_as_numpy:
-        raise ValueError(
-            "`Time_index` cannot be specified when `return_arrays` is True, "
-            "time index can only be set to "
-            "pandas Series"
-        )
-    if isinstance(X, pd.DataFrame):
-        X = X.to_numpy()
-
-    container = np.array if cells_as_numpy else pd.Series
-
-    # for 2d numpy array, rows represent instances, columns represent time points
-    n_instances, n_timepoints = X.shape
-
-    if time_index is None:
-        time_index = np.arange(n_timepoints)
-    kwargs = {"index": time_index}
-
-    Xt = pd.DataFrame(
-        pd.Series([container(X[i, :], **kwargs) for i in range(n_instances)])
-    )
-    if index is not None:
-        Xt.index = index
-    if columns is not None:
-        Xt.columns = columns
-    return Xt
 
 
 
@@ -576,21 +528,21 @@ if __name__ == "__main__":
     ds='Chinatown' # Chosing a dataset from # Number of classes to consider
 
     rtype="numpy2D"
-    X_train, y_train = load_UCR_UEA_dataset(name=ds, split="train",extract_path="data", return_type=rtype)
+    #X_train, y_train = load_UCR_UEA_dataset(name=ds, split="train",extract_path="data", return_type=rtype)
     
     
     #X_train=np.nan_to_num(X_train)
     #y_train=np.nan_to_num(y_train)
     
-    X_test, y_test = load_UCR_UEA_dataset(name=ds, split="test", extract_path="data", return_type=rtype)
+    #X_test, y_test = load_UCR_UEA_dataset(name=ds, split="test", extract_path="data", return_type=rtype)
     
     #X_test=np.nan_to_num(X_test)
     #y_test=np.nan_to_num(y_test)
     print('Format: load_UCR_UEA_dataset')
-    print(X_train.shape)
-    print(X_test.shape)
-    print(y_train.shape)
-    print(y_test.shape)
+    #print(X_train.shape)
+    #print(X_test.shape)
+    #print(y_train.shape)
+    #print(y_test.shape)
 
 
     #y_train = list(map(int, y_train))
@@ -611,7 +563,8 @@ if __name__ == "__main__":
     
     X_train_mod=np.nan_to_num(X_train_mod)
     """
-    path=r"C:\Users\Nicolas R\data"
+    
+    path=r"C:\Users\Nicolas R\random_sast\sast\data"
     ds_train_lds , ds_test_lds = load_dataset(ds_folder=path,ds_name=ds,shuffle=True)
     X_test_lds, y_test_lds = format_dataset(ds_test_lds)
     X_train_lds, y_train_lds = format_dataset(ds_train_lds)
@@ -631,9 +584,9 @@ if __name__ == "__main__":
     start = time.time()
     random_state = None
     rsast_ridge = RSAST(n_random_points=10, nb_inst_per_class=10, len_method="both")
-    rsast_ridge.fit(X_train, y_train)
+    rsast_ridge.fit(X_train_lds, y_train_lds)
     end = time.time()
-    print('rsast score :', rsast_ridge.score(X_test, y_test))
+    print('rsast score :', rsast_ridge.score(X_test_lds, y_test_lds))
     print('duration:', end-start)
     print('params:', rsast_ridge.get_params()) 
 
@@ -646,10 +599,10 @@ if __name__ == "__main__":
     
     plot_most_important_features(rsast_ridge.kernel_orig_, rsast_ridge.classifier.coef_[0], limit=5,scale_color=False)
 
-    X_train = X_train[:, np.newaxis, :]
-    X_test = X_test[:, np.newaxis, :]
-    y_train=np.asarray([int(x_s) for x_s in y_train])
-    y_test=np.asarray([int(x_s) for x_s in y_test])
+    X_train = X_train_lds[:, np.newaxis, :]
+    X_test = X_test_lds[:, np.newaxis, :]
+    y_train=np.asarray([int(x_s) for x_s in y_train_lds])
+    y_test=np.asarray([int(x_s) for x_s in y_test_lds])
     start = time.time()
 
     rdst = RDSTClassifier(

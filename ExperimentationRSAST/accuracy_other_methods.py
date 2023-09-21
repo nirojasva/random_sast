@@ -1,66 +1,32 @@
-# %% [markdown]
-# ## Experimentation Accuracy RSAST per Dataset:
-# 
+# Import the os module
+import os
 
-# %%
-#configure directory to import sast libraries
-import sys 
-import os 
-#add sast library path
-file_path = os.path.dirname(os.getcwd())+"/sast"
+path = 'c:\\Users\\Nicolas R\\random_sast'
 
-#file_path = r"C:\Users\Public\random_sast\sast"
-sys.path.append(file_path)
-
-file_path = os.path.dirname(os.getcwd())+"\sast"
-
-
-#file_path = r"C:\Users\Public\random_sast\sast"
-sys.path.append(file_path)
-
-file_path = os.getcwd()+"/sast"
+try:
+    os.chdir(path)
+    print("Current working directory: {0}".format(os.getcwd()))
+except FileNotFoundError:
+    print("Directory: {0} does not exist".format(path))
+except NotADirectoryError:
+    print("{0} is not a directory".format(path))
+except PermissionError:
+    print("You do not have permissions to change to {0}".format(path))
 
 
-#file_path = r"C:\Users\Public\random_sast\sast"
-sys.path.append(file_path)
 
-file_path = os.getcwd()+"\sast"
-
-
-#file_path = r"C:\Users\Public\random_sast\sast"
-sys.path.append(file_path)
-
-#add cd_diagram library path
-file_path = os.path.dirname(os.getcwd())+"\cd_diagram"
-
-#file_path = r"C:\Users\Public\random_sast\cd_diagram"
-sys.path.append(file_path)
-
-
-file_path = os.path.dirname(os.getcwd())+"/cd_diagram"
-#file_path = r"C:\Users\Public\random_sast\sast"
-sys.path.append(file_path)
-
-file_path = os.getcwd()+"\cd_diagram"
-#file_path = r"C:\Users\Public\random_sast\sast"
-sys.path.append(file_path)
-
-file_path = os.getcwd()+"/cd_diagram"
-#file_path = r"C:\Users\Public\random_sast\sast"
-sys.path.append(file_path)
-
-sys.path
 #os.chdir(os.getcwd()+"/ExperimentationRSAST")
-os.getcwd()
+print(os.getcwd())
 
 
 # %%
-from sast import *
+
+from sast.sast import *
 from sktime.datasets import load_UCR_UEA_dataset, tsc_dataset_names
 from sktime.classification.kernel_based import RocketClassifier
 #from sktime.classification.shapelet_based import MrSQM
 from convst.classifiers import R_DST_Ridge
-from utils_sast import load_dataset, format_dataset
+from sast.utils_sast import load_dataset, format_dataset
 
 
 import time
@@ -75,7 +41,7 @@ import pandas as pd
 
 # %%
 
-ds_sens=pd.read_excel("DataSetsUCLASummary.xlsx")
+ds_sens=pd.read_excel("ExperimentationRSAST\DataSetsUCLASummary.xlsx")
 
 ds_sens=ds_sens[ds_sens['N RUNS S17_OTHER_R10'].isna()]
 #ds_sens=ds_sens[ds_sens['USED SAST']=="Y"]
@@ -248,4 +214,4 @@ for ds in ds_sens:
     df_result['classifier_name']=list_method
     df_result=pd.DataFrame(df_result)
     # export a overall dataset with the comparison
-    df_result.to_csv("results_other_methods/df_overall_comparison_results_shuffle_"+ds+".csv")
+    df_result.to_csv("ExperimentationRSAST/results_other_methods/df_overall_comparison_results_shuffle_"+ds+".csv")

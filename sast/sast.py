@@ -19,7 +19,7 @@ from sklearn.linear_model._base import LinearClassifierMixin
 from sklearn.pipeline import Pipeline
 
 #from sktime.utils.data_processing import from_2d_array_to_nested
-from sktime.transformations.panel.rocket import Rocket
+#from sktime.transformations.panel.rocket import Rocket
 
 from numba import njit, prange
 
@@ -36,7 +36,7 @@ import os
 from operator import itemgetter
 
 
-
+print(os.getcwd())
 from sast.utils_sast import from_2d_array_to_nested, znormalize_array, load_dataset, format_dataset, plot_most_important_features, plot_most_important_feature_on_ts
 from aeon.classification.shapelet_based import RDSTClassifier
 #from sktime.datasets import load_UCR_UEA_dataset
@@ -564,7 +564,7 @@ if __name__ == "__main__":
     X_train_mod=np.nan_to_num(X_train_mod)
     """
     
-    path=r"C:\Users\Nicolas R\random_sast\sast\data"
+    path=r"C:\Users\Surface pro\random_sast\sast\data"
     ds_train_lds , ds_test_lds = load_dataset(ds_folder=path,ds_name=ds,shuffle=True)
     X_test_lds, y_test_lds = format_dataset(ds_test_lds)
     X_train_lds, y_train_lds = format_dataset(ds_train_lds)

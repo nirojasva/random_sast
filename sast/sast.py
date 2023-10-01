@@ -37,7 +37,7 @@ from operator import itemgetter
 
 
 print(os.getcwd())
-from sast.utils_sast import from_2d_array_to_nested, znormalize_array, load_dataset, format_dataset, plot_most_important_features, plot_most_important_feature_on_ts
+from utils_sast import from_2d_array_to_nested, znormalize_array, load_dataset, format_dataset, plot_most_important_features, plot_most_important_feature_on_ts
 from aeon.classification.shapelet_based import RDSTClassifier
 #from sktime.datasets import load_UCR_UEA_dataset
 
@@ -525,7 +525,7 @@ class RSAST(BaseEstimator, ClassifierMixin):
 
 if __name__ == "__main__":
 
-    ds='Chinatown' # Chosing a dataset from # Number of classes to consider
+    ds='PigAirwayPressure' # Chosing a dataset from # Number of classes to consider
 
     rtype="numpy2D"
     #X_train, y_train = load_UCR_UEA_dataset(name=ds, split="train",extract_path="data", return_type=rtype)

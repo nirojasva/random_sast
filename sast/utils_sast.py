@@ -81,6 +81,7 @@ def load_dataset(ds_folder, ds_name, shuffle=False ):
     # load train and test set from arff
     train_ds = load_arff_2_dataframe(os.path.join(ds_path, f'{ds_name}_TRAIN.arff'))
     test_ds = load_arff_2_dataframe(os.path.join(ds_path, f'{ds_name}_TEST.arff'))
+    
     if shuffle:
         ntrain=train_ds.shape[0]
         ntest=test_ds.shape[0]

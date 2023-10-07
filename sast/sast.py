@@ -27,7 +27,7 @@ from mass_ts import *
 
 import pandas as pd
 
-from scipy.stats import f_oneway
+from scipy.stats import f_oneway, DegenerateDataWarning, ConstantInputWarning
 from statsmodels.tsa.stattools import acf, pacf
 
 import time
@@ -229,29 +229,6 @@ class SASTEnsemble(BaseEstimator, ClassifierMixin):
         return self.saste.predict_proba(X)
 
 
-class RocketClassifier:
-    def __init__(self, num_kernels=10000, normalise=True, random_state=None, clf=None, lr_clf=True):
-        rocket = Rocket(num_kernels=num_kernels,
-                        normalise=normalise, random_state=random_state)
-        clf = RidgeClassifierCV(
-            alphas=np.logspace(-3, 3, 10)) if clf is None else clf
-        self.model = Pipeline(steps=[('rocket', rocket), ('clf', clf)])
-        # False if the classifier has the method predict_proba, otherwise False
-        self.lr_clf = lr_clf
-
-    def fit(self, X, y):
-        self.model.fit(from_2d_array_to_nested(X), y)
-
-    def predict(self, X):
-        return self.model.predict(from_2d_array_to_nested(X))
-
-    def predict_proba(self, X):
-        X_df = from_2d_array_to_nested(X)
-        if not self.lr_clf:
-            return self.model.predict_proba(X_df)
-        X_transformed = self.model['rocket'].transform(X_df)
-        return self.model['clf']._predict_proba_lr(X_transformed)
-
 
 class RSAST(BaseEstimator, ClassifierMixin):
 
@@ -305,7 +282,7 @@ class RSAST(BaseEstimator, ClassifierMixin):
         list_kernels =[]
         
         
-        statistic_per_class= {}
+        
         n = []
         classes = np.unique(y)
         self.num_classes = classes.shape[0]
@@ -313,16 +290,29 @@ class RSAST(BaseEstimator, ClassifierMixin):
 
         #1--calculate ANOVA per each time t throught the lenght of the TS
         for i in range (X.shape[1]):
+            statistic_per_class= {}
             for c in classes:
                 assert len(X[np.where(y==c)[0]][:,i])> 0, 'Time t without values in TS'
+
                 statistic_per_class[c]=X[np.where(y==c)[0]][:,i]
-            
+                print("statistic_per_class- i:"+str(i)+', c:'+str(c))
+                print(statistic_per_class[c].shape)
+
+
+            #print('Without pd series')
+            #print(statistic_per_class)
+
             statistic_per_class=pd.Series(statistic_per_class)
+            #statistic_per_class = list(statistic_per_class.values())
             # Calculate t-statistic and p-value
-            t_statistic, p_value = f_oneway(*statistic_per_class)
-            
+
+            try:
+                t_statistic, p_value = f_oneway(*statistic_per_class)
+            except DegenerateDataWarning or ConstantInputWarning:
+                p_value=np.nan
             # Interpretation of the results
             # if p_value < 0.05: " The means of the populations are significantly different."
+            print('pvalue', str(p_value))
             if np.isnan(p_value):
                 n.append(0)
             else:
@@ -488,11 +478,16 @@ class RSAST(BaseEstimator, ClassifierMixin):
                 self.classifier=RidgeClassifierCV()
                 print("RidgeClassifierCV:"+str("size training")+str(X_transformed.shape[0])+"<="+" kernels"+str(X_transformed.shape[1]))
             else: 
-                print("LogisticRegressionCV:"+str("size training")+str(X_transformed.shape[0])+">"+" kernels"+str(X_transformed.shape[1]))
-                self.classifier=LogisticRegressionCV()
+                print("LogisticRegression:"+str("size training")+str(X_transformed.shape[0])+">"+" kernels"+str(X_transformed.shape[1]))
+                self.classifier=LogisticRegression()
                 #self.classifier = RandomForestClassifier(min_impurity_decrease=0.05, max_features=None)
 
         start = time.time()
+        print('X_transformed shape')
+        print(X_transformed.shape)
+        print('X_transformed')
+        print(X_transformed)
+
         self.classifier.fit(X_transformed, y)  # fit the classifier
         end = time.time()
         self.time_classifier = end-start
@@ -525,7 +520,7 @@ class RSAST(BaseEstimator, ClassifierMixin):
 
 if __name__ == "__main__":
 
-    ds='PigAirwayPressure' # Chosing a dataset from # Number of classes to consider
+    ds='Phoneme' # Chosing a dataset from # Number of classes to consider
 
     rtype="numpy2D"
     #X_train, y_train = load_UCR_UEA_dataset(name=ds, split="train",extract_path="data", return_type=rtype)
@@ -538,7 +533,7 @@ if __name__ == "__main__":
     
     #X_test=np.nan_to_num(X_test)
     #y_test=np.nan_to_num(y_test)
-    print('Format: load_UCR_UEA_dataset')
+    #print('Format: load_UCR_UEA_dataset')
     #print(X_train.shape)
     #print(X_test.shape)
     #print(y_train.shape)
@@ -565,16 +560,22 @@ if __name__ == "__main__":
     """
     
     path=r"C:\Users\Surface pro\random_sast\sast\data"
-    ds_train_lds , ds_test_lds = load_dataset(ds_folder=path,ds_name=ds,shuffle=True)
+    ds_train_lds , ds_test_lds = load_dataset(ds_folder=path,ds_name=ds,shuffle=False)
     X_test_lds, y_test_lds = format_dataset(ds_test_lds)
     X_train_lds, y_train_lds = format_dataset(ds_train_lds)
+    
     X_train_lds=np.nan_to_num(X_train_lds)
     y_train_lds=np.nan_to_num(y_train_lds)
     X_test_lds=np.nan_to_num(X_test_lds)
     y_test_lds=np.nan_to_num(y_test_lds)
+    
     print('Format: load_dataset')
     print(X_train_lds.shape)
+    print(X_train_lds[0].shape)
+    print(X_train_lds[1].shape)
     print(X_test_lds.shape)
+    
+
     print(y_train_lds.shape)
     print(y_test_lds.shape)
     
@@ -583,7 +584,7 @@ if __name__ == "__main__":
    
     start = time.time()
     random_state = None
-    rsast_ridge = RSAST(n_random_points=10, nb_inst_per_class=10, len_method="both")
+    rsast_ridge = RSAST(n_random_points=1, nb_inst_per_class=1, len_method="None")
     rsast_ridge.fit(X_train_lds, y_train_lds)
     end = time.time()
     print('rsast score :', rsast_ridge.score(X_test_lds, y_test_lds))
@@ -595,6 +596,7 @@ if __name__ == "__main__":
     #fname = f'images/chinatown-rf-class{c}-top5-features-on-ref-ts.jpg'
     #print(f"ts.shape{pd.array(rsast_ridge.kernels_generators_).shape}")
     #print(f"kernel_d.shape{pd.array(rsast_ridge.kernel_orig_).shape}")
+'''    
     plot_most_important_feature_on_ts(set_ts=rsast_ridge.kernels_generators_, labels=rsast_ridge.class_generators_, features=rsast_ridge.kernel_orig_, scores=rsast_ridge.classifier.coef_[0], limit=5, offset=0,znormalized=False)   
     
     plot_most_important_features(rsast_ridge.kernel_orig_, rsast_ridge.classifier.coef_[0], limit=5,scale_color=False)
@@ -661,4 +663,4 @@ if __name__ == "__main__":
     for i, coef in enumerate(coef_cl):
         print('rdst coef:',str(i+1)," shape:", coef.shape," coef:", coef )
     """
-
+'''

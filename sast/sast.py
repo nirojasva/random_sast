@@ -295,8 +295,8 @@ class RSAST(BaseEstimator, ClassifierMixin):
                 assert len(X[np.where(y==c)[0]][:,i])> 0, 'Time t without values in TS'
 
                 statistic_per_class[c]=X[np.where(y==c)[0]][:,i]
-                print("statistic_per_class- i:"+str(i)+', c:'+str(c))
-                print(statistic_per_class[c].shape)
+                #print("statistic_per_class- i:"+str(i)+', c:'+str(c))
+                #print(statistic_per_class[c].shape)
 
 
             #print('Without pd series')
@@ -312,7 +312,7 @@ class RSAST(BaseEstimator, ClassifierMixin):
                 p_value=np.nan
             # Interpretation of the results
             # if p_value < 0.05: " The means of the populations are significantly different."
-            print('pvalue', str(p_value))
+            #print('pvalue', str(p_value))
             if np.isnan(p_value):
                 n.append(0)
             else:
@@ -483,10 +483,10 @@ class RSAST(BaseEstimator, ClassifierMixin):
                 #self.classifier = RandomForestClassifier(min_impurity_decrease=0.05, max_features=None)
 
         start = time.time()
-        print('X_transformed shape')
-        print(X_transformed.shape)
-        print('X_transformed')
-        print(X_transformed)
+        #print('X_transformed shape')
+        #print(X_transformed.shape)
+        #print('X_transformed')
+        #print(X_transformed)
 
         self.classifier.fit(X_transformed, y)  # fit the classifier
         end = time.time()
@@ -520,7 +520,7 @@ class RSAST(BaseEstimator, ClassifierMixin):
 
 if __name__ == "__main__":
 
-    ds='Phoneme' # Chosing a dataset from # Number of classes to consider
+    ds='Coffee' # Chosing a dataset from # Number of classes to consider
 
     rtype="numpy2D"
     #X_train, y_train = load_UCR_UEA_dataset(name=ds, split="train",extract_path="data", return_type=rtype)
@@ -584,7 +584,7 @@ if __name__ == "__main__":
    
     start = time.time()
     random_state = None
-    rsast_ridge = RSAST(n_random_points=1, nb_inst_per_class=1, len_method="None")
+    rsast_ridge = RSAST(n_random_points=10, nb_inst_per_class=10, len_method="both")
     rsast_ridge.fit(X_train_lds, y_train_lds)
     end = time.time()
     print('rsast score :', rsast_ridge.score(X_test_lds, y_test_lds))
@@ -596,10 +596,10 @@ if __name__ == "__main__":
     #fname = f'images/chinatown-rf-class{c}-top5-features-on-ref-ts.jpg'
     #print(f"ts.shape{pd.array(rsast_ridge.kernels_generators_).shape}")
     #print(f"kernel_d.shape{pd.array(rsast_ridge.kernel_orig_).shape}")
-'''    
-    plot_most_important_feature_on_ts(set_ts=rsast_ridge.kernels_generators_, labels=rsast_ridge.class_generators_, features=rsast_ridge.kernel_orig_, scores=rsast_ridge.classifier.coef_[0], limit=5, offset=0,znormalized=False)   
+
+    plot_most_important_feature_on_ts(set_ts=rsast_ridge.kernels_generators_, labels=rsast_ridge.class_generators_, features=rsast_ridge.kernel_orig_, scores=rsast_ridge.classifier.coef_[0], limit=3, offset=0,znormalized=False)   
     
-    plot_most_important_features(rsast_ridge.kernel_orig_, rsast_ridge.classifier.coef_[0], limit=5,scale_color=False)
+    plot_most_important_features(rsast_ridge.kernel_orig_, rsast_ridge.classifier.coef_[0], limit=3,scale_color=False)
 
     X_train = X_train_lds[:, np.newaxis, :]
     X_test = X_test_lds[:, np.newaxis, :]
@@ -654,8 +654,8 @@ if __name__ == "__main__":
         ts_cl=list(filter(lambda x: x[1]==l,all))[0][0]
         ts_cl=[ts_cl for i in range(len(features_cl))]
         labels=[l for i in range(len(features_cl))]
-        plot_most_important_feature_on_ts(set_ts=ts_cl, labels=labels, features=features_cl, scores=coef_cl,dilations=dilations_cl,type_features=type_features_cl, limit=5, offset=0,znormalized=False)   
-    plot_most_important_features(features_cl, coef_cl, dilations=dilations_cl, limit=5, scale_color=False)
+        plot_most_important_feature_on_ts(set_ts=ts_cl, labels=labels, features=features_cl, scores=coef_cl,dilations=dilations_cl,type_features=type_features_cl, limit=3, offset=0,znormalized=False)   
+    plot_most_important_features(features_cl, coef_cl, dilations=dilations_cl, limit=3, scale_color=False)
     
     """
     for i, shp in enumerate(features_cl):
@@ -663,4 +663,4 @@ if __name__ == "__main__":
     for i, coef in enumerate(coef_cl):
         print('rdst coef:',str(i+1)," shape:", coef.shape," coef:", coef )
     """
-'''
+

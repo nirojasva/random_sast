@@ -520,7 +520,7 @@ class RSAST(BaseEstimator, ClassifierMixin):
 
 if __name__ == "__main__":
 
-    ds='Coffee' # Chosing a dataset from # Number of classes to consider
+    ds='Chinatown' # Chosing a dataset from # Number of classes to consider
 
     rtype="numpy2D"
     #X_train, y_train = load_UCR_UEA_dataset(name=ds, split="train",extract_path="data", return_type=rtype)

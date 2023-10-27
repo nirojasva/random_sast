@@ -523,6 +523,7 @@ if __name__ == "__main__":
     ds='Chinatown' # Chosing a dataset from # Number of classes to consider
 
     rtype="numpy2D"
+    
     #X_train, y_train = load_UCR_UEA_dataset(name=ds, split="train",extract_path="data", return_type=rtype)
     
     
@@ -657,10 +658,29 @@ if __name__ == "__main__":
         plot_most_important_feature_on_ts(set_ts=ts_cl, labels=labels, features=features_cl, scores=coef_cl,dilations=dilations_cl,type_features=type_features_cl, limit=3, offset=0,znormalized=False)   
     plot_most_important_features(features_cl, coef_cl, dilations=dilations_cl, limit=3, scale_color=False)
     
-    """
-    for i, shp in enumerate(features_cl):
-        print('rdst shapelet values:',str(i+1)," shape:", shp.shape," shapelet:", shp )
-    for i, coef in enumerate(coef_cl):
-        print('rdst coef:',str(i+1)," shape:", coef.shape," coef:", coef )
-    """
+    min_shp_length = 3
+    max_shp_length = X_train_lds.shape[1]
+    candidate_lengths = np.arange(min_shp_length, max_shp_length+1)
+    # candidate_lengths = (3, 7, 9, 11)
+    nb_inst_per_class = 1
+    ridge = RidgeClassifierCV(alphas = np.logspace(-3, 3, 10))
+    
+    start = time.time()
+    random_state = None 
+    sast_ridge = SAST(cand_length_list=candidate_lengths,
+                          nb_inst_per_class=nb_inst_per_class, 
+                          random_state=random_state, classifier=ridge)
+    sast_ridge.fit(X_train_lds, y_train_lds)
+    end = time.time()
+    print('sast score :', sast_ridge.score(X_test_lds, y_test_lds))
+    print('duration:', end-start)
+    print('params:', sast_ridge.get_params()) 
+    #print('classifier:',rsast_ridge.classifier.coef_[0])
+    
+    #fname = f'images/chinatown-rf-class{c}-top5-features-on-ref-ts.jpg'
+    #print(f"ts.shape{pd.array(rsast_ridge.kernels_generators_).shape}")
+    #print(f"kernel_d.shape{pd.array(rsast_ridge.kernel_orig_).shape}")
+    for l in pd.unique(rsast_ridge.class_generators_):
+        plot_most_important_feature_on_ts(set_ts=rsast_ridge.kernels_generators_[l], labels=rsast_ridge.class_generators_, features=rsast_ridge.kernel_orig_, scores=rsast_ridge.classifier.coef_[0], limit=3, offset=0,znormalized=False)   
+    plot_most_important_features(sast_ridge.kernel_orig_, sast_ridge.classifier.coef_[0], limit=3,scale_color=False)
 

@@ -155,9 +155,7 @@ def plot_most_important_feature_on_ts(  features, scores,set_ts,labels, dilation
     sorted_features = sorted(features, key=lambda sublist: abs(sublist[1]), reverse=True)
     max_ = min(limit, len(sorted_features) - offset)    
     #sorted_features = sorted(features, key=itemgetter(1), reverse=True)
-    
-    
-    
+      
     
     
     if max_ <= 0:
@@ -245,3 +243,43 @@ def delete_files_in_directory(directory_path):
      print("All files deleted successfully.")
    except OSError:
      print("Error occurred while deleting files.")
+
+def plot_most_important_feature_sast_on_ts(ts, label, features, scores, offset=0, limit = 5, fname=None):
+    '''Plot the most important features on ts'''
+    features = zip(features, scores)
+    sorted_features = sorted(features, key=itemgetter(1), reverse=True)
+    
+    max_ = min(limit, len(sorted_features) - offset)
+
+    if max_ <= 0:
+        print('Nothing to plot')
+        return
+    fig, axes = plt.subplots(1, max_, sharey=True, figsize=(3*max_, 3), tight_layout=True)
+    
+    for f in range(max_):
+        kernel, score = sorted_features[f+offset]
+        kernel_normalized = znormalize_array(kernel)
+        d_best = np.inf
+        for i in range(ts.size - kernel.size):
+            d = np.sum((znormalize_array(ts[i:i+kernel.size]) - kernel_normalized)**2)
+            if d < d_best:
+                d_best = d
+                start_pos = i
+        axes[f].plot(range(start_pos, start_pos + kernel.size), kernel, linewidth=4,color="darkred", linestyle='-', marker='o')
+        axes[f].plot(range(ts.size), ts, linewidth=2,color='darkorange')
+        axes[f].set_title(f'feature: {f+1+offset}')
+    fig.suptitle(f'Ground truth class: {label}', fontsize=15)
+    plt.show();
+
+    if fname is not None:
+        fig.savefig(fname)
+
+def plot_most_important_features_sast(kernels, scores, limit = 4):
+    features = zip(kernels, scores)
+    sorted_features = sorted(features, key=itemgetter(1), reverse=True)
+    for sf in sorted_features[:limit]:
+        kernel, score = sf
+        kernel = kernel[~np.isnan(kernel)]
+        plt.plot(range(kernel.size), kernel, linewidth=50*score, label=f'{score:.5}')
+    plt.legend()
+    plt.show()

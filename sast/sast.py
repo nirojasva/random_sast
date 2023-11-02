@@ -37,7 +37,7 @@ from operator import itemgetter
 
 
 print(os.getcwd())
-from utils_sast import from_2d_array_to_nested, znormalize_array, load_dataset, format_dataset, plot_most_important_features, plot_most_important_feature_on_ts
+from utils_sast import from_2d_array_to_nested, znormalize_array, load_dataset, format_dataset, plot_most_important_features, plot_most_important_feature_on_ts, plot_most_important_feature_sast_on_ts
 from aeon.classification.shapelet_based import RDSTClassifier
 #from sktime.datasets import load_UCR_UEA_dataset
 
@@ -520,7 +520,7 @@ class RSAST(BaseEstimator, ClassifierMixin):
 
 if __name__ == "__main__":
 
-    ds='Chinatown' # Chosing a dataset from # Number of classes to consider
+    ds='Coffee' # Chosing a dataset from # Number of classes to consider
 
     rtype="numpy2D"
     
@@ -680,7 +680,6 @@ if __name__ == "__main__":
     #fname = f'images/chinatown-rf-class{c}-top5-features-on-ref-ts.jpg'
     #print(f"ts.shape{pd.array(rsast_ridge.kernels_generators_).shape}")
     #print(f"kernel_d.shape{pd.array(rsast_ridge.kernel_orig_).shape}")
-    for l in pd.unique(rsast_ridge.class_generators_):
-        plot_most_important_feature_on_ts(set_ts=rsast_ridge.kernels_generators_[l], labels=rsast_ridge.class_generators_, features=rsast_ridge.kernel_orig_, scores=rsast_ridge.classifier.coef_[0], limit=3, offset=0,znormalized=False)   
-    plot_most_important_features(sast_ridge.kernel_orig_, sast_ridge.classifier.coef_[0], limit=3,scale_color=False)
+    for c, ts in sast_ridge.kernels_generators_.items():
+        plot_most_important_feature_sast_on_ts(ts.squeeze(), c, sast_ridge.kernel_orig_, sast_ridge.classifier.coef_[0], limit=3, offset=0) # plot only the first model one-vs-all model's features
 

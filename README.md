@@ -10,7 +10,7 @@ RSAST is a shapelet-based time series classification method based on SAST. But, 
 
 - [Results 10 Resamplings](./ExperimentationRSAST/results_10resampling.csv)
 
-- [Results Comparison RSAST, SAST, STC](./ExperimentationRSAST/results_comparison_rsast.csv)
+- [Results Comparison RSAST](./ExperimentationRSAST/results_comparison_rsast.csv)
 
 - [Execution time regarding the number of series](./ExperimentationRSAST/results_comparison_accuracy/df_overall_comparison_scalability_number_of_seriesLR.csv)
 

@@ -25,7 +25,7 @@ RSAST is a shapelet-based time series classification method based on SAST. But, 
 
 #### Critical difference diagram
 
-![SAST-models CDD](images/cd-sast-models.jpg)
+![SAST-models CDD](./ExperimentationRSAST/images_cd_diagram/comparison_rsast_sast_stc.png)
 
 ### STC-k vs STC
 

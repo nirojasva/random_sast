@@ -10,6 +10,8 @@ RSAST is a shapelet-based time series classification method based on SAST. But, 
 
 - [Results 10 Resamplings](./ExperimentationRSAST/results_10resampling.csv)
 
+- [Results Comparison RSAST, SAST, STC](./ExperimentationRSAST/results_comparison_rsast.csv)
+
 - [Execution time regarding the number of series](./ExperimentationRSAST/results_comparison_accuracy/df_overall_comparison_scalability_number_of_seriesLR.csv)
 
 - [Execution time regarding series length](./ExperimentationRSAST/results_comparison_accuracy/df_overall_comparison_scalability_series_length.csv)
@@ -25,19 +27,17 @@ RSAST is a shapelet-based time series classification method based on SAST. But, 
 
 #### Critical difference diagram
 
-![SAST-models CDD](./ExperimentationRSAST/images_cd_diagram/comparison_rsast_sast_stc.png)
+![](./ExperimentationRSAST/images_cd_diagram/comparison_rsast_sast_stc.png)
 
-### STC-k vs STC
+### Shapelet Approaches
 
 #### Pairwise accuracy comparison
 
-| ![STC vs STC-1](images/scatter-stc-vs-stck1.png)    | ![STC vs STC-0.25](images/scatter-stc-vs-stck025.png) |
-| --------------------------------------------------- | ----------------------------------------------------- |
-| ![STC vs STC-0.5](images/scatter-stc-vs-stck05.png) | ![STC vs STC-0.75](images/scatter-stc-vs-stck075.png) |
+| ![](./ExperimentationRSAST/images_one_vs_one_comparison/RSASTvsFS.png) | ![](./ExperimentationRSAST/images_one_vs_one_comparison/RSASTvsLS.png) | ![](./ExperimentationRSAST/images_one_vs_one_comparison/RSASTvsRDST.png) |
 
 #### Critical difference diagram
 
-![SCT vs STC-k CDD](images/cdd-stck.png)
+![](./ExperimentationRSAST/images_cd_diagram/comparison_shapelet_methods.png)
 
 ### SAST vs STC
 

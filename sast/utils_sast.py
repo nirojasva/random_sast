@@ -210,8 +210,8 @@ def plot_most_important_feature_on_ts(  features, scores,set_ts,labels, dilation
                     start_pos = i
             dmask = np.isfinite(kernel_d.astype(np.double))
             shp_range=np.arange(start_pos, start_pos + kernel_d.size)
-            axes[f].plot(shp_range[dmask], kernel_d[dmask], linewidth=4,color="darkred", linestyle='-', marker='o')
-            axes[f].plot(range(ts.size), ts, linewidth=2,color='darkorange')
+            axes[f].plot(shp_range[dmask], kernel_d[dmask], linewidth=6,color="darkorange", linestyle='-', marker='o')
+            axes[f].plot(range(ts.size), ts, linewidth=2,color='darkblue')
             axes[f].set_title(f'feature: {f+1+offset}, type: {type_f}')
             #print('gph shapelet values:',str(f+1),' start_pos:',start_pos,' shape:', kernel_d.size,' dilation:', str(dilation))
             #print(" shapelet:", kernel_d )
@@ -265,8 +265,8 @@ def plot_most_important_feature_sast_on_ts(ts, label, features, scores, offset=0
             if d < d_best:
                 d_best = d
                 start_pos = i
-        axes[f].plot(range(start_pos, start_pos + kernel.size), kernel, linewidth=4,color="darkred", linestyle='-', marker='o')
-        axes[f].plot(range(ts.size), ts, linewidth=2,color='darkorange')
+        axes[f].plot(range(start_pos, start_pos + kernel.size), kernel, linewidth=6,color="darkorange", linestyle='-', marker='o')
+        axes[f].plot(range(ts.size), ts, linewidth=2,color='darkblue')
         axes[f].set_title(f'feature: {f+1+offset}')
     fig.suptitle(f'Ground truth class: {label}', fontsize=15)
     plt.show();

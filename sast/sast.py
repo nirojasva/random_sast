@@ -657,7 +657,7 @@ if __name__ == "__main__":
         labels=[l for i in range(len(features_cl))]
         plot_most_important_feature_on_ts(set_ts=ts_cl, labels=labels, features=features_cl, scores=coef_cl,dilations=dilations_cl,type_features=type_features_cl, limit=3, offset=0,znormalized=False)   
     plot_most_important_features(features_cl, coef_cl, dilations=dilations_cl, limit=3, scale_color=False)
-    
+    """
     min_shp_length = 3
     max_shp_length = X_train_lds.shape[1]
     candidate_lengths = np.arange(min_shp_length, max_shp_length+1)
@@ -682,4 +682,4 @@ if __name__ == "__main__":
     #print(f"kernel_d.shape{pd.array(rsast_ridge.kernel_orig_).shape}")
     for c, ts in sast_ridge.kernels_generators_.items():
         plot_most_important_feature_sast_on_ts(ts.squeeze(), c, sast_ridge.kernel_orig_, sast_ridge.classifier.coef_[0], limit=3, offset=0) # plot only the first model one-vs-all model's features
-
+    """

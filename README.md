@@ -20,26 +20,26 @@ RSAST is a shapelet-based time series classification method based on SAST. But, 
 
 ## RSAST, SAST and STC
 
+### Critical difference diagram
+
+![](./ExperimentationRSAST/images_cd_diagram/comparison_rsast_sast_st.png)
+
 ### Pairwise accuracy comparison
 
 | ![](./ExperimentationRSAST/images_one_vs_one_comparison/RSASTvsSAST.png) | ![](./ExperimentationRSAST/images_one_vs_one_comparison/RSASTvsSTC.png) |
 | -------------------------------------------------- | ---------------------------------------------------- |
 
-### Critical difference diagram
-
-![](./ExperimentationRSAST/images_cd_diagram/comparison_rsast_sast_st.png)
 
 ## Shapelet Approaches
-
-### Pairwise accuracy comparison
-
-| ![](./ExperimentationRSAST/images_one_vs_one_comparison/RSASTvsFS.png) | ![](./ExperimentationRSAST/images_one_vs_one_comparison/RSASTvsLS.png) | ![](./ExperimentationRSAST/images_one_vs_one_comparison/RSASTvsRDST.png) |
-| ----------------------------------------- | ------------------------------------------- | ------------------------------------------- |
 
 ### Critical difference diagram
 
 ![](./ExperimentationRSAST/images_cd_diagram/comparison_shapelet_method.png)
 
+### Pairwise accuracy comparison
+
+| ![](./ExperimentationRSAST/images_one_vs_one_comparison/RSASTvsFS.png) | ![](./ExperimentationRSAST/images_one_vs_one_comparison/RSASTvsLS.png) | ![](./ExperimentationRSAST/images_one_vs_one_comparison/RSASTvsRDST.png) |
+| ----------------------------------------- | ------------------------------------------- | ------------------------------------------- |
 
 ## Alternative Length Methods
 
@@ -47,7 +47,7 @@ In order to explore another alternatives for the default length method of the sh
 
 ### Critical difference diagram per Length method
 
-| ![](./ExperimentationRSAST/images_cd_diagram/cd-diagram_ACF&PACF.png) | ![](./ExperimentationRSAST/images_cd_diagram/cd-diagram_Max PACF.png) | ![](./ExperimentationRSAST/images_cd_diagram/cd-diagram_None.png) |
+| ![](./ExperimentationRSAST/images_cd_diagram/cd-diagram_ACF&PACF.png) | ![](./ExperimentationRSAST/images_cd_diagram/cd-diagram_Max_PACF.png) | ![](./ExperimentationRSAST/images_cd_diagram/cd-diagram_None.png) |
 | ----------------------------------------- | ------------------------------------------- | ------------------------------------------- |
 
 ### Critical difference diagram best performance

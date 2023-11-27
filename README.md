@@ -79,8 +79,7 @@ from utils_sast import load_dataset, format_dataset
 from sast import RSAST
 from sklearn.linear_model import RidgeClassifierCV
 
-ds='Coffee' # Chosing a dataset from # Number of classes to consider
-rtype="numpy2D"
+ds='Coffee' # Chosing a dataset 
 path=os.getcwd()+"/data"
 
 ds_train , ds_test = load_dataset(ds_folder=path,ds_name=ds,shuffle=False)

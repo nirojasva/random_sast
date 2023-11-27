@@ -1,7 +1,7 @@
 # RSAST: Random Scalable and Accurate Subsequence Transform for Time Series Classification
 
-RSAST is a shapelet-based time series classification method based on SAST. But, aiming to overcome scalability issues. 
-
+Random SAST (RSAST) is a method based on STC and SAST, that generates shapelets randomly, guided by certain statistical
+criteria, reducing the search space of shapelets.
 
 
 ## Results RSAST
@@ -45,28 +45,28 @@ RSAST is a shapelet-based time series classification method based on SAST. But, 
 
 In order to explore another alternatives for the default length method of the shapelets (ACF&PACF) some supplementary length methods are examined: Max PACF and None.
 
-### Critical difference diagram per Length method
+### Critical difference diagram per length method
 
 - The default behaviour implies chose all significant values from ACF and PACF tests.
 ![](./ExperimentationRSAST/images_cd_diagram/cd-diagram_ACF&PACF.png) 
 
 - Max ACF, makes reference to the generation of subsequences considering solely the highest significant value from the Autocorrelation Function (ACF).
 ![](./ExperimentationRSAST/images_cd_diagram/cd-diagram_Max_PACF.png) 
-F
+
 - "None" variation involves generating subsequences with a single random length chosen from the range between 3 and the size of the time series for each randomly selected instance.
 ![](./ExperimentationRSAST/images_cd_diagram/cd-diagram_None.png) 
 
 
-### Critical difference diagram best performance
+### Critical difference diagram: Best Performance Comparison
 
 ![](./ExperimentationRSAST/images_cd_diagram/cd-diagram_best_com.png)
 
 ## Scalability
 
-- Regarding the length of time series
+- Regarding the length of time series:
 ![](./ExperimentationRSAST/images_scalability/scalability_length.png)
 
-- Regarding the number of time series in the dataset
+- Regarding the number of time series in the dataset:
 ![](./ExperimentationRSAST/images_scalability/scalability_ns.png)
 
 

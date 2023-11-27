@@ -50,10 +50,10 @@ In order to explore another alternatives for the default length method of the sh
 - The default behaviour implies chose all significant values from ACF and PACF tests.
 ![](./ExperimentationRSAST/images_cd_diagram/cd-diagram_ACF&PACF.png) 
 
-- Max ACF, makes reference to the generation of subsequences considering solely the highest significant value from the Autocorrelation Function (ACF).
+- Max ACF, makes reference to the generation of subsequences considering solely the highest significant value from the Partial Autocorrelation Function (PACF).
 ![](./ExperimentationRSAST/images_cd_diagram/cd-diagram_Max_PACF.png) 
 
-- "None" variation involves generating subsequences with a single random length chosen from the range between 3 and the size of the time series for each randomly selected instance.
+- "None" variation, involves generating subsequences with a single random length chosen from the range between 3 and the size of the time series for each randomly selected instance.
 ![](./ExperimentationRSAST/images_cd_diagram/cd-diagram_None.png) 
 
 

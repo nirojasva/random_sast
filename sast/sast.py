@@ -36,7 +36,7 @@ import os
 from operator import itemgetter
 
 
-print(os.getcwd())
+
 from utils_sast import from_2d_array_to_nested, znormalize_array, load_dataset, format_dataset, plot_most_important_features, plot_most_important_feature_on_ts, plot_most_important_feature_sast_on_ts
 from aeon.classification.shapelet_based import RDSTClassifier
 #from sktime.datasets import load_UCR_UEA_dataset

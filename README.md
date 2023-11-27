@@ -48,7 +48,7 @@ In order to explore another alternatives for the default length method of the sh
 ### Critical difference diagram per Length method
 
 | ![](./ExperimentationRSAST/images_cd_diagram/cd-diagram_ACF&PACF.png) | ![](./ExperimentationRSAST/images_cd_diagram/cd-diagram_Max_PACF.png) | ![](./ExperimentationRSAST/images_cd_diagram/cd-diagram_None.png) |
-| ----------------------------------------- | ------------------------------------------- | ------------------------------------------- |
+
 
 ### Critical difference diagram best performance
 

@@ -47,9 +47,48 @@ In order to explore another alternatives for the default length method of the sh
 
 ### Critical difference diagram per Length method
 
-| ![](./ExperimentationRSAST/images_cd_diagram/cd-diagram_ACF&PACF.png) | ![](./ExperimentationRSAST/images_cd_diagram/cd-diagram_Max_PACF.png) | ![](./ExperimentationRSAST/images_cd_diagram/cd-diagram_None.png) |
+- The default behaviour implies chose all significant values from ACF and PACF tests.
+![](./ExperimentationRSAST/images_cd_diagram/cd-diagram_ACF&PACF.png) 
+
+- Max ACF, makes reference to the generation of subsequences considering solely the highest significant value from the Autocorrelation Function (ACF).
+![](./ExperimentationRSAST/images_cd_diagram/cd-diagram_Max_PACF.png) 
+F
+- "None" variation involves generating subsequences with a single random length chosen from the range between 3 and the size of the time series for each randomly selected instance.
+![](./ExperimentationRSAST/images_cd_diagram/cd-diagram_None.png) 
 
 
 ### Critical difference diagram best performance
 
 ![](./ExperimentationRSAST/images_cd_diagram/cd-diagram_best_com.png)
+
+## Scalability
+
+- Regarding the length of time series
+![](./ExperimentationRSAST/images_scalability/scalability_length.png)
+
+- Regarding the number of time series in the dataset
+![](./ExperimentationRSAST/images_scalability/scalability_ns.png)
+
+
+## Usage
+
+```python
+
+import os, numpy as np
+from utils_sast import load_dataset, format_dataset
+from sast import RSAST
+from sklearn.linear_model import RidgeClassifierCV
+
+ds='Coffee' # Chosing a dataset from # Number of classes to consider
+rtype="numpy2D"
+path=os.getcwd()+"/data"
+
+ds_train , ds_test = load_dataset(ds_folder=path,ds_name=ds,shuffle=False)
+X_test, y_test = format_dataset(ds_test)
+X_train, y_train = format_dataset(ds_train)
+clf = RidgeClassifierCV(alphas=np.logspace(-3, 3, 10))
+rsast_ridge = RSAST(n_random_points=10, nb_inst_per_class=10, len_method="both", classifier=clf)
+rsast_ridge.fit(X_train, y_train)
+print('rsast score :', rsast_ridge.score(X_test, y_test))
+
+```

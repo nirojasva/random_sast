@@ -520,7 +520,7 @@ class RSAST(BaseEstimator, ClassifierMixin):
 
 if __name__ == "__main__":
 
-    ds='Coffee' # Chosing a dataset from # Number of classes to consider
+    ds='Chinatown' # Chosing a dataset from # Number of classes to consider
 
     rtype="numpy2D"
     
@@ -560,7 +560,7 @@ if __name__ == "__main__":
     X_train_mod=np.nan_to_num(X_train_mod)
     """
     
-    path="/home/nicolas/random_sast/sast/data"
+    path=r"C:\Users\Surface pro\random_sast\sast\data"
     ds_train_lds , ds_test_lds = load_dataset(ds_folder=path,ds_name=ds,shuffle=False)
     X_test_lds, y_test_lds = format_dataset(ds_test_lds)
     X_train_lds, y_train_lds = format_dataset(ds_train_lds)

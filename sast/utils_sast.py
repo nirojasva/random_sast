@@ -141,7 +141,7 @@ def plot_most_important_features(kernels, scores, dilations=[], limit = 4, scale
     
 def plot_most_important_feature_on_ts(  features, scores,set_ts,labels, dilations=[],type_features=[], offset=0, limit = 5, fname=None, znormalized=False):
     '''Plot the most important features on ts'''
-    print('Plot the most important features on ts')
+    #print('Plot the most important features on ts')
     if len(dilations)==0:
         dilations=[1]*len(features)
     
@@ -166,15 +166,15 @@ def plot_most_important_feature_on_ts(  features, scores,set_ts,labels, dilation
     for s, l in enumerate(np.unique(labels)):
         fig, axes = plt.subplots(1, max_, sharey=True, figsize=(3*max_, 3), tight_layout=True, clear=True)
         
-        print(f"s+1 {s+1} max_ {max_} label {l}")            
+        #print(f"s+1 {s+1} max_ {max_} label {l}")            
         for f in range(max_):
             
             kernel, score, dilation, type_f, ts, label = sorted_features[f+offset]
-            print(f"ts {ts} kernel {kernel}") 
+            #print(f"ts {ts} kernel {kernel}") 
             if label!=l:
                 *_, ts, _=list(filter(lambda x: x[5] == l,sorted_features))[0]
-                print(f"label {label} l {l}") 
-                print(f"diff ts {ts} kernel {kernel}") 
+                #print(f"label {label} l {l}") 
+                #print(f"diff ts {ts} kernel {kernel}") 
                 
                 
 

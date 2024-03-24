@@ -99,7 +99,7 @@ def format_dataset(data, shuffle=True):
     X = data.values.copy()
     if shuffle:
         np.random.shuffle(X)
-    X, y = X[:, :-1], X[:, -1]
+    X, y =  X[:, :-1], X[:, -1]
 
     return X, y.astype(int)
 
